@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>EstateManager - Tenant Home</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#410002",
+                        "surface-bright": "#f8fafb",
+                        "on-secondary": "#ffffff",
+                        "surface-dim": "#d8dadb",
+                        "surface-container": "#eceeef",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed": "#d3e3ff",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb4ab",
+                        "tertiary": "#630005",
+                        "inverse-primary": "#9dd3aa",
+                        "on-primary-container": "#88bd95",
+                        "surface-container-low": "#f2f4f5",
+                        "secondary": "#3f608b",
+                        "primary-fixed-dim": "#9dd3aa",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#414942",
+                        "error": "#ba1a1a",
+                        "primary-fixed": "#b8f0c5",
+                        "inverse-on-surface": "#eff1f2",
+                        "on-primary-fixed": "#00210e",
+                        "on-secondary-fixed": "#001c39",
+                        "on-secondary-container": "#365882",
+                        "outline-variant": "#c1c9bf",
+                        "surface-tint": "#366847",
+                        "secondary-fixed-dim": "#a7c9f9",
+                        "primary": "#00361a",
+                        "tertiary-fixed": "#ffdad6",
+                        "background": "#f8fafb",
+                        "surface-variant": "#e1e3e4",
+                        "on-error": "#ffffff",
+                        "on-tertiary-container": "#ff9288",
+                        "error-container": "#ffdad6",
+                        "on-surface": "#191c1d",
+                        "surface-container-highest": "#e1e3e4",
+                        "on-error-container": "#93000a",
+                        "surface-container-high": "#e6e8e9",
+                        "on-secondary-fixed-variant": "#254872",
+                        "tertiary-container": "#8d000c",
+                        "primary-container": "#1a4d2e",
+                        "surface": "#f8fafb",
+                        "inverse-surface": "#2e3132",
+                        "on-primary-fixed-variant": "#1d5031",
+                        "on-tertiary-fixed-variant": "#93000d",
+                        "outline": "#717971",
+                        "on-background": "#191c1d",
+                        "secondary-container": "#adceff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "xl": "32px",
+                        "margin-mobile": "16px",
+                        "base": "4px",
+                        "gutter": "20px",
+                        "xs": "4px",
+                        "margin-desktop": "32px",
+                        "sm": "8px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Hanken Grotesk"],
+                        "headline-sm": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "label-md": ["Hanken Grotesk"],
+                        "label-sm": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "label-sm": ["11px", {"lineHeight": "14px", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Hanken Grotesk', sans-serif;
+            background-color: #F8FAFB;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .bento-item {
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .bento-item:active {
+            transform: scale(0.97);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16 bg-surface dark:bg-on-background border-b border-outline-variant dark:border-outline shadow-sm fixed top-0 z-40">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary-container overflow-hidden border-2 border-primary/10">
+<img alt="User profile photo" class="w-full h-full object-cover" data-alt="A professional headshot of a smiling young man with a warm, friendly expression, set against a clean, softly lit interior background. The lighting is bright and natural, reflecting a high-end light-mode corporate aesthetic. The overall mood is welcoming and secure, aligning with a premium property management application." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDS4RsL_52XYdXUbCZPbupiJimp961qn5Gtr80ho1G3Jm4aKdWk6o6a7hXk9tQA-hH1b829Jy6-tbTia_ft_a6ggxmHZrEVMt4MRGKDcSIHpBEcYP2z--nav9D5jljlGHFLF1HXypVgMJFokmoGJcE5EqZ-ZLkNicQ5_vpfRuH1FOihcGRdhdrlHEPxu40c9HE2_GrZWH6eSSnKJBcWC0OgaYQ1aWMHgs6PdzYDBNP3U__Gp_n_3tLT_xfZumFKcwhK-nJWUm_OhL0"/>
+</div>
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">EstateManager</span>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors active:scale-95 duration-150">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+</button>
+</header>
+<main class="pt-20 pb-28 px-margin-mobile">
+<!-- Greeting Section -->
+<section class="mb-lg">
+<h1 class="font-display-lg text-display-lg text-primary">Hello, Tosin</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Welcome back to Green Gardens Estate.</p>
+</section>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 gap-md">
+<!-- Virtual Entry Pass (Hero/Glassmorphism) -->
+<div class="bento-item relative overflow-hidden rounded-xl h-48 bg-primary text-on-primary shadow-lg p-lg flex flex-col justify-between">
+<div class="absolute top-[-20px] right-[-20px] w-40 h-40 bg-on-primary-container/20 rounded-full blur-3xl"></div>
+<div class="flex justify-between items-start z-10">
+<div>
+<p class="font-label-sm text-label-sm uppercase tracking-wider opacity-80">Virtual Entry Pass</p>
+<h2 class="font-headline-sm text-headline-sm mt-xs">Tower A • Unit 402</h2>
+</div>
+<span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">qr_code_2</span>
+</div>
+<div class="flex items-end justify-between z-10">
+<div class="bg-white/10 backdrop-blur-md px-md py-sm rounded-lg border border-white/20">
+<p class="font-label-sm text-label-sm">TAP TO ENLARGE</p>
+</div>
+<span class="material-symbols-outlined animate-pulse text-on-primary-container">sensors</span>
+</div>
+</div>
+<!-- Bill Summary Widget -->
+<div class="bento-item rounded-xl bg-white border border-outline-variant shadow-sm p-lg">
+<div class="flex items-center gap-md mb-md">
+<div class="w-10 h-10 rounded-lg bg-error-container/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">receipt_long</span>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Next Bill Due</p>
+<p class="font-headline-sm text-headline-sm text-on-surface">₦ 145,200.00</p>
+</div>
+</div>
+<div class="flex items-center justify-between border-t border-outline-variant pt-md">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Due Date</span>
+<span class="font-body-md text-body-md font-semibold text-error">Oct 15, 2023</span>
+</div>
+<button class="bg-primary text-on-primary px-lg py-sm rounded-full font-label-sm text-label-sm font-bold shadow-sm hover:brightness-110 active:scale-95 transition-all">
+                        Pay Now
+                    </button>
+</div>
+</div>
+<!-- Recent Activity Feed -->
+<div class="bento-item rounded-xl bg-white border border-outline-variant shadow-sm p-lg">
+<div class="flex justify-between items-center mb-lg">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Recent Activity</h3>
+<span class="font-label-md text-label-md text-secondary cursor-pointer">View All</span>
+</div>
+<div class="space-y-lg relative">
+<!-- Vertical Timeline Line -->
+<div class="absolute left-[11px] top-2 bottom-2 w-[2px] bg-surface-container-highest"></div>
+<!-- Activity Item 1 -->
+<div class="flex gap-lg relative z-10">
+<div class="w-6 h-6 rounded-full bg-primary-container flex items-center justify-center ring-4 ring-white">
+<span class="material-symbols-outlined text-[14px] text-on-primary-container" style="font-variation-settings: 'FILL' 1;">package_2</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between">
+<p class="font-body-md text-body-md font-semibold text-on-surface">Package Delivered</p>
+<span class="font-label-sm text-label-sm text-on-surface-variant">2h ago</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant">Amazon delivery at front desk</p>
+</div>
+</div>
+<!-- Activity Item 2 -->
+<div class="flex gap-lg relative z-10">
+<div class="w-6 h-6 rounded-full bg-secondary-container flex items-center justify-center ring-4 ring-white">
+<span class="material-symbols-outlined text-[14px] text-on-secondary-container" style="font-variation-settings: 'FILL' 1;">campaign</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between">
+<p class="font-body-md text-body-md font-semibold text-on-surface">Elevator Maintenance</p>
+<span class="font-label-sm text-label-sm text-on-surface-variant">5h ago</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant">Tower A elevator service tomorrow 9AM-11AM</p>
+</div>
+</div>
+<!-- Activity Item 3 -->
+<div class="flex gap-lg relative z-10">
+<div class="w-6 h-6 rounded-full bg-surface-container-highest flex items-center justify-center ring-4 ring-white">
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant" style="font-variation-settings: 'FILL' 1;">login</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between">
+<p class="font-body-md text-body-md font-semibold text-on-surface">Visitor Entry</p>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Yesterday</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant">Guest 'Segun' checked in via QR code</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 pb-safe bg-surface dark:bg-on-background border-t border-outline-variant dark:border-outline shadow-lg rounded-t-xl">
+<!-- Home (Active) -->
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-full px-4 py-1 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<!-- Bills -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-label-sm text-label-sm">Bills</span>
+</a>
+<!-- Support -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">handyman</span>
+<span class="font-label-sm text-label-sm">Support</span>
+</a>
+<!-- Profile -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+<!-- Floating Action Button (Quick Action: Support Request) -->
+<button class="fixed bottom-24 right-6 w-14 h-14 bg-primary text-on-primary rounded-xl shadow-lg flex items-center justify-center hover:scale-105 active:scale-90 transition-all z-40">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+<script>
+        // Simple micro-interaction for entry pass
+        const entryPass = document.querySelector('.bento-item:first-child');
+        entryPass.addEventListener('click', () => {
+            entryPass.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+            entryPass.classList.toggle('scale-105');
+            setTimeout(() => {
+                entryPass.classList.toggle('scale-105');
+            }, 500);
+        });
+
+        // Add visual feedback for clicking activity items
+        document.querySelectorAll('.space-y-lg > div').forEach(item => {
+            item.addEventListener('click', () => {
+                item.style.backgroundColor = 'rgba(0, 54, 26, 0.05)';
+                setTimeout(() => {
+                    item.style.backgroundColor = 'transparent';
+                }, 200);
+            });
+        });
+    </script>
+</body></html>

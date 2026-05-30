@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Support Tickets | EstateManager</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#191c1d",
+                        "surface-bright": "#f8fafb",
+                        "inverse-primary": "#9dd3aa",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed-variant": "#1d5031",
+                        "inverse-on-surface": "#eff1f2",
+                        "surface-variant": "#e1e3e4",
+                        "tertiary": "#630005",
+                        "primary": "#00361a",
+                        "on-surface-variant": "#414942",
+                        "inverse-surface": "#2e3132",
+                        "background": "#f8fafb",
+                        "secondary-container": "#adceff",
+                        "secondary": "#3f608b",
+                        "tertiary-fixed": "#ffdad6",
+                        "on-tertiary-container": "#ff9288",
+                        "primary-fixed-dim": "#9dd3aa",
+                        "on-secondary": "#ffffff",
+                        "outline-variant": "#c1c9bf",
+                        "error-container": "#ffdad6",
+                        "surface-tint": "#366847",
+                        "surface-container": "#eceeef",
+                        "secondary-fixed-dim": "#a7c9f9",
+                        "on-secondary-fixed-variant": "#254872",
+                        "primary-fixed": "#b8f0c5",
+                        "on-surface": "#191c1d",
+                        "error": "#ba1a1a",
+                        "tertiary-container": "#8d000c",
+                        "surface": "#f8fafb",
+                        "tertiary-fixed-dim": "#ffb4ab",
+                        "on-primary-container": "#88bd95",
+                        "on-error": "#ffffff",
+                        "on-secondary-container": "#365882",
+                        "on-primary-fixed": "#00210e",
+                        "secondary-fixed": "#d3e3ff",
+                        "primary-container": "#1a4d2e",
+                        "surface-container-highest": "#e1e3e4",
+                        "surface-container-high": "#e6e8e9",
+                        "on-tertiary-fixed-variant": "#93000d",
+                        "on-tertiary-fixed": "#410002",
+                        "surface-container-low": "#f2f4f5",
+                        "on-error-container": "#93000a",
+                        "on-primary": "#ffffff",
+                        "outline": "#717971",
+                        "surface-dim": "#d8dadb",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed": "#001c39"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "lg": "24px",
+                        "xl": "32px",
+                        "xs": "4px",
+                        "base": "4px",
+                        "margin-desktop": "32px",
+                        "margin-mobile": "16px",
+                        "md": "16px",
+                        "gutter": "20px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Hanken Grotesk"],
+                        "label-md": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "label-sm": ["Hanken Grotesk"],
+                        "headline-sm": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-sm": ["11px", {"lineHeight": "14px", "fontWeight": "600"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #f8fafb;
+            font-family: 'Hanken Grotesk', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #c1c9bf;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="text-on-surface bg-background">
+<div class="flex min-h-screen">
+<!-- NavigationDrawer (Shared Component) -->
+<aside class="hidden md:flex flex-col h-screen w-60 bg-surface dark:bg-on-background border-r border-outline-variant dark:border-outline shadow-sm py-lg px-md shrink-0">
+<div class="flex items-center gap-2 mb-xl">
+<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-lg">domain</span>
+</div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">EstateManager</h1>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-container transition-all active:translate-x-1 duration-200 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-container transition-all active:translate-x-1 duration-200 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">group</span>
+<span>Tenants</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-container transition-all active:translate-x-1 duration-200 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">domain</span>
+<span>Properties</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-container transition-all active:translate-x-1 duration-200 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">account_balance</span>
+<span>Financials</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-primary dark:text-primary-fixed font-bold bg-primary-container/10 border-r-4 border-primary transition-all active:translate-x-1 duration-200 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">handyman</span>
+<span>Support</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-container transition-all active:translate-x-1 duration-200 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<div class="mt-auto pt-lg border-t border-outline-variant flex items-center gap-3">
+<img alt="Admin profile" class="w-10 h-10 rounded-full bg-surface-container-high" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6v9_W6TadiPMkL644m5eHS1kkNGYQMH1wzOoubMLGn_7Bre20X5-XN2JasC5UnRxlVwZWfdjz3cCMItrtOIkVx1ZrQ2bOiSr-xGtgBmuh6VXTrSXBi_lPTpR0sbm-QAmfhRikEKbz19W5QehjjN7sHMlTzcfdHzlotI-l9LugYSjVX7pfQa4VH4w3ZVaZp9GLisSyWgE3Wp3cZPo2FnKKRQuVh8ZVkOkw4Y8vie4ZSLTHpgl6ay6Lj-DUyfk0o3SfjKxafmAUaTA"/>
+<div class="overflow-hidden">
+<p class="font-label-md text-label-md font-bold truncate">Admin Panel</p>
+<p class="text-[10px] text-on-surface-variant truncate">Estate Management</p>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col min-w-0 overflow-hidden">
+<!-- TopAppBar (Shared Component) -->
+<header class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16 bg-surface dark:bg-on-background border-b border-outline-variant dark:border-outline shadow-sm sticky top-0 z-40">
+<div class="flex items-center gap-4">
+<button class="md:hidden p-2 hover:bg-surface-container rounded-full">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h2 class="font-headline-sm text-headline-sm dark:text-surface-bright text-primary">Support Tickets</h2>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 hover:bg-surface-container dark:hover:bg-surface-container-highest transition-colors active:scale-95 duration-150 relative text-on-surface-variant">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-bold text-xs">
+                        JD
+                    </div>
+</div>
+</header>
+<div class="flex-1 flex flex-col md:flex-row overflow-hidden">
+<!-- Ticket List Section -->
+<section class="flex-1 overflow-y-auto p-md md:p-lg space-y-md custom-scrollbar bg-background">
+<!-- Filters & Stats Bento-ish Grid -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-lg">
+<div class="md:col-span-1 bg-surface-container-lowest p-md rounded-xl border border-outline-variant shadow-sm flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-primary-container/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">confirmation_number</span>
+</div>
+<div>
+<p class="text-label-sm text-on-surface-variant">Total Tickets</p>
+<p class="font-headline-sm text-headline-sm">24</p>
+</div>
+</div>
+<div class="md:col-span-1 bg-surface-container-lowest p-md rounded-xl border border-outline-variant shadow-sm flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-tertiary-container/10 flex items-center justify-center text-error">
+<span class="material-symbols-outlined">priority_high</span>
+</div>
+<div>
+<p class="text-label-sm text-on-surface-variant">Urgent Priority</p>
+<p class="font-headline-sm text-headline-sm">8</p>
+</div>
+</div>
+<div class="md:col-span-2 bg-surface-container-lowest p-md rounded-xl border border-outline-variant shadow-sm flex items-center gap-4 justify-between">
+<div class="flex-1">
+<p class="text-label-sm text-on-surface-variant">Resolution Rate</p>
+<div class="flex items-center gap-2 mt-1">
+<div class="flex-1 h-2 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[65%]"></div>
+</div>
+<span class="text-label-md font-bold">65%</span>
+</div>
+</div>
+</div>
+</div>
+<!-- List Header / Filter -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 sticky top-0 bg-background/95 backdrop-blur py-2 z-10">
+<div class="flex gap-2">
+<button class="bg-primary text-white px-4 py-2 rounded-full text-label-md hover:opacity-90 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+                                All Tickets
+                            </button>
+<button class="bg-surface-container-high text-on-surface px-4 py-2 rounded-full text-label-md hover:bg-surface-container-highest transition-all">New</button>
+<button class="bg-surface-container-high text-on-surface px-4 py-2 rounded-full text-label-md hover:bg-surface-container-highest transition-all">Plumbing</button>
+</div>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">search</span>
+<input class="pl-10 pr-4 py-2 rounded-full border border-outline-variant bg-surface-container-lowest focus:ring-2 focus:ring-primary focus:border-transparent outline-none w-full sm:w-64 transition-all" placeholder="Search tickets..." type="text"/>
+</div>
+</div>
+<!-- Tickets Table-like View -->
+<div class="space-y-3">
+<!-- Ticket Card 1 -->
+<div class="group bg-surface-container-lowest border border-outline-variant rounded-xl p-md hover:border-primary/40 hover:shadow-md transition-all cursor-pointer relative overflow-hidden" onclick="openDetails('TCK-882')">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-tertiary"></div>
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-tertiary-fixed-dim/20 flex items-center justify-center text-tertiary-container">
+<span class="material-symbols-outlined">plumbing</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h4 class="font-label-md text-label-md font-bold uppercase tracking-wider text-on-surface-variant">TCK-882 • Plumbing</h4>
+<span class="px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant text-[10px] font-bold">URGENT</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface mt-1">Water leak in master bathroom ceiling</p>
+</div>
+</div>
+<div class="flex items-center justify-between md:justify-end gap-6 md:w-1/3">
+<div class="text-right">
+<p class="text-label-sm font-bold text-on-surface">Alex Nwosu</p>
+<p class="text-[10px] text-on-surface-variant">Unit B-402</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span class="text-label-sm font-bold text-error">New</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform">chevron_right</span>
+</div>
+</div>
+</div>
+<!-- Ticket Card 2 -->
+<div class="group bg-surface-container-lowest border border-outline-variant rounded-xl p-md hover:border-primary/40 hover:shadow-md transition-all cursor-pointer relative overflow-hidden" onclick="openDetails('TCK-879')">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary"></div>
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-secondary-container/20 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">bolt</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h4 class="font-label-md text-label-md font-bold uppercase tracking-wider text-on-surface-variant">TCK-879 • Electrical</h4>
+<span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant text-[10px] font-bold">MEDIUM</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface mt-1">Kitchen sockets not working since morning</p>
+</div>
+</div>
+<div class="flex items-center justify-between md:justify-end gap-6 md:w-1/3">
+<div class="text-right">
+<p class="text-label-sm font-bold text-on-surface">Tobi Johnson</p>
+<p class="text-[10px] text-on-surface-variant">Unit A-102</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="text-label-sm font-bold text-secondary">In Progress</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform">chevron_right</span>
+</div>
+</div>
+</div>
+<!-- Ticket Card 3 -->
+<div class="group bg-surface-container-lowest border border-outline-variant rounded-xl p-md hover:border-primary/40 hover:shadow-md transition-all cursor-pointer relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 opacity-70">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-primary-fixed/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">vpn_key</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h4 class="font-label-md text-label-md font-bold uppercase tracking-wider text-on-surface-variant">TCK-860 • Access</h4>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant text-[10px] font-bold">LOW</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface mt-1 line-through">Keycard replacement requested</p>
+</div>
+</div>
+<div class="flex items-center justify-between md:justify-end gap-6 md:w-1/3">
+<div class="text-right">
+<p class="text-label-sm font-bold text-on-surface">Sarah Peters</p>
+<p class="text-[10px] text-on-surface-variant">Unit C-505</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="text-label-sm font-bold text-primary">Resolved</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform">check_circle</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Ticket Details & Chat Pane -->
+<aside class="hidden md:flex flex-col w-full md:w-96 bg-surface-container-lowest border-l border-outline-variant h-full overflow-hidden transition-all duration-300 transform translate-x-full md:translate-x-0" id="ticket-detail-pane">
+<div class="p-lg border-b border-outline-variant">
+<div class="flex justify-between items-start mb-md">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface" id="detail-id">TCK-882</h3>
+<p class="text-label-sm text-on-surface-variant">Opened Jan 15, 2024 at 10:45 AM</p>
+</div>
+<button class="md:hidden p-1 hover:bg-surface-container rounded-full" onclick="closeDetails()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-center text-body-md">
+<span class="text-on-surface-variant">Status</span>
+<select class="bg-surface-container-high border-none rounded-lg text-label-md font-bold focus:ring-1 focus:ring-primary py-1 px-3">
+<option value="new">New</option>
+<option value="in_progress">In Progress</option>
+<option value="resolved">Resolved</option>
+</select>
+</div>
+<div class="flex justify-between items-center text-body-md">
+<span class="text-on-surface-variant">Priority</span>
+<span class="px-3 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant text-label-sm font-bold">URGENT</span>
+</div>
+</div>
+</div>
+<!-- Chat History -->
+<div class="flex-1 overflow-y-auto p-md space-y-md bg-surface-container-low/30 custom-scrollbar">
+<div class="text-center">
+<span class="text-[10px] bg-surface-container-high px-2 py-1 rounded-full text-on-surface-variant uppercase font-bold">Ticket Created</span>
+</div>
+<!-- Tenant Message -->
+<div class="flex flex-col items-start max-w-[85%]">
+<div class="bg-surface-container-highest p-3 rounded-2xl rounded-tl-none text-body-md">
+                                Help! There is a major leak coming from the upstairs bathroom. It's dripping onto the kitchen counter.
+                            </div>
+<span class="text-[10px] mt-1 ml-1 text-on-surface-variant font-medium">Alex Nwosu • 10:45 AM</span>
+</div>
+<!-- Admin Response -->
+<div class="flex flex-col items-end max-w-[85%] ml-auto">
+<div class="bg-primary text-white p-3 rounded-2xl rounded-tr-none text-body-md">
+                                Hi Alex, I've received your complaint. We're dispatching a plumber right now. He should be there in 30 minutes.
+                            </div>
+<span class="text-[10px] mt-1 mr-1 text-on-surface-variant font-medium">Admin • 11:02 AM</span>
+</div>
+<!-- Media Attachment Placeholder -->
+<div class="flex flex-col items-start max-w-[85%]">
+<div class="bg-surface-container-highest p-1 rounded-2xl rounded-tl-none border border-outline-variant overflow-hidden">
+<img class="w-full h-32 object-cover rounded-xl" data-alt="A detailed closeup of a water leak stain on a pristine white ceiling in a modern apartment. The lighting is natural but highlights the damp texture and concentric circles of water damage. Professional estate maintenance perspective, sharp focus on the textures of the ceiling and water droplets." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDu07np-hOWuCVIT4I1IedOnio8Q6CI5eyHnZM6ElZjBBx17kUU1ncWRDPn8PPBqFWJYf06eelosTUgvZquk_mElUV0qu4R1MkrNyBr7jKAMs0sUV3dX4T_U5Uhaq6V2YC4VOJxn4ZGlktI6R5JtVBpWk-1fAL54067q8DCu6Aih-SWa1n44GkxEKBL0NIofvggqmqwbLop2b3SAhid427R_hqS16c33u9gJtgCPu62AoziBP-JXj0zKuchIn7E7VbBXQKY5VatJpU"/>
+</div>
+<span class="text-[10px] mt-1 ml-1 text-on-surface-variant font-medium">Alex Nwosu • 11:10 AM</span>
+</div>
+</div>
+<!-- Chat Input -->
+<div class="p-md border-t border-outline-variant bg-surface-container-lowest">
+<div class="flex items-end gap-2">
+<div class="flex-1 relative bg-surface-container-high rounded-2xl p-2 min-h-[44px]">
+<textarea class="w-full bg-transparent border-none focus:ring-0 text-body-md resize-none py-1 custom-scrollbar" placeholder="Type a message..." rows="1"></textarea>
+<div class="flex justify-between items-center mt-1">
+<button class="text-on-surface-variant hover:text-primary p-1 rounded-full transition-colors">
+<span class="material-symbols-outlined text-lg">attachment</span>
+</button>
+<button class="bg-primary text-white p-1 rounded-full hover:scale-105 active:scale-95 transition-all shadow-sm">
+<span class="material-symbols-outlined text-lg">send</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</aside>
+</div>
+<!-- Mobile BottomNavBar (Shared Component) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 pb-safe bg-surface dark:bg-on-background border-t border-outline-variant shadow-lg">
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-label-sm text-label-sm">Bills</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-full px-4 py-1">
+<span class="material-symbols-outlined">handyman</span>
+<span class="font-label-sm text-label-sm">Support</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</div>
+</nav>
+</main>
+</div>
+<script>
+        function openDetails(ticketId) {
+            const pane = document.getElementById('ticket-detail-pane');
+            const idDisplay = document.getElementById('detail-id');
+            idDisplay.innerText = ticketId;
+            pane.classList.remove('hidden', 'translate-x-full');
+            pane.classList.add('flex', 'translate-x-0', 'fixed', 'inset-0', 'z-50', 'md:relative', 'md:translate-x-0', 'md:z-0');
+        }
+
+        function closeDetails() {
+            const pane = document.getElementById('ticket-detail-pane');
+            pane.classList.add('translate-x-full');
+            setTimeout(() => {
+                pane.classList.add('hidden');
+                pane.classList.remove('flex', 'fixed', 'inset-0', 'z-50');
+            }, 300);
+        }
+
+        // Auto-expand textarea
+        const textarea = document.querySelector('textarea');
+        textarea.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+    </script>
+</body></html>

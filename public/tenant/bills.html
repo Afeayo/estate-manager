@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>EstateManager - Payments &amp; Bills</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed": "#410002",
+                    "surface-bright": "#f8fafb",
+                    "on-secondary": "#ffffff",
+                    "surface-dim": "#d8dadb",
+                    "surface-container": "#eceeef",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed": "#d3e3ff",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed-dim": "#ffb4ab",
+                    "tertiary": "#630005",
+                    "inverse-primary": "#9dd3aa",
+                    "on-primary-container": "#88bd95",
+                    "surface-container-low": "#f2f4f5",
+                    "secondary": "#3f608b",
+                    "primary-fixed-dim": "#9dd3aa",
+                    "on-tertiary": "#ffffff",
+                    "on-surface-variant": "#414942",
+                    "error": "#ba1a1a",
+                    "primary-fixed": "#b8f0c5",
+                    "inverse-on-surface": "#eff1f2",
+                    "on-primary-fixed": "#00210e",
+                    "on-secondary-fixed": "#001c39",
+                    "on-secondary-container": "#365882",
+                    "outline-variant": "#c1c9bf",
+                    "surface-tint": "#366847",
+                    "secondary-fixed-dim": "#a7c9f9",
+                    "primary": "#00361a",
+                    "tertiary-fixed": "#ffdad6",
+                    "background": "#f8fafb",
+                    "surface-variant": "#e1e3e4",
+                    "on-error": "#ffffff",
+                    "on-tertiary-container": "#ff9288",
+                    "error-container": "#ffdad6",
+                    "on-surface": "#191c1d",
+                    "surface-container-highest": "#e1e3e4",
+                    "on-error-container": "#93000a",
+                    "surface-container-high": "#e6e8e9",
+                    "on-secondary-fixed-variant": "#254872",
+                    "tertiary-container": "#8d000c",
+                    "primary-container": "#1a4d2e",
+                    "surface": "#f8fafb",
+                    "inverse-surface": "#2e3132",
+                    "on-primary-fixed-variant": "#1d5031",
+                    "on-tertiary-fixed-variant": "#93000d",
+                    "outline": "#717971",
+                    "on-background": "#191c1d",
+                    "secondary-container": "#adceff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "md": "16px",
+                    "xl": "32px",
+                    "margin-mobile": "16px",
+                    "base": "4px",
+                    "gutter": "20px",
+                    "xs": "4px",
+                    "margin-desktop": "32px",
+                    "sm": "8px",
+                    "lg": "24px"
+            },
+            "fontFamily": {
+                    "body-md": ["Hanken Grotesk"],
+                    "headline-sm": ["Hanken Grotesk"],
+                    "headline-lg-mobile": ["Hanken Grotesk"],
+                    "body-lg": ["Hanken Grotesk"],
+                    "headline-md": ["Hanken Grotesk"],
+                    "display-lg": ["Hanken Grotesk"],
+                    "label-md": ["Hanken Grotesk"],
+                    "label-sm": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "label-sm": ["11px", {"lineHeight": "14px", "fontWeight": "600"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        body {
+            background-color: #F8FAFB;
+            font-family: 'Hanken Grotesk', sans-serif;
+        }
+        .safe-area-top { padding-top: env(safe-area-inset-top); }
+        .safe-area-bottom { padding-bottom: env(safe-area-inset-bottom); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-on-background border-b border-outline-variant dark:border-outline shadow-sm docked full-width top-0 sticky z-50">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16">
+<div class="flex items-center gap-md">
+<img alt="User" class="w-8 h-8 rounded-full bg-surface-container" data-alt="A high-quality, professional headshot of a smiling young adult tenant in a bright, modern indoor setting. The lighting is soft and natural, reflecting a clean, corporate-modern aesthetic with a shallow depth of field. The overall mood is reliable and friendly, matching the secure and approachable nature of the estate management brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRhyD-pI_vG5NFxtgbS2doJ0BKeeTmmXPbXchSiqVMRNnor2_0HWqKeOSkzIY_ATHWmUAH5wRJoHkrM43R2lIZcOQ86k7uLqHOKENBzdXcf0nkpbGeixVdg2-oV9jhZ99CP8QqRE0IVdkdrVFrioLVTILf63NwqZMuh8G9YSFwaJ6xtL3qbKnU-FtQneXW9Lf9qX8bfZ1zcrv213U86ofImKVZerSPcRyFf7Yfuo8wh_hpgDDDRjII7IlSldU6k5fXbiW9_XNlfsA"/>
+<h1 class="font-headline-sm text-headline-sm dark:text-surface-bright">EstateManager</h1>
+</div>
+<div class="flex items-center">
+<button class="material-symbols-outlined text-primary dark:text-primary-fixed hover:bg-surface-container dark:hover:bg-surface-container-highest transition-colors p-2 rounded-full active:scale-95 duration-150">notifications</button>
+</div>
+</div>
+</header>
+<main class="px-margin-mobile pb-32 pt-lg max-w-md mx-auto">
+<!-- Dashboard Summary / Hero -->
+<section class="mb-lg">
+<div class="bg-primary-container text-white p-lg rounded-xl shadow-sm relative overflow-hidden">
+<div class="relative z-10">
+<p class="font-label-md text-label-md text-on-primary-container/80 mb-xs">Total Outstanding</p>
+<h2 class="font-display-lg text-display-lg mb-md text-on-primary-container">$1,450.00</h2>
+<button class="w-full bg-on-primary-container text-primary-container py-md rounded-lg font-headline-sm text-headline-sm shadow-md active:scale-[0.98] transition-transform">
+                        Pay All Outstanding
+                    </button>
+</div>
+<!-- Abstract geometric overlay for premium feel -->
+<div class="absolute -right-8 -top-8 w-32 h-32 bg-white/5 rounded-full blur-2xl"></div>
+<div class="absolute -left-4 -bottom-4 w-24 h-24 bg-primary/10 rounded-full blur-xl"></div>
+</div>
+</section>
+<!-- Navigation Tabs (Custom) -->
+<nav class="flex mb-lg bg-surface-container-low p-1 rounded-lg">
+<button class="flex-1 py-2 rounded-md font-label-md text-label-md bg-white shadow-sm text-primary transition-all" id="tab-bills">Current Bills</button>
+<button class="flex-1 py-2 rounded-md font-label-md text-label-md text-on-surface-variant hover:bg-surface-container transition-all" id="tab-history">Payment History</button>
+</nav>
+<!-- Bills List Section -->
+<section class="space-y-md" id="bills-content">
+<div class="flex justify-between items-center mb-sm">
+<h3 class="font-headline-sm text-headline-sm">Due This Month</h3>
+<span class="font-label-sm text-label-sm text-on-surface-variant">4 Pending</span>
+</div>
+<!-- Bill Card: House Rent -->
+<div class="bg-white border border-outline-variant rounded-xl p-md shadow-[0px_2px_4px_rgba(0,0,0,0.04)] flex items-center gap-md hover:shadow-md transition-shadow">
+<div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">home</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-body-lg text-body-lg font-semibold">House Rent</h4>
+<p class="font-body-lg text-body-lg font-bold">$1,200.00</p>
+</div>
+<div class="flex justify-between items-center mt-1">
+<p class="font-label-md text-label-md text-on-surface-variant">Due Oct 05, 2023</p>
+<span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm">Pending</span>
+</div>
+</div>
+</div>
+<!-- Bill Card: Electricity -->
+<div class="bg-white border border-outline-variant rounded-xl p-md shadow-[0px_2px_4px_rgba(0,0,0,0.04)] flex items-center gap-md hover:shadow-md transition-shadow">
+<div class="w-12 h-12 rounded-lg bg-secondary-container/30 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-body-lg text-body-lg font-semibold">Electricity</h4>
+<p class="font-body-lg text-body-lg font-bold">$145.50</p>
+</div>
+<div class="flex justify-between items-center mt-1">
+<p class="font-label-md text-label-md text-on-surface-variant">Due Oct 12, 2023</p>
+<span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm">Pending</span>
+</div>
+</div>
+</div>
+<!-- Bill Card: Water -->
+<div class="bg-white border border-outline-variant rounded-xl p-md shadow-[0px_2px_4px_rgba(0,0,0,0.04)] flex items-center gap-md hover:shadow-md transition-shadow">
+<div class="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center">
+<span class="material-symbols-outlined text-blue-700" style="font-variation-settings: 'FILL' 1;">water_drop</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-body-lg text-body-lg font-semibold">Water Supply</h4>
+<p class="font-body-lg text-body-lg font-bold">$64.50</p>
+</div>
+<div class="flex justify-between items-center mt-1">
+<p class="font-label-md text-label-md text-on-surface-variant">Due Oct 15, 2023</p>
+<span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm">Pending</span>
+</div>
+</div>
+</div>
+<!-- Bill Card: Waste Management -->
+<div class="bg-white border border-outline-variant rounded-xl p-md shadow-[0px_2px_4px_rgba(0,0,0,0.04)] flex items-center gap-md hover:shadow-md transition-shadow">
+<div class="w-12 h-12 rounded-lg bg-tertiary-fixed-dim/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary" style="font-variation-settings: 'FILL' 1;">delete</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-body-lg text-body-lg font-semibold">Waste Management</h4>
+<p class="font-body-lg text-body-lg font-bold">$40.00</p>
+</div>
+<div class="flex justify-between items-center mt-1">
+<p class="font-label-md text-label-md text-on-surface-variant">Due Oct 20, 2023</p>
+<span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm">Pending</span>
+</div>
+</div>
+</div>
+<!-- Recent Activity Indicator -->
+<div class="mt-xl pt-md border-t border-outline-variant">
+<h4 class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant mb-md">Last Paid Bill</h4>
+<div class="bg-surface-container-lowest border border-outline-variant/50 rounded-lg p-md flex items-center justify-between opacity-80">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary-fixed-dim">check_circle</span>
+<div>
+<p class="font-body-md text-body-md">Internet &amp; Cable</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Sept 28, 2023</p>
+</div>
+</div>
+<p class="font-body-md text-body-md font-bold">$85.00</p>
+</div>
+</div>
+</section>
+<!-- Hidden History Section (JS Toggled) -->
+<section class="hidden space-y-md" id="history-content">
+<h3 class="font-headline-sm text-headline-sm mb-sm">Past Payments</h3>
+<!-- Sample History Item -->
+<div class="bg-white border border-outline-variant rounded-xl p-md flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
+<span class="material-symbols-outlined text-green-700" style="font-variation-settings: 'FILL' 1;">done_all</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between">
+<p class="font-body-lg text-body-lg font-semibold">House Rent - Sept</p>
+<p class="font-body-lg text-body-lg">$1,200.00</p>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Paid on Sept 04, 2023</p>
+</div>
+</div>
+<div class="bg-white border border-outline-variant rounded-xl p-md flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
+<span class="material-symbols-outlined text-green-700" style="font-variation-settings: 'FILL' 1;">done_all</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between">
+<p class="font-body-lg text-body-lg font-semibold">Electricity - Aug</p>
+<p class="font-body-lg text-body-lg">$132.20</p>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Paid on Aug 12, 2023</p>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 pb-safe bg-surface dark:bg-on-background border-t border-outline-variant dark:border-outline shadow-lg rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low px-4 py-1 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-full px-4 py-1 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">receipt_long</span>
+<span class="font-label-sm text-label-sm">Bills</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low px-4 py-1 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">handyman</span>
+<span class="font-label-sm text-label-sm">Support</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low px-4 py-1 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+<script>
+        // Simple tab switching logic
+        const tabBills = document.getElementById('tab-bills');
+        const tabHistory = document.getElementById('tab-history');
+        const billsContent = document.getElementById('bills-content');
+        const historyContent = document.getElementById('history-content');
+
+        tabBills.addEventListener('click', () => {
+            tabBills.classList.add('bg-white', 'shadow-sm', 'text-primary');
+            tabBills.classList.remove('text-on-surface-variant');
+            tabHistory.classList.remove('bg-white', 'shadow-sm', 'text-primary');
+            tabHistory.classList.add('text-on-surface-variant');
+            
+            billsContent.classList.remove('hidden');
+            historyContent.classList.add('hidden');
+        });
+
+        tabHistory.addEventListener('click', () => {
+            tabHistory.classList.add('bg-white', 'shadow-sm', 'text-primary');
+            tabHistory.classList.remove('text-on-surface-variant');
+            tabBills.classList.remove('bg-white', 'shadow-sm', 'text-primary');
+            tabBills.classList.add('text-on-surface-variant');
+            
+            historyContent.classList.remove('hidden');
+            billsContent.classList.add('hidden');
+        });
+
+        // Micro-interaction for cards
+        document.querySelectorAll('.bg-white').forEach(card => {
+            card.addEventListener('mousedown', () => card.style.transform = 'scale(0.98)');
+            card.addEventListener('mouseup', () => card.style.transform = 'scale(1)');
+            card.addEventListener('mouseleave', () => card.style.transform = 'scale(1)');
+        });
+    </script>
+</body></html>

@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EstateManager Admin Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Hanken Grotesk', sans-serif;
+            background-color: #F8FAFB;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#191c1d",
+                        "surface-bright": "#f8fafb",
+                        "inverse-primary": "#9dd3aa",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed-variant": "#1d5031",
+                        "inverse-on-surface": "#eff1f2",
+                        "surface-variant": "#e1e3e4",
+                        "tertiary": "#630005",
+                        "primary": "#00361a",
+                        "on-surface-variant": "#414942",
+                        "inverse-surface": "#2e3132",
+                        "background": "#f8fafb",
+                        "secondary-container": "#adceff",
+                        "secondary": "#3f608b",
+                        "tertiary-fixed": "#ffdad6",
+                        "on-tertiary-container": "#ff9288",
+                        "primary-fixed-dim": "#9dd3aa",
+                        "on-secondary": "#ffffff",
+                        "outline-variant": "#c1c9bf",
+                        "error-container": "#ffdad6",
+                        "surface-tint": "#366847",
+                        "surface-container": "#eceeef",
+                        "secondary-fixed-dim": "#a7c9f9",
+                        "on-secondary-fixed-variant": "#254872",
+                        "primary-fixed": "#b8f0c5",
+                        "on-surface": "#191c1d",
+                        "error": "#ba1a1a",
+                        "tertiary-container": "#8d000c",
+                        "surface": "#f8fafb",
+                        "tertiary-fixed-dim": "#ffb4ab",
+                        "on-primary-container": "#88bd95",
+                        "on-error": "#ffffff",
+                        "on-secondary-container": "#365882",
+                        "on-primary-fixed": "#00210e",
+                        "secondary-fixed": "#d3e3ff",
+                        "primary-container": "#1a4d2e",
+                        "surface-container-highest": "#e1e3e4",
+                        "surface-container-high": "#e6e8e9",
+                        "on-tertiary-fixed-variant": "#93000d",
+                        "on-tertiary-fixed": "#410002",
+                        "surface-container-low": "#f2f4f5",
+                        "on-error-container": "#93000a",
+                        "on-primary": "#ffffff",
+                        "outline": "#717971",
+                        "surface-dim": "#d8dadb",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed": "#001c39"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "lg": "24px",
+                        "xl": "32px",
+                        "xs": "4px",
+                        "base": "4px",
+                        "margin-desktop": "32px",
+                        "margin-mobile": "16px",
+                        "md": "16px",
+                        "gutter": "20px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Hanken Grotesk"],
+                        "label-md": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "label-sm": ["Hanken Grotesk"],
+                        "headline-sm": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-sm": ["11px", {"lineHeight": "14px", "fontWeight": "600"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- Desktop Navigation Drawer -->
+<aside class="fixed inset-y-0 left-0 w-60 bg-surface dark:bg-on-background border-r border-outline-variant dark:border-outline shadow-sm hidden md:flex flex-col h-full py-lg px-md z-40">
+<div class="mb-xl px-md">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">EstateManager</h1>
+<p class="font-label-sm text-on-surface-variant/70">Estate Management System</p>
+</div>
+<nav class="flex-1 space-y-1">
+<!-- Dashboard Active -->
+<a class="flex items-center gap-3 px-md py-3 text-primary dark:text-primary-fixed font-bold bg-primary-container/10 border-r-4 border-primary hover:bg-surface-container-high transition-all active:translate-x-1 duration-200 group" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-md py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container transition-all active:translate-x-1 duration-200 group" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-body-md text-body-md">Tenants</span>
+</a>
+<a class="flex items-center gap-3 px-md py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container transition-all active:translate-x-1 duration-200 group" href="#">
+<span class="material-symbols-outlined">domain</span>
+<span class="font-body-md text-body-md">Properties</span>
+</a>
+<a class="flex items-center gap-3 px-md py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container transition-all active:translate-x-1 duration-200 group" href="#">
+<span class="material-symbols-outlined">account_balance</span>
+<span class="font-body-md text-body-md">Financials</span>
+</a>
+<a class="flex items-center gap-3 px-md py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container transition-all active:translate-x-1 duration-200 group" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto pt-lg border-t border-outline-variant">
+<div class="flex items-center gap-3 px-md">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-bold overflow-hidden">
+<img alt="Admin Profile" class="w-full h-full object-cover" data-alt="A professional headshot of a middle-aged male estate administrator in a well-tailored navy suit. He is smiling warmly against a blurred corporate office background with soft daylight. The image has a clean, high-contrast look suitable for a premium business application, using a professional and secure aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9q7M3NOnkYayeUtFzA14NHgfvdHtCejrmE5pHMrTG4LFLEmq2EONulsRYrVb-BmNF7ugUqtIhF4jFhfocWRksJzKKFmh9p_8HiZOngnUrA70chLd-rXbMJBdouLlwKIXQgZ8BGZL017IGTyS-0HnMyHpHBVJcEMXhsSSJUoNK5CyONduTpq7h7b5mSWLmR5WVh6y1LFaBduvdv8RqsOqBgxSAsg21qOYXctCmIEfN-a_dQMVvg_jQS1gIP5ZRsXhrdDyqrRLD-wY"/>
+</div>
+<div>
+<p class="font-body-md text-body-md font-bold">Admin Panel</p>
+<p class="font-label-sm text-on-surface-variant">Estate Management</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Mobile Top Bar -->
+<header class="md:ml-60 flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16 bg-surface dark:bg-on-background border-b border-outline-variant dark:border-outline shadow-sm top-0 z-30">
+<div class="flex items-center gap-4">
+<button class="md:hidden p-2 hover:bg-surface-container transition-colors rounded-lg">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div>
+<h2 class="font-headline-sm text-headline-sm dark:text-surface-bright">Dashboard</h2>
+<p class="hidden md:block font-label-sm text-on-surface-variant">Overview of your estate</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-surface-container-low border border-outline-variant rounded-full text-on-surface-variant">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<span class="font-label-sm">Administrator</span>
+</div>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container transition-colors rounded-full relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full"></span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="md:ml-60 min-h-[calc(100vh-64px)] p-margin-mobile md:p-margin-desktop space-y-gutter">
+<!-- Metrics Bento Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-gutter">
+<!-- Total Apartments -->
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start">
+<span class="font-label-md text-on-surface-variant">Total Apartments</span>
+<div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">apartment</span>
+</div>
+</div>
+<div class="mt-4">
+<h3 class="font-display-lg text-display-lg text-on-surface">25</h3>
+<p class="font-label-sm text-primary flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+                        12% from last month
+                    </p>
+</div>
+</div>
+<!-- Total Tenants -->
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start">
+<span class="font-label-md text-on-surface-variant">Total Tenants</span>
+<div class="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">groups</span>
+</div>
+</div>
+<div class="mt-4">
+<h3 class="font-display-lg text-display-lg text-on-surface">17</h3>
+<p class="font-label-sm text-secondary flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                        Verified accounts
+                    </p>
+</div>
+</div>
+<!-- Occupied / Vacant -->
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start">
+<span class="font-label-md text-on-surface-variant">Occupied / Vacant</span>
+<div class="w-10 h-10 rounded-lg bg-surface-tint/10 flex items-center justify-center text-surface-tint">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">vpn_key</span>
+</div>
+</div>
+<div class="mt-4">
+<h3 class="font-display-lg text-display-lg text-on-surface">16/9</h3>
+<div class="w-full bg-surface-container h-1.5 rounded-full mt-2 overflow-hidden">
+<div class="bg-primary h-full w-[64%]"></div>
+</div>
+</div>
+</div>
+<!-- Pending Bills -->
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start">
+<span class="font-label-md text-on-surface-variant">Pending Bills</span>
+<div class="w-10 h-10 rounded-lg bg-error/10 flex items-center justify-center text-error">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">receipt_long</span>
+</div>
+</div>
+<div class="mt-4">
+<h3 class="font-display-lg text-display-lg text-on-surface">3</h3>
+<p class="font-label-sm text-error flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+                        Requires action
+                    </p>
+</div>
+</div>
+<!-- Revenue -->
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start">
+<span class="font-label-md text-on-surface-variant">Revenue (Paid)</span>
+<div class="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center text-green-700">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+</div>
+</div>
+<div class="mt-4">
+<h3 class="font-display-lg text-display-lg text-on-surface">₦0</h3>
+<p class="font-label-sm text-on-surface-variant mt-1">
+                        Current cycle
+                    </p>
+</div>
+</div>
+</div>
+<!-- Recent Activity Section -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden">
+<div class="p-lg border-b border-outline-variant flex justify-between items-center">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">history</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Recent Activity</h2>
+</div>
+<button class="text-primary font-label-md hover:underline">View All Logs</button>
+</div>
+<div class="overflow-x-auto custom-scrollbar">
+<div class="min-w-[800px]">
+<div class="divide-y divide-outline-variant">
+<!-- Activity Item 1 -->
+<div class="p-md hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center justify-between">
+<div class="flex items-start gap-4">
+<div class="mt-1 w-8 h-8 rounded-full bg-primary/5 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-sm">login</span>
+</div>
+<div>
+<div class="flex items-center gap-3">
+<span class="font-label-md font-bold tracking-wider text-on-surface">ADMIN_LOGIN</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-[10px] text-on-surface-variant">SECURITY</span>
+</div>
+<p class="font-body-md text-on-surface-variant mt-0.5">Admin logged in successfully from authorized IP.</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-label-sm text-on-surface-variant">5/2/2026, 4:27:48 PM</p>
+<span class="inline-block px-2 py-0.5 rounded-full bg-green-100 text-green-700 text-[10px] font-bold mt-1">SUCCESS</span>
+</div>
+</div>
+</div>
+<!-- Activity Item 2 -->
+<div class="p-md hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center justify-between">
+<div class="flex items-start gap-4">
+<div class="mt-1 w-8 h-8 rounded-full bg-primary/5 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-sm">person_add</span>
+</div>
+<div>
+<div class="flex items-center gap-3">
+<span class="font-label-md font-bold tracking-wider text-on-surface">TENANT_ADDED</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-[10px] text-on-surface-variant">MANAGEMENT</span>
+</div>
+<p class="font-body-md text-on-surface-variant mt-0.5">Onboarded tenant Tosin Daniel (TEN-1777732201850)</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-label-sm text-on-surface-variant">5/2/2026, 3:30:03 PM</p>
+<span class="inline-block px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 text-[10px] font-bold mt-1">NEW ENTRY</span>
+</div>
+</div>
+</div>
+<!-- Activity Item 3 -->
+<div class="p-md hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center justify-between">
+<div class="flex items-start gap-4">
+<div class="mt-1 w-8 h-8 rounded-full bg-primary/5 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-sm">login</span>
+</div>
+<div>
+<div class="flex items-center gap-3">
+<span class="font-label-md font-bold tracking-wider text-on-surface">ADMIN_LOGIN</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-[10px] text-on-surface-variant">SECURITY</span>
+</div>
+<p class="font-body-md text-on-surface-variant mt-0.5">Admin logged in successfully from authorized IP.</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-label-sm text-on-surface-variant">5/2/2026, 3:38:34 PM</p>
+<span class="inline-block px-2 py-0.5 rounded-full bg-green-100 text-green-700 text-[10px] font-bold mt-1">SUCCESS</span>
+</div>
+</div>
+</div>
+<!-- Activity Item 4 -->
+<div class="p-md hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center justify-between">
+<div class="flex items-start gap-4">
+<div class="mt-1 w-8 h-8 rounded-full bg-primary/5 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-sm">payments</span>
+</div>
+<div>
+<div class="flex items-center gap-3">
+<span class="font-label-md font-bold tracking-wider text-on-surface">BILL_GENERATED</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-[10px] text-on-surface-variant">BILLING</span>
+</div>
+<p class="font-body-md text-on-surface-variant mt-0.5">Maintenance fee bill generated for Apt 04-B.</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-label-sm text-on-surface-variant">5/2/2026, 1:15:20 PM</p>
+<span class="inline-block px-2 py-0.5 rounded-full bg-yellow-100 text-yellow-700 text-[10px] font-bold mt-1">PENDING</span>
+</div>
+</div>
+</div>
+<!-- Activity Item 5 -->
+<div class="p-md hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center justify-between">
+<div class="flex items-start gap-4">
+<div class="mt-1 w-8 h-8 rounded-full bg-primary/5 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-sm">login</span>
+</div>
+<div>
+<div class="flex items-center gap-3">
+<span class="font-label-md font-bold tracking-wider text-on-surface">ADMIN_LOGIN</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-[10px] text-on-surface-variant">SECURITY</span>
+</div>
+<p class="font-body-md text-on-surface-variant mt-0.5">Admin logged in successfully from authorized IP.</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-label-sm text-on-surface-variant">5/2/2026, 12:25:11 PM</p>
+<span class="inline-block px-2 py-0.5 rounded-full bg-green-100 text-green-700 text-[10px] font-bold mt-1">SUCCESS</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-md bg-surface-container-low text-center">
+<p class="font-label-sm text-on-surface-variant">End of recent logs. Last updated 2 mins ago.</p>
+</div>
+</section>
+<!-- Secondary Info Row -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Property Distribution Chart Placeholder -->
+<div class="lg:col-span-2 bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm h-80 relative overflow-hidden group">
+<div class="flex justify-between items-center mb-xl">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Occupancy Trends</h2>
+<select class="text-sm border-outline-variant rounded-lg bg-surface focus:ring-primary focus:border-primary">
+<option>Last 6 Months</option>
+<option>Last Year</option>
+</select>
+</div>
+<div class="absolute inset-0 top-20 p-lg flex items-end justify-between gap-2">
+<div class="flex-1 bg-primary/20 rounded-t-lg transition-all duration-500 hover:bg-primary/40 h-[40%] relative group/bar">
+<span class="absolute -top-6 left-1/2 -translate-x-1/2 font-label-sm hidden group-hover/bar:block text-primary">40%</span>
+</div>
+<div class="flex-1 bg-primary/30 rounded-t-lg transition-all duration-500 hover:bg-primary/50 h-[55%] relative group/bar">
+<span class="absolute -top-6 left-1/2 -translate-x-1/2 font-label-sm hidden group-hover/bar:block text-primary">55%</span>
+</div>
+<div class="flex-1 bg-primary/40 rounded-t-lg transition-all duration-500 hover:bg-primary/60 h-[70%] relative group/bar">
+<span class="absolute -top-6 left-1/2 -translate-x-1/2 font-label-sm hidden group-hover/bar:block text-primary">70%</span>
+</div>
+<div class="flex-1 bg-primary/60 rounded-t-lg transition-all duration-500 hover:bg-primary/80 h-[90%] relative group/bar">
+<span class="absolute -top-6 left-1/2 -translate-x-1/2 font-label-sm hidden group-hover/bar:block text-primary">90%</span>
+</div>
+<div class="flex-1 bg-primary/50 rounded-t-lg transition-all duration-500 hover:bg-primary/70 h-[65%] relative group/bar">
+<span class="absolute -top-6 left-1/2 -translate-x-1/2 font-label-sm hidden group-hover/bar:block text-primary">65%</span>
+</div>
+<div class="flex-1 bg-primary h-[85%] rounded-t-lg relative group/bar">
+<span class="absolute -top-6 left-1/2 -translate-x-1/2 font-label-sm text-primary font-bold">85%</span>
+</div>
+</div>
+</div>
+<!-- Upcoming Tasks Card -->
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm h-80 flex flex-col">
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-md">Quick Actions</h2>
+<div class="space-y-3 flex-1 overflow-y-auto custom-scrollbar">
+<button class="w-full flex items-center gap-3 p-3 rounded-lg border border-outline-variant hover:border-primary hover:bg-primary/5 transition-all group">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">add_business</span>
+<span class="font-body-md text-on-surface-variant font-medium">Add New Property</span>
+</button>
+<button class="w-full flex items-center gap-3 p-3 rounded-lg border border-outline-variant hover:border-primary hover:bg-primary/5 transition-all group">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">person_add</span>
+<span class="font-body-md text-on-surface-variant font-medium">Register Tenant</span>
+</button>
+<button class="w-full flex items-center gap-3 p-3 rounded-lg border border-outline-variant hover:border-primary hover:bg-primary/5 transition-all group">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">mail</span>
+<span class="font-body-md text-on-surface-variant font-medium">Send Bulk Email</span>
+</button>
+<button class="w-full flex items-center gap-3 p-3 rounded-lg border border-outline-variant hover:border-primary hover:bg-primary/5 transition-all group">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">file_download</span>
+<span class="font-body-md text-on-surface-variant font-medium">Export Financials</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer Identity -->
+<footer class="md:ml-60 p-md flex flex-col sm:flex-row justify-between items-center bg-surface border-t border-outline-variant/30">
+<p class="font-label-sm text-on-surface-variant/60">© WealthyPlace.2026 • Estate Management v1.0.0</p>
+<div class="flex gap-4 mt-2 sm:mt-0">
+<a class="font-label-sm text-on-surface-variant hover:text-primary" href="#">Privacy Policy</a>
+<a class="font-label-sm text-on-surface-variant hover:text-primary" href="#">System Status</a>
+</div>
+</footer>
+<!-- Mobile Navigation (Bottom Bar) -->
+<div class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 pb-safe bg-surface dark:bg-on-background border-t border-outline-variant shadow-lg">
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-full px-4 py-1 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-label-sm text-label-sm">Bills</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">handyman</span>
+<span class="font-label-sm text-label-sm">Support</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</div>
+<!-- Micro-interactions Script -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add subtle entrance animations for metrics cards
+            const cards = document.querySelectorAll('.grid > div');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(10px)';
+                card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 50);
+            });
+
+            // Activity list hover highlight effect
+            const activityItems = document.querySelectorAll('.divide-y > div');
+            activityItems.forEach(item => {
+                item.addEventListener('mouseenter', () => {
+                    item.style.backgroundColor = 'rgba(0, 54, 26, 0.02)';
+                });
+                item.addEventListener('mouseleave', () => {
+                    item.style.backgroundColor = '';
+                });
+            });
+        });
+    </script>
+</body></html>

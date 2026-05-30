@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EstateManager — Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <style>
+    body { font-family: 'Hanken Grotesk', sans-serif; }
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    .bg-hero { background: linear-gradient(135deg, #00361a 0%, #1a4d2e 50%, #366847 100%); }
+    .card-glass { background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); }
+    .input-field { @apply w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent transition-all text-gray-800; }
+    .btn-primary { @apply w-full py-3 bg-green-900 hover:bg-green-800 text-white font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-2; }
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    .float { animation: float 3s ease-in-out infinite; }
+  </style>
+</head>
+<body class="min-h-screen bg-hero flex">
+
+  <!-- Left Panel -->
+  <div class="hidden lg:flex flex-1 flex-col justify-center items-center p-16 text-white relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute top-20 left-20 w-64 h-64 rounded-full bg-white blur-3xl"></div>
+      <div class="absolute bottom-20 right-20 w-96 h-96 rounded-full bg-green-300 blur-3xl"></div>
+    </div>
+    <div class="relative z-10 max-w-lg text-center">
+      <div class="float inline-flex items-center justify-center w-24 h-24 rounded-3xl bg-white/20 backdrop-blur mb-8">
+        <span class="material-symbols-outlined text-white" style="font-size:48px;font-variation-settings:'FILL' 1">apartment</span>
+      </div>
+      <h1 class="text-5xl font-bold mb-4">EstateManager</h1>
+      <p class="text-xl text-green-100 mb-8 leading-relaxed">
+        The complete estate management solution — bills, access control, complaints, and more in one place.
+      </p>
+      <div class="grid grid-cols-2 gap-4 text-left">
+        <div class="bg-white/10 rounded-xl p-4">
+          <span class="material-symbols-outlined text-green-300" style="font-variation-settings:'FILL' 1">payments</span>
+          <p class="font-semibold mt-1">Smart Billing</p>
+          <p class="text-sm text-green-200">Automated rent & utility bills</p>
+        </div>
+        <div class="bg-white/10 rounded-xl p-4">
+          <span class="material-symbols-outlined text-green-300" style="font-variation-settings:'FILL' 1">nfc</span>
+          <p class="font-semibold mt-1">NFC Access</p>
+          <p class="text-sm text-green-200">Tap to unlock estate gate</p>
+        </div>
+        <div class="bg-white/10 rounded-xl p-4">
+          <span class="material-symbols-outlined text-green-300" style="font-variation-settings:'FILL' 1">support_agent</span>
+          <p class="font-semibold mt-1">Live Support</p>
+          <p class="text-sm text-green-200">Real-time chat with team</p>
+        </div>
+        <div class="bg-white/10 rounded-xl p-4">
+          <span class="material-symbols-outlined text-green-300" style="font-variation-settings:'FILL' 1">analytics</span>
+          <p class="font-semibold mt-1">Analytics</p>
+          <p class="text-sm text-green-200">Revenue & occupancy insights</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Panel — Login Form -->
+  <div class="flex-1 flex items-center justify-center p-6 lg:p-16 bg-gray-50 lg:bg-transparent">
+    <div class="card-glass w-full max-w-md rounded-3xl shadow-2xl p-8 lg:p-10">
+
+      <!-- Logo (mobile) -->
+      <div class="lg:hidden text-center mb-8">
+        <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-green-900 mb-3">
+          <span class="material-symbols-outlined text-white" style="font-size:32px;font-variation-settings:'FILL' 1">apartment</span>
+        </div>
+        <h1 class="text-2xl font-bold text-green-900">EstateManager</h1>
+      </div>
+
+      <h2 class="text-2xl font-bold text-gray-800 mb-1">Welcome back</h2>
+      <p class="text-gray-500 mb-8 text-sm">Sign in to your account to continue</p>
+
+      <!-- Error / Success Messages -->
+      <div id="msg" class="hidden mb-4 px-4 py-3 rounded-xl text-sm font-medium"></div>
+
+      <form id="loginForm" class="space-y-5">
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1.5">Email Address</label>
+          <div class="relative">
+            <span class="material-symbols-outlined absolute left-3 top-3 text-gray-400 text-xl">mail</span>
+            <input type="email" id="email" placeholder="you@example.com" required
+              class="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent transition-all"/>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1.5">Password</label>
+          <div class="relative">
+            <span class="material-symbols-outlined absolute left-3 top-3 text-gray-400 text-xl">lock</span>
+            <input type="password" id="password" placeholder="••••••••" required
+              class="w-full pl-10 pr-12 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent transition-all"/>
+            <button type="button" id="togglePwd" class="absolute right-3 top-3 text-gray-400 hover:text-gray-600">
+              <span class="material-symbols-outlined text-xl">visibility</span>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" id="loginBtn" class="w-full py-3 bg-green-900 hover:bg-green-800 text-white font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-2">
+          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL' 1">login</span>
+          Sign In
+        </button>
+      </form>
+
+      <!-- Demo Credentials -->
+      <div class="mt-6 p-4 bg-green-50 rounded-xl border border-green-100">
+        <p class="text-xs font-bold text-green-800 mb-2 flex items-center gap-1">
+          <span class="material-symbols-outlined text-sm">info</span> Demo Credentials
+        </p>
+        <div class="space-y-1.5 text-xs text-green-700">
+          <div class="flex justify-between cursor-pointer hover:font-semibold" onclick="fillCreds('admin@estatemanager.com','admin123')">
+            <span>🔑 Admin</span><span>admin@estatemanager.com / admin123</span>
+          </div>
+          <div class="flex justify-between cursor-pointer hover:font-semibold" onclick="fillCreds('chidi@email.com','tenant123')">
+            <span>🏠 Tenant</span><span>chidi@email.com / tenant123</span>
+          </div>
+          <div class="flex justify-between cursor-pointer hover:font-semibold" onclick="fillCreds('maintenance@estatemanager.com','tenant123')">
+            <span>🔧 Maintenance</span><span>maintenance / tenant123</span>
+          </div>
+        </div>
+        <p class="text-xs text-green-600 mt-2">Click any row to auto-fill</p>
+      </div>
+
+      <p class="text-xs text-center text-gray-400 mt-6">
+        EstateManager v1.0 &mdash; Secure Estate Management System
+      </p>
+    </div>
+  </div>
+
+  <script>
+    const API = '/api';
+
+    // Toggle password visibility
+    document.getElementById('togglePwd').addEventListener('click', () => {
+      const pwd = document.getElementById('password');
+      const icon = document.querySelector('#togglePwd span');
+      if (pwd.type === 'password') { pwd.type = 'text'; icon.textContent = 'visibility_off'; }
+      else { pwd.type = 'password'; icon.textContent = 'visibility'; }
+    });
+
+    function fillCreds(email, password) {
+      document.getElementById('email').value = email;
+      document.getElementById('password').value = password;
+    }
+
+    function showMsg(text, type = 'error') {
+      const el = document.getElementById('msg');
+      el.textContent = text;
+      el.className = `mb-4 px-4 py-3 rounded-xl text-sm font-medium ${
+        type === 'error' ? 'bg-red-50 text-red-700 border border-red-200' : 'bg-green-50 text-green-700 border border-green-200'
+      }`;
+      el.classList.remove('hidden');
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('loginBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-xl">refresh</span> Signing in...';
+
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      try {
+        const res = await fetch(`${API}/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          showMsg(data.error || 'Login failed');
+          btn.disabled = false;
+          btn.innerHTML = '<span class="material-symbols-outlined text-xl" style="font-variation-settings:\'FILL\' 1">login</span> Sign In';
+          return;
+        }
+
+        // Store auth data
+        localStorage.setItem('em_token', data.token);
+        localStorage.setItem('em_user', JSON.stringify(data.user));
+
+        showMsg('Login successful! Redirecting...', 'success');
+
+        // Route by role
+        setTimeout(() => {
+          const role = data.user.role;
+          if (role === 'admin') window.location.href = '/admin/dashboard.html';
+          else if (role === 'maintenance') window.location.href = '/admin/maintenance.html';
+          else if (role === 'support') window.location.href = '/admin/maintenance.html';
+          else window.location.href = '/tenant/dashboard.html';
+        }, 800);
+
+      } catch (err) {
+        showMsg('Network error. Is the server running?');
+        btn.disabled = false;
+        btn.innerHTML = '<span class="material-symbols-outlined text-xl" style="font-variation-settings:\'FILL\' 1">login</span> Sign In';
+      }
+    });
+
+    // Redirect if already logged in
+    const token = localStorage.getItem('em_token');
+    const user = localStorage.getItem('em_user');
+    if (token && user) {
+      try {
+        const u = JSON.parse(user);
+        if (u.role === 'admin') window.location.href = '/admin/dashboard.html';
+        else window.location.href = '/tenant/dashboard.html';
+      } catch {}
+    }
+  </script>
+</body>
+</html>

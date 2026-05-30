@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>EstateManager - Access Card Management</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Typography: Hanken Grotesk -->
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+                  "on-tertiary-fixed": "#410002",
+                  "surface-bright": "#f8fafb",
+                  "on-secondary": "#ffffff",
+                  "surface-dim": "#d8dadb",
+                  "surface-container": "#eceeef",
+                  "on-primary": "#ffffff",
+                  "secondary-fixed": "#d3e3ff",
+                  "surface-container-lowest": "#ffffff",
+                  "tertiary-fixed-dim": "#ffb4ab",
+                  "tertiary": "#630005",
+                  "inverse-primary": "#9dd3aa",
+                  "on-primary-container": "#88bd95",
+                  "surface-container-low": "#f2f4f5",
+                  "secondary": "#3f608b",
+                  "primary-fixed-dim": "#9dd3aa",
+                  "on-tertiary": "#ffffff",
+                  "on-surface-variant": "#414942",
+                  "error": "#ba1a1a",
+                  "primary-fixed": "#b8f0c5",
+                  "inverse-on-surface": "#eff1f2",
+                  "on-primary-fixed": "#00210e",
+                  "on-secondary-fixed": "#001c39",
+                  "on-secondary-container": "#365882",
+                  "outline-variant": "#c1c9bf",
+                  "surface-tint": "#366847",
+                  "secondary-fixed-dim": "#a7c9f9",
+                  "primary": "#00361a",
+                  "tertiary-fixed": "#ffdad6",
+                  "background": "#f8fafb",
+                  "surface-variant": "#e1e3e4",
+                  "on-error": "#ffffff",
+                  "on-tertiary-container": "#ff9288",
+                  "error-container": "#ffdad6",
+                  "on-surface": "#191c1d",
+                  "surface-container-highest": "#e1e3e4",
+                  "on-error-container": "#93000a",
+                  "surface-container-high": "#e6e8e9",
+                  "on-secondary-fixed-variant": "#254872",
+                  "tertiary-container": "#8d000c",
+                  "primary-container": "#1a4d2e",
+                  "surface": "#f8fafb",
+                  "inverse-surface": "#2e3132",
+                  "on-primary-fixed-variant": "#1d5031",
+                  "on-tertiary-fixed-variant": "#93000d",
+                  "outline": "#717971",
+                  "on-background": "#191c1d",
+                  "secondary-container": "#adceff"
+          },
+          "borderRadius": {
+                  "DEFAULT": "0.25rem",
+                  "lg": "0.5rem",
+                  "xl": "0.75rem",
+                  "full": "9999px"
+          },
+          "spacing": {
+                  "md": "16px",
+                  "xl": "32px",
+                  "margin-mobile": "16px",
+                  "base": "4px",
+                  "gutter": "20px",
+                  "xs": "4px",
+                  "margin-desktop": "32px",
+                  "sm": "8px",
+                  "lg": "24px"
+          },
+          "fontFamily": {
+                  "body-md": ["Hanken Grotesk"],
+                  "headline-sm": ["Hanken Grotesk"],
+                  "headline-lg-mobile": ["Hanken Grotesk"],
+                  "body-lg": ["Hanken Grotesk"],
+                  "headline-md": ["Hanken Grotesk"],
+                  "display-lg": ["Hanken Grotesk"],
+                  "label-md": ["Hanken Grotesk"],
+                  "label-sm": ["Hanken Grotesk"]
+          },
+          "fontSize": {
+                  "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                  "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                  "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                  "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                  "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                  "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                  "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                  "label-sm": ["11px", {"lineHeight": "14px", "fontWeight": "600"}]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    body { font-family: 'Hanken Grotesk', sans-serif; }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .virtual-key-active {
+      box-shadow: 0 0 40px rgba(136, 189, 149, 0.4);
+    }
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.05); opacity: 0.4; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+    .pulse-effect { animation: pulse-ring 3s infinite ease-in-out; }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-on-background docked full-width top-0 border-b border-outline-variant dark:border-outline shadow-sm flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16 sticky z-50">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center overflow-hidden">
+<img alt="User profile photo" class="w-full h-full object-cover" data-alt="A clean, professional headshot of a friendly individual with soft studio lighting. The background is a neutral, light gray consistent with a modern corporate aesthetic. The focus is sharp on the person's face, conveying reliability and trustworthiness within a high-end property management context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-vmcseqIvFf9RQ2GLU_N-kSbI51cqu5V3geCFwoalmHpNguVgvM9xoa-9eDOzfPi5V48FBods08h60xvjXgqRO926IBiQN_zDZFoF2eqKRMGSqaz1gWVbTatcY1I26FZxsXz6LC_5YOSNTPPOvm1lWw7IeNvZfvA7G6O_FKcclhpeAAUIjg2DOwDLEUMURW1-1rHBbWXxoEnkDOVos9Mm-hhujjEdVCk-Kq_lb9MnKXGqzN2uo-oA7RpsNofaDg3DwbfLq9i-OoI"/>
+</div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">EstateManager</h1>
+</div>
+<div class="p-2 rounded-full hover:bg-surface-container transition-colors active:scale-95 duration-150 cursor-pointer">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed" data-icon="notifications">notifications</span>
+</div>
+</header>
+<main class="px-margin-mobile pt-lg space-y-lg max-w-md mx-auto">
+<!-- Hero / Virtual Key Section -->
+<section class="flex flex-col items-center justify-center py-xl bg-surface-container-low rounded-xl border border-outline-variant/30">
+<div class="text-center mb-lg">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Secure Access</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Tap to unlock main entrance</p>
+</div>
+<!-- Large Virtual Key Button -->
+<div class="relative group cursor-pointer active:scale-95 transition-transform duration-200" id="virtual-key-container">
+<div class="absolute inset-0 bg-primary-container/20 rounded-full pulse-effect" id="key-ring"></div>
+<button class="relative z-10 w-48 h-48 rounded-full bg-primary flex flex-col items-center justify-center shadow-lg border-4 border-primary-fixed-dim/20" id="virtual-key">
+<span class="material-symbols-outlined text-white text-6xl mb-2" data-icon="lock_open">lock_open</span>
+<span class="font-label-sm text-label-sm text-white tracking-widest uppercase">Hold to Open</span>
+</button>
+</div>
+<div class="mt-lg hidden" id="unlock-status">
+<div class="flex items-center gap-xs text-on-primary-fixed-variant bg-primary-fixed px-md py-sm rounded-full">
+<span class="material-symbols-outlined text-[18px]" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-label-md text-label-md">Entrance Unlocked</span>
+</div>
+</div>
+</section>
+<!-- Guest Access Section -->
+<section class="space-y-md">
+<div class="flex justify-between items-center">
+<h3 class="font-headline-sm text-headline-sm">Guest Access</h3>
+<button class="text-primary font-label-md text-label-md flex items-center gap-xs">
+          View History
+          <span class="material-symbols-outlined text-[16px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 gap-md">
+<!-- Generate Code Card -->
+<div class="bg-white p-md rounded-xl border border-outline-variant shadow-sm flex items-center justify-between hover:bg-surface-container-low transition-colors cursor-pointer" onclick="toggleCodeDisplay()">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-lg bg-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-secondary-container" data-icon="qr_code_2">qr_code_2</span>
+</div>
+<div>
+<p class="font-body-lg text-body-lg font-semibold text-on-surface">Generate Guest Pass</p>
+<p class="font-body-md text-body-md text-on-surface-variant">Create a temporary QR or PIN</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="chevron_right">chevron_right</span>
+</div>
+<!-- Code/QR Display (Hidden by default) -->
+<div class="hidden bg-surface-container-lowest p-lg rounded-xl border-2 border-dashed border-outline-variant text-center space-y-md animate-in fade-in slide-in-from-top-4 duration-300" id="code-display">
+<div class="flex justify-center">
+<div class="w-32 h-32 bg-white p-2 border border-outline-variant rounded-lg">
+<img alt="Guest Access QR Code" class="w-full h-full grayscale opacity-80" data-alt="A clean, high-contrast QR code rendered in a minimalist style on a white square background. The image represents a digital security pass within a modern property management application. The lighting is flat and clear, emphasizing the functional and secure nature of the digital token." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfELx_bM70XjnwH7L7oI63BwPSSpzBs2lOb-9kCDqAaMtB89YXfewnYXtFgKXDySa9jYzhRqLQ1RjmdH1yGx0ZWoouKmfSnO8NDpdK51trdzm3kl78VGfHLVms1qYwtCv_7yvp7jpX5aES6GYlGLhgfhIkg3PWvli98ktL8i--3DrrxgdAmOWFW-six-g8pHYAl8U7U-IhUk6DmcUEd4iiZunaPBKjHaSDHf2BwX0Y2VXcK7teLIxIDHlrdtOeKUK7kNUgKqVG83c"/>
+</div>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase">Your Temporary PIN</p>
+<p class="font-display-lg text-display-lg text-primary tracking-[0.5em] font-bold">4920</p>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant italic">Expires in 2 hours</p>
+<button class="w-full bg-secondary-container text-on-secondary-container py-md rounded-lg font-label-md text-label-md">Share Access Link</button>
+</div>
+</div>
+</section>
+<!-- Physical Card Management -->
+<section class="space-y-md">
+<h3 class="font-headline-sm text-headline-sm">Physical Card</h3>
+<div class="bg-primary-container text-on-primary-container p-lg rounded-xl shadow-sm relative overflow-hidden">
+<!-- Visual "Card" pattern background -->
+<div class="absolute -right-8 -top-8 w-32 h-32 bg-white/10 rounded-full"></div>
+<div class="absolute -left-4 -bottom-4 w-24 h-24 bg-white/5 rounded-full"></div>
+<div class="relative z-10 space-y-lg">
+<div class="flex justify-between items-start">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm opacity-80">ACTIVE CARD</span>
+<span class="font-headline-sm text-headline-sm font-bold">**** 8842</span>
+</div>
+<span class="material-symbols-outlined text-3xl" data-icon="contactless">contactless</span>
+</div>
+<div class="flex justify-between items-end">
+<span class="font-body-md text-body-md">Johnathan Tenant</span>
+<span class="font-label-sm text-label-sm bg-white/20 px-sm py-xs rounded">MEMBER</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-md">
+<button class="bg-white border border-outline-variant p-md rounded-xl flex flex-col items-center gap-sm active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-error" data-icon="report">report</span>
+<span class="font-label-md text-label-md text-on-surface">Report Lost</span>
+</button>
+<button class="bg-white border border-outline-variant p-md rounded-xl flex flex-col items-center gap-sm active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-primary" data-icon="credit_card">credit_card</span>
+<span class="font-label-md text-label-md text-on-surface">Replacement</span>
+</button>
+</div>
+</section>
+<!-- Security Tips -->
+<section class="bg-surface-container p-md rounded-xl flex gap-md items-start">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="info">info</span>
+<p class="font-body-md text-body-md text-on-surface-variant">
+        Never share your personal access code. Guest codes are one-time use only and expire automatically.
+      </p>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 pb-safe bg-surface dark:bg-on-background border-t border-outline-variant dark:border-outline shadow-lg md:hidden">
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low transition-colors active:scale-90 duration-150 p-2 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low transition-colors active:scale-90 duration-150 p-2 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="font-label-sm text-label-sm">Bills</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-full px-4 py-1 active:scale-90 transition-transform cursor-pointer">
+<span class="material-symbols-outlined" data-icon="handyman" style="font-variation-settings: 'FILL' 1;">handyman</span>
+<span class="font-label-sm text-label-sm">Support</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low transition-colors active:scale-90 duration-150 p-2 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</div>
+</nav>
+<script>
+    const virtualKey = document.getElementById('virtual-key');
+    const keyContainer = document.getElementById('virtual-key-container');
+    const keyRing = document.getElementById('key-ring');
+    const unlockStatus = document.getElementById('unlock-status');
+    const codeDisplay = document.getElementById('code-display');
+
+    let pressTimer;
+
+    // Simulated Long Press Logic
+    virtualKey.addEventListener('mousedown', startPress);
+    virtualKey.addEventListener('touchstart', startPress);
+    virtualKey.addEventListener('mouseup', endPress);
+    virtualKey.addEventListener('touchend', endPress);
+    virtualKey.addEventListener('mouseleave', endPress);
+
+    function startPress(e) {
+      e.preventDefault();
+      keyRing.classList.remove('pulse-effect');
+      keyRing.classList.add('animate-ping');
+      keyRing.style.backgroundColor = 'rgba(157, 211, 170, 0.6)';
+      
+      pressTimer = setTimeout(() => {
+        completeUnlock();
+      }, 1500);
+    }
+
+    function endPress() {
+      clearTimeout(pressTimer);
+      if (!unlockStatus.classList.contains('hidden')) return;
+      keyRing.classList.add('pulse-effect');
+      keyRing.classList.remove('animate-ping');
+      keyRing.style.backgroundColor = 'rgba(26, 77, 46, 0.2)';
+    }
+
+    function completeUnlock() {
+      virtualKey.innerHTML = '<span class="material-symbols-outlined text-white text-6xl" style="font-variation-settings: \'FILL\' 1;">lock_open</span>';
+      virtualKey.classList.add('bg-on-primary-container');
+      keyRing.classList.remove('animate-ping');
+      keyRing.classList.add('scale-150', 'opacity-0', 'transition-all', 'duration-500');
+      unlockStatus.classList.remove('hidden');
+      
+      // Haptic feedback simulation
+      if (window.navigator.vibrate) {
+        window.navigator.vibrate(200);
+      }
+
+      setTimeout(() => {
+        resetKey();
+      }, 3000);
+    }
+
+    function resetKey() {
+      virtualKey.innerHTML = '<span class="material-symbols-outlined text-white text-6xl mb-2" data-icon="lock_open">lock_open</span><span class="font-label-sm text-label-sm text-white tracking-widest uppercase">Hold to Open</span>';
+      virtualKey.classList.remove('bg-on-primary-container');
+      unlockStatus.classList.add('hidden');
+      keyRing.classList.remove('scale-150', 'opacity-0', 'transition-all', 'duration-500');
+      keyRing.classList.add('pulse-effect');
+    }
+
+    function toggleCodeDisplay() {
+      codeDisplay.classList.toggle('hidden');
+      if (!codeDisplay.classList.contains('hidden')) {
+        codeDisplay.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+  </script>
+</body></html>
