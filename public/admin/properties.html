@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Properties — EstateManager</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script>tailwind.config={theme:{extend:{colors:{"primary":"#00361a","surface":"#f8fafb","surface-container-lowest":"#fff","surface-container-low":"#f2f4f5","surface-container":"#eceeef","surface-container-high":"#e6e8e9","outline-variant":"#c1c9bf","on-surface":"#191c1d","on-surface-variant":"#414942","secondary":"#3f608b"}}}}</script>
+<style>body{font-family:'Hanken Grotesk',sans-serif;background:#f8fafb}.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;vertical-align:middle}.spin{animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}</style>
+</head>
+<body class="text-on-surface">
+<div class="flex h-screen overflow-hidden">
+<aside class="fixed md:static inset-y-0 left-0 w-64 bg-white border-r border-outline-variant flex flex-col py-6 px-4 z-50 transform -translate-x-full md:translate-x-0 transition-transform" id="sidebar">
+  <div class="mb-8 px-2"><h1 class="text-xl font-bold text-primary">EstateManager</h1><p class="text-xs text-on-surface-variant">Admin Panel</p></div>
+  <nav class="flex-1 space-y-1">
+    <a href="/admin/dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">dashboard</span>Dashboard</a>
+    <a href="/admin/tenants.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">group</span>Tenants</a>
+    <a href="/admin/properties.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-primary font-semibold bg-green-50 border-r-4 border-primary"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">domain</span>Properties</a>
+    <a href="/admin/bills.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">receipt_long</span>Financials</a>
+    <a href="/admin/complaints.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">support_agent</span>Complaints</a>
+    <a href="/admin/maintenance.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">handyman</span>Maintenance</a>
+    <a href="/admin/access.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">key</span>Access Control</a>
+  </nav>
+  <div class="border-t border-outline-variant pt-4"><div class="flex items-center gap-3 px-2"><div id="sidebarAvatar" class="w-9 h-9 rounded-full bg-primary flex items-center justify-center text-white text-sm font-bold">A</div><div><p id="sidebarName" class="text-sm font-bold">Admin</p><p class="text-xs text-on-surface-variant">Administrator</p></div></div><button onclick="Auth.logout()" class="mt-3 w-full flex items-center gap-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors"><span class="material-symbols-outlined text-base">logout</span>Logout</button></div>
+</aside>
+<div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+  <header class="flex items-center justify-between h-14 px-4 md:px-6 bg-white border-b border-outline-variant shrink-0">
+    <div class="flex items-center gap-3"><button onclick="document.getElementById('sidebar').classList.toggle('-translate-x-full')" class="md:hidden p-1.5 rounded-lg"><span class="material-symbols-outlined">menu</span></button><h2 class="font-semibold">Properties</h2></div>
+    <button onclick="openModal('addPropModal')" class="flex items-center gap-1.5 px-3 py-1.5 bg-primary text-white rounded-lg text-sm font-semibold hover:brightness-110 shadow-sm"><span class="material-symbols-outlined text-base">add</span>Add Property</button>
+  </header>
+  <main class="flex-1 overflow-y-auto p-4 md:p-6 space-y-5">
+    <!-- Stats -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="bg-white rounded-xl border border-outline-variant p-4 shadow-sm text-center"><div id="statTotal" class="text-2xl font-bold">—</div><p class="text-xs text-on-surface-variant mt-1">Total Units</p></div>
+      <div class="bg-white rounded-xl border border-outline-variant p-4 shadow-sm text-center"><div id="statOccupied" class="text-2xl font-bold text-blue-700">—</div><p class="text-xs text-on-surface-variant mt-1">Occupied</p></div>
+      <div class="bg-white rounded-xl border border-outline-variant p-4 shadow-sm text-center"><div id="statVacant" class="text-2xl font-bold text-green-700">—</div><p class="text-xs text-on-surface-variant mt-1">Vacant</p></div>
+      <div class="bg-white rounded-xl border border-outline-variant p-4 shadow-sm text-center"><div id="statRevenue" class="text-2xl font-bold text-primary">—</div><p class="text-xs text-on-surface-variant mt-1">Monthly Revenue</p></div>
+    </div>
+    <!-- Filter -->
+    <div class="flex gap-2">
+      <button onclick="filterProps('')" id="filterAll" class="px-3 py-1.5 rounded-lg text-sm font-medium bg-primary text-white">All</button>
+      <button onclick="filterProps('occupied')" id="filterOccupied" class="px-3 py-1.5 rounded-lg text-sm font-medium border border-outline-variant hover:bg-surface-container-high transition-colors">Occupied</button>
+      <button onclick="filterProps('vacant')" id="filterVacant" class="px-3 py-1.5 rounded-lg text-sm font-medium border border-outline-variant hover:bg-surface-container-high transition-colors">Vacant</button>
+      <button onclick="filterProps('maintenance')" id="filterMaint" class="px-3 py-1.5 rounded-lg text-sm font-medium border border-outline-variant hover:bg-surface-container-high transition-colors">Maintenance</button>
+    </div>
+    <!-- Cards -->
+    <div id="propsGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+      <div class="col-span-3 flex justify-center py-16"><span class="material-symbols-outlined spin text-2xl text-on-surface-variant">refresh</span></div>
+    </div>
+  </main>
+</div>
+</div>
+
+<!-- Add Property Modal -->
+<div id="addPropModal" class="hidden fixed inset-0 bg-black/40 z-50 items-center justify-center p-4">
+  <div class="bg-white rounded-2xl w-full max-w-md shadow-2xl">
+    <div class="flex items-center justify-between p-5 border-b border-outline-variant"><h3 class="font-bold text-lg">Add New Property</h3><button onclick="closeModal('addPropModal')" class="p-1.5 hover:bg-surface-container rounded-lg"><span class="material-symbols-outlined">close</span></button></div>
+    <form id="propForm" class="p-5 space-y-3">
+      <div class="grid grid-cols-2 gap-3">
+        <div><label class="text-xs font-semibold text-on-surface-variant">Unit Number *</label><input name="unit_number" required class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary" placeholder="A101"/></div>
+        <div><label class="text-xs font-semibold text-on-surface-variant">Block</label><input name="block" class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Block A"/></div>
+        <div><label class="text-xs font-semibold text-on-surface-variant">Floor</label><input name="floor" type="number" class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary" placeholder="1"/></div>
+        <div><label class="text-xs font-semibold text-on-surface-variant">Bedrooms</label><input name="bedrooms" type="number" value="2" class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
+        <div><label class="text-xs font-semibold text-on-surface-variant">Bathrooms</label><input name="bathrooms" type="number" value="1" class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
+        <div><label class="text-xs font-semibold text-on-surface-variant">Size (sqft)</label><input name="size_sqft" type="number" class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
+        <div class="col-span-2"><label class="text-xs font-semibold text-on-surface-variant">Monthly Rent (₦) *</label><input name="rent_amount" required type="number" class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary" placeholder="150000"/></div>
+      </div>
+      <div><label class="text-xs font-semibold text-on-surface-variant">Description</label><textarea name="description" rows="2" class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary resize-none"></textarea></div>
+      <div class="flex gap-3 pt-2"><button type="button" onclick="closeModal('addPropModal')" class="flex-1 py-2 border border-outline-variant rounded-lg text-sm">Cancel</button><button type="submit" class="flex-1 py-2 bg-primary text-white rounded-lg text-sm font-semibold">Add Property</button></div>
+    </form>
+  </div>
+</div>
+
+<script src="/js/api.js"></script>
+<script>
+const user=Auth.requireAuth('admin');
+if(user){document.getElementById('sidebarName').textContent=user.name;document.getElementById('sidebarAvatar').textContent=user.name[0];}
+function openModal(id){document.getElementById(id).classList.remove('hidden');document.getElementById(id).classList.add('flex');}
+function closeModal(id){document.getElementById(id).classList.add('hidden');document.getElementById(id).classList.remove('flex');}
+
+let allProps=[], currentFilter='';
+
+async function loadProperties(){
+  try{
+    const [props, stats] = await Promise.all([api.get('/properties'), api.get('/properties/stats')]);
+    allProps=props||[];
+    document.getElementById('statTotal').textContent=stats.total||0;
+    document.getElementById('statOccupied').textContent=stats.occupied||0;
+    document.getElementById('statVacant').textContent=stats.vacant||0;
+    document.getElementById('statRevenue').textContent=fmt.money(stats.current_revenue);
+    renderProps();
+  }catch(e){document.getElementById('propsGrid').innerHTML=`<div class="col-span-3 text-center py-8 text-sm text-red-500">${e.message}</div>`;}
+}
+
+function filterProps(f){
+  currentFilter=f;
+  ['All','Occupied','Vacant','Maint'].forEach(n=>{
+    const el=document.getElementById(`filter${n}`);
+    if(el){el.className='px-3 py-1.5 rounded-lg text-sm font-medium border border-outline-variant hover:bg-surface-container-high transition-colors';}
+  });
+  const activeEl=document.getElementById(`filter${f?f.charAt(0).toUpperCase()+f.slice(1).replace('maintenance','Maint'):'All'}`);
+  if(activeEl) activeEl.className='px-3 py-1.5 rounded-lg text-sm font-medium bg-primary text-white';
+  renderProps();
+}
+
+function renderProps(){
+  const filtered=currentFilter?allProps.filter(p=>p.status===currentFilter):allProps;
+  const statusColor={occupied:'bg-blue-100 text-blue-700',vacant:'bg-green-100 text-green-700',maintenance:'bg-orange-100 text-orange-700'};
+  const statusIcon={occupied:'person',vacant:'home',maintenance:'build'};
+  document.getElementById('propsGrid').innerHTML=filtered.length?filtered.map(p=>`
+    <div class="bg-white rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-all p-5">
+      <div class="flex items-start justify-between mb-3">
+        <div><h4 class="font-bold text-lg">${p.unit_number}</h4><p class="text-xs text-on-surface-variant">${p.block||''} · Floor ${p.floor||'?'}</p></div>
+        <span class="flex items-center gap-1 px-2 py-1 rounded-full text-xs font-semibold ${statusColor[p.status]||'bg-gray-100 text-gray-600'}"><span class="material-symbols-outlined text-xs" style="font-variation-settings:'FILL' 1">${statusIcon[p.status]||'home'}</span>${p.status}</span>
+      </div>
+      <div class="grid grid-cols-3 gap-2 mb-3 text-center">
+        <div class="bg-surface-container-low rounded-lg p-2"><p class="text-base font-bold">${p.bedrooms||'?'}</p><p class="text-xs text-on-surface-variant">Beds</p></div>
+        <div class="bg-surface-container-low rounded-lg p-2"><p class="text-base font-bold">${p.bathrooms||'?'}</p><p class="text-xs text-on-surface-variant">Baths</p></div>
+        <div class="bg-surface-container-low rounded-lg p-2"><p class="text-base font-bold">${p.size_sqft||'—'}</p><p class="text-xs text-on-surface-variant">Sqft</p></div>
+      </div>
+      <p class="text-lg font-bold text-primary mb-2">${fmt.money(p.rent_amount)}<span class="text-xs font-normal text-on-surface-variant">/month</span></p>
+      ${p.tenant_name?`<div class="flex items-center gap-2 p-2 bg-green-50 rounded-lg border border-green-100"><div class="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-white text-xs font-bold">${p.tenant_name[0]}</div><div><p class="text-xs font-semibold text-on-surface">${p.tenant_name}</p><p class="text-xs text-on-surface-variant">Lease until ${fmt.date(p.end_date)}</p></div></div>`:'<div class="p-2 bg-gray-50 rounded-lg text-xs text-center text-on-surface-variant">Vacant — Available to let</div>'}
+      <div class="flex gap-2 mt-3">
+        <button onclick="updatePropStatus('${p.id}','${p.status}')" class="flex-1 py-1.5 border border-outline-variant rounded-lg text-xs hover:bg-surface-container transition-colors">Change Status</button>
+        ${!p.tenant_name?`<button onclick="deleteProp('${p.id}')" class="py-1.5 px-3 border border-red-200 text-red-600 rounded-lg text-xs hover:bg-red-50 transition-colors">Delete</button>`:''}
+      </div>
+    </div>`).join(''):'<div class="col-span-3 text-center py-16 text-sm text-on-surface-variant">No properties found</div>';
+}
+
+async function updatePropStatus(id,current){
+  const next={occupied:'vacant',vacant:'occupied',maintenance:'vacant'};
+  const newStatus=prompt(`Current: ${current}\nEnter new status: occupied / vacant / maintenance`,next[current]);
+  if(!newStatus||!['occupied','vacant','maintenance'].includes(newStatus))return;
+  try{await api.put(`/properties/${id}`,{status:newStatus});toast('Status updated!');loadProperties();}
+  catch(e){toast(e.message,'error');}
+}
+
+async function deleteProp(id){
+  if(!confirm('Delete this property?'))return;
+  try{await api.del(`/properties/${id}`);toast('Property deleted');loadProperties();}
+  catch(e){toast(e.message,'error');}
+}
+
+document.getElementById('propForm').addEventListener('submit',async e=>{
+  e.preventDefault();const fd=new FormData(e.target);const data={};fd.forEach((v,k)=>data[k]=v);
+  const btn=e.target.querySelector('[type=submit]');btn.disabled=true;
+  try{await api.post('/properties',data);toast('Property added!');closeModal('addPropModal');e.target.reset();loadProperties();}
+  catch(err){toast(err.message,'error');}finally{btn.disabled=false;}
+});
+
+loadProperties();
+</script>
+</body></html>

@@ -1,333 +1,210 @@
 <!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Bills & Payments — EstateManager</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script>tailwind.config={theme:{extend:{colors:{"primary":"#00361a","surface":"#f8fafb","surface-container-lowest":"#fff","surface-container-low":"#f2f4f5","surface-container":"#eceeef","surface-container-high":"#e6e8e9","outline-variant":"#c1c9bf","on-surface":"#191c1d","on-surface-variant":"#414942","error":"#ba1a1a"}}}}</script>
+<style>body{font-family:'Hanken Grotesk',sans-serif;background:#f8fafb}.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;vertical-align:middle}.spin{animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}</style>
+</head>
+<body class="text-on-surface pb-20 md:pb-0">
+<div class="flex h-screen overflow-hidden">
+<aside class="hidden md:flex flex-col w-64 bg-white border-r border-outline-variant py-6 px-4 shrink-0">
+  <div class="mb-8 px-2"><h1 class="text-xl font-bold text-primary">EstateManager</h1><p class="text-xs text-on-surface-variant">Tenant Portal</p></div>
+  <nav class="flex-1 space-y-1">
+    <a href="/tenant/dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">home</span>Home</a>
+    <a href="/tenant/bills.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-primary font-semibold bg-green-50 border-r-4 border-primary"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">receipt_long</span>Bills & Payments</a>
+    <a href="/tenant/support.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">support_agent</span>Support & Complaints</a>
+    <a href="/tenant/access.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">key</span>Access & Visitors</a>
+    <a href="/tenant/notifications.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">notifications</span>Notifications</a>
+  </nav>
+  <div class="border-t border-outline-variant pt-4"><div class="flex items-center gap-3 px-2"><div id="sidebarAvatar" class="w-9 h-9 rounded-full bg-primary flex items-center justify-center text-white text-sm font-bold">T</div><div><p id="sidebarName" class="text-sm font-bold">Tenant</p><p class="text-xs text-on-surface-variant">Resident</p></div></div><button onclick="Auth.logout()" class="mt-3 w-full flex items-center gap-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors"><span class="material-symbols-outlined text-base">logout</span>Logout</button></div>
+</aside>
+<div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+  <header class="flex items-center justify-between h-14 px-4 md:px-6 bg-white border-b border-outline-variant shrink-0">
+    <div class="flex items-center gap-3"><a href="/tenant/dashboard.html" class="md:hidden p-1.5 rounded-lg hover:bg-surface-container"><span class="material-symbols-outlined">arrow_back</span></a><h2 class="font-semibold">Bills & Payments</h2></div>
+  </header>
+  <main class="flex-1 overflow-y-auto p-4 md:p-6 space-y-5">
+    <!-- Balance Summary -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div class="bg-gradient-to-br from-primary to-green-700 rounded-2xl p-5 text-white sm:col-span-1">
+        <p class="text-green-200 text-xs font-medium mb-1">Total Paid</p>
+        <p id="sumPaid" class="text-3xl font-bold">—</p>
+        <p class="text-green-200 text-xs mt-2">All time</p>
+      </div>
+      <div class="bg-white rounded-2xl border border-yellow-200 p-5 shadow-sm">
+        <p class="text-xs text-on-surface-variant font-medium mb-1">Pending Amount</p>
+        <p id="sumPending" class="text-3xl font-bold text-yellow-600">—</p>
+        <p class="text-xs text-on-surface-variant mt-2">Due soon</p>
+      </div>
+      <div class="bg-white rounded-2xl border border-red-200 p-5 shadow-sm">
+        <p class="text-xs text-on-surface-variant font-medium mb-1">Overdue</p>
+        <p id="sumOverdue" class="text-3xl font-bold text-red-600">—</p>
+        <p class="text-xs text-red-500 mt-2">Requires immediate payment</p>
+      </div>
+    </div>
+    <!-- Filter Tabs -->
+    <div class="flex gap-2 overflow-x-auto">
+      <button onclick="setFilter('')" id="fAll" class="px-4 py-2 rounded-lg text-sm font-semibold bg-primary text-white whitespace-nowrap">All</button>
+      <button onclick="setFilter('pending')" id="fPending" class="px-4 py-2 rounded-lg text-sm font-medium border border-outline-variant hover:bg-surface-container-high whitespace-nowrap">Pending</button>
+      <button onclick="setFilter('overdue')" id="fOverdue" class="px-4 py-2 rounded-lg text-sm font-medium border border-outline-variant hover:bg-surface-container-high whitespace-nowrap">Overdue</button>
+      <button onclick="setFilter('paid')" id="fPaid" class="px-4 py-2 rounded-lg text-sm font-medium border border-outline-variant hover:bg-surface-container-high whitespace-nowrap">Paid</button>
+    </div>
+    <!-- Bills List -->
+    <div id="billsContainer" class="space-y-3">
+      <div class="flex justify-center py-12"><span class="material-symbols-outlined spin text-2xl text-on-surface-variant">refresh</span></div>
+    </div>
+  </main>
+</div>
+</div>
+<!-- Bottom Nav -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-outline-variant flex items-center z-50">
+  <a href="/tenant/dashboard.html" class="flex-1 flex flex-col items-center py-3 text-on-surface-variant"><span class="material-symbols-outlined text-xl">home</span><span class="text-xs mt-0.5">Home</span></a>
+  <a href="/tenant/bills.html" class="flex-1 flex flex-col items-center py-3 text-primary"><span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL' 1">receipt_long</span><span class="text-xs font-semibold mt-0.5">Bills</span></a>
+  <a href="/tenant/support.html" class="flex-1 flex flex-col items-center py-3 text-on-surface-variant"><span class="material-symbols-outlined text-xl">support_agent</span><span class="text-xs mt-0.5">Support</span></a>
+  <a href="/tenant/access.html" class="flex-1 flex flex-col items-center py-3 text-on-surface-variant"><span class="material-symbols-outlined text-xl">key</span><span class="text-xs mt-0.5">Access</span></a>
+  <a href="/tenant/notifications.html" class="flex-1 flex flex-col items-center py-3 text-on-surface-variant"><span class="material-symbols-outlined text-xl">notifications</span><span class="text-xs mt-0.5">Alerts</span></a>
+</nav>
 
-<html class="light" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
-<title>EstateManager - Payments &amp; Bills</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<!-- Tailwind Configuration -->
-<script id="tailwind-config">
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            "colors": {
-                    "on-tertiary-fixed": "#410002",
-                    "surface-bright": "#f8fafb",
-                    "on-secondary": "#ffffff",
-                    "surface-dim": "#d8dadb",
-                    "surface-container": "#eceeef",
-                    "on-primary": "#ffffff",
-                    "secondary-fixed": "#d3e3ff",
-                    "surface-container-lowest": "#ffffff",
-                    "tertiary-fixed-dim": "#ffb4ab",
-                    "tertiary": "#630005",
-                    "inverse-primary": "#9dd3aa",
-                    "on-primary-container": "#88bd95",
-                    "surface-container-low": "#f2f4f5",
-                    "secondary": "#3f608b",
-                    "primary-fixed-dim": "#9dd3aa",
-                    "on-tertiary": "#ffffff",
-                    "on-surface-variant": "#414942",
-                    "error": "#ba1a1a",
-                    "primary-fixed": "#b8f0c5",
-                    "inverse-on-surface": "#eff1f2",
-                    "on-primary-fixed": "#00210e",
-                    "on-secondary-fixed": "#001c39",
-                    "on-secondary-container": "#365882",
-                    "outline-variant": "#c1c9bf",
-                    "surface-tint": "#366847",
-                    "secondary-fixed-dim": "#a7c9f9",
-                    "primary": "#00361a",
-                    "tertiary-fixed": "#ffdad6",
-                    "background": "#f8fafb",
-                    "surface-variant": "#e1e3e4",
-                    "on-error": "#ffffff",
-                    "on-tertiary-container": "#ff9288",
-                    "error-container": "#ffdad6",
-                    "on-surface": "#191c1d",
-                    "surface-container-highest": "#e1e3e4",
-                    "on-error-container": "#93000a",
-                    "surface-container-high": "#e6e8e9",
-                    "on-secondary-fixed-variant": "#254872",
-                    "tertiary-container": "#8d000c",
-                    "primary-container": "#1a4d2e",
-                    "surface": "#f8fafb",
-                    "inverse-surface": "#2e3132",
-                    "on-primary-fixed-variant": "#1d5031",
-                    "on-tertiary-fixed-variant": "#93000d",
-                    "outline": "#717971",
-                    "on-background": "#191c1d",
-                    "secondary-container": "#adceff"
-            },
-            "borderRadius": {
-                    "DEFAULT": "0.25rem",
-                    "lg": "0.5rem",
-                    "xl": "0.75rem",
-                    "full": "9999px"
-            },
-            "spacing": {
-                    "md": "16px",
-                    "xl": "32px",
-                    "margin-mobile": "16px",
-                    "base": "4px",
-                    "gutter": "20px",
-                    "xs": "4px",
-                    "margin-desktop": "32px",
-                    "sm": "8px",
-                    "lg": "24px"
-            },
-            "fontFamily": {
-                    "body-md": ["Hanken Grotesk"],
-                    "headline-sm": ["Hanken Grotesk"],
-                    "headline-lg-mobile": ["Hanken Grotesk"],
-                    "body-lg": ["Hanken Grotesk"],
-                    "headline-md": ["Hanken Grotesk"],
-                    "display-lg": ["Hanken Grotesk"],
-                    "label-md": ["Hanken Grotesk"],
-                    "label-sm": ["Hanken Grotesk"]
-            },
-            "fontSize": {
-                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
-                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
-                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
-                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
-                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
-                    "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
-                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500"}],
-                    "label-sm": ["11px", {"lineHeight": "14px", "fontWeight": "600"}]
-            }
-          }
-        }
-      }
-    </script>
-<style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-            display: inline-block;
-            line-height: 1;
-            text-transform: none;
-            letter-spacing: normal;
-            word-wrap: normal;
-            white-space: nowrap;
-            direction: ltr;
-        }
-        body {
-            background-color: #F8FAFB;
-            font-family: 'Hanken Grotesk', sans-serif;
-        }
-        .safe-area-top { padding-top: env(safe-area-inset-top); }
-        .safe-area-bottom { padding-bottom: env(safe-area-inset-bottom); }
-    </style>
-<style>
-    body {
-      min-height: max(884px, 100dvh);
-    }
-  </style>
-  </head>
-<body class="bg-surface text-on-surface">
-<!-- TopAppBar -->
-<header class="bg-surface dark:bg-on-background border-b border-outline-variant dark:border-outline shadow-sm docked full-width top-0 sticky z-50">
-<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16">
-<div class="flex items-center gap-md">
-<img alt="User" class="w-8 h-8 rounded-full bg-surface-container" data-alt="A high-quality, professional headshot of a smiling young adult tenant in a bright, modern indoor setting. The lighting is soft and natural, reflecting a clean, corporate-modern aesthetic with a shallow depth of field. The overall mood is reliable and friendly, matching the secure and approachable nature of the estate management brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRhyD-pI_vG5NFxtgbS2doJ0BKeeTmmXPbXchSiqVMRNnor2_0HWqKeOSkzIY_ATHWmUAH5wRJoHkrM43R2lIZcOQ86k7uLqHOKENBzdXcf0nkpbGeixVdg2-oV9jhZ99CP8QqRE0IVdkdrVFrioLVTILf63NwqZMuh8G9YSFwaJ6xtL3qbKnU-FtQneXW9Lf9qX8bfZ1zcrv213U86ofImKVZerSPcRyFf7Yfuo8wh_hpgDDDRjII7IlSldU6k5fXbiW9_XNlfsA"/>
-<h1 class="font-headline-sm text-headline-sm dark:text-surface-bright">EstateManager</h1>
+<!-- Pay Bill Modal -->
+<div id="payModal" class="hidden fixed inset-0 bg-black/40 z-50 items-end sm:items-center justify-center">
+  <div class="bg-white rounded-t-3xl sm:rounded-2xl w-full sm:max-w-sm shadow-2xl">
+    <div class="w-10 h-1 bg-gray-200 rounded-full mx-auto mt-3 sm:hidden"></div>
+    <div class="p-6">
+      <h3 class="font-bold text-xl mb-1">Pay Bill</h3>
+      <div id="payBillInfo" class="mb-5"></div>
+      <p class="text-sm font-semibold mb-2">Payment Method</p>
+      <div class="grid grid-cols-2 gap-3 mb-5" id="payMethods">
+        <button onclick="selectMethod('bank_transfer')" class="pay-method flex flex-col items-center gap-2 p-3 border-2 border-primary rounded-xl bg-green-50 transition-all" data-method="bank_transfer">
+          <span class="material-symbols-outlined text-primary text-2xl" style="font-variation-settings:'FILL' 1">account_balance</span>
+          <span class="text-xs font-semibold text-primary">Bank Transfer</span>
+        </button>
+        <button onclick="selectMethod('card')" class="pay-method flex flex-col items-center gap-2 p-3 border-2 border-outline-variant rounded-xl hover:border-primary hover:bg-green-50 transition-all" data-method="card">
+          <span class="material-symbols-outlined text-on-surface-variant text-2xl" style="font-variation-settings:'FILL' 1">credit_card</span>
+          <span class="text-xs font-semibold">Card Payment</span>
+        </button>
+        <button onclick="selectMethod('cash')" class="pay-method flex flex-col items-center gap-2 p-3 border-2 border-outline-variant rounded-xl hover:border-primary hover:bg-green-50 transition-all" data-method="cash">
+          <span class="material-symbols-outlined text-on-surface-variant text-2xl" style="font-variation-settings:'FILL' 1">payments</span>
+          <span class="text-xs font-semibold">Cash</span>
+        </button>
+        <button onclick="selectMethod('ussd')" class="pay-method flex flex-col items-center gap-2 p-3 border-2 border-outline-variant rounded-xl hover:border-primary hover:bg-green-50 transition-all" data-method="ussd">
+          <span class="material-symbols-outlined text-on-surface-variant text-2xl" style="font-variation-settings:'FILL' 1">dialpad</span>
+          <span class="text-xs font-semibold">USSD</span>
+        </button>
+      </div>
+      <button id="confirmPayBtn" onclick="confirmPay()" class="w-full py-3.5 bg-primary text-white rounded-xl text-sm font-bold hover:brightness-110 transition-all shadow-lg mb-2">Confirm Payment</button>
+      <button onclick="closeModal('payModal')" class="w-full py-2 text-sm text-on-surface-variant hover:text-on-surface">Cancel</button>
+    </div>
+  </div>
 </div>
-<div class="flex items-center">
-<button class="material-symbols-outlined text-primary dark:text-primary-fixed hover:bg-surface-container dark:hover:bg-surface-container-highest transition-colors p-2 rounded-full active:scale-95 duration-150">notifications</button>
-</div>
-</div>
-</header>
-<main class="px-margin-mobile pb-32 pt-lg max-w-md mx-auto">
-<!-- Dashboard Summary / Hero -->
-<section class="mb-lg">
-<div class="bg-primary-container text-white p-lg rounded-xl shadow-sm relative overflow-hidden">
-<div class="relative z-10">
-<p class="font-label-md text-label-md text-on-primary-container/80 mb-xs">Total Outstanding</p>
-<h2 class="font-display-lg text-display-lg mb-md text-on-primary-container">$1,450.00</h2>
-<button class="w-full bg-on-primary-container text-primary-container py-md rounded-lg font-headline-sm text-headline-sm shadow-md active:scale-[0.98] transition-transform">
-                        Pay All Outstanding
-                    </button>
-</div>
-<!-- Abstract geometric overlay for premium feel -->
-<div class="absolute -right-8 -top-8 w-32 h-32 bg-white/5 rounded-full blur-2xl"></div>
-<div class="absolute -left-4 -bottom-4 w-24 h-24 bg-primary/10 rounded-full blur-xl"></div>
-</div>
-</section>
-<!-- Navigation Tabs (Custom) -->
-<nav class="flex mb-lg bg-surface-container-low p-1 rounded-lg">
-<button class="flex-1 py-2 rounded-md font-label-md text-label-md bg-white shadow-sm text-primary transition-all" id="tab-bills">Current Bills</button>
-<button class="flex-1 py-2 rounded-md font-label-md text-label-md text-on-surface-variant hover:bg-surface-container transition-all" id="tab-history">Payment History</button>
-</nav>
-<!-- Bills List Section -->
-<section class="space-y-md" id="bills-content">
-<div class="flex justify-between items-center mb-sm">
-<h3 class="font-headline-sm text-headline-sm">Due This Month</h3>
-<span class="font-label-sm text-label-sm text-on-surface-variant">4 Pending</span>
-</div>
-<!-- Bill Card: House Rent -->
-<div class="bg-white border border-outline-variant rounded-xl p-md shadow-[0px_2px_4px_rgba(0,0,0,0.04)] flex items-center gap-md hover:shadow-md transition-shadow">
-<div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
-<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">home</span>
-</div>
-<div class="flex-1">
-<div class="flex justify-between items-start">
-<h4 class="font-body-lg text-body-lg font-semibold">House Rent</h4>
-<p class="font-body-lg text-body-lg font-bold">$1,200.00</p>
-</div>
-<div class="flex justify-between items-center mt-1">
-<p class="font-label-md text-label-md text-on-surface-variant">Due Oct 05, 2023</p>
-<span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm">Pending</span>
-</div>
-</div>
-</div>
-<!-- Bill Card: Electricity -->
-<div class="bg-white border border-outline-variant rounded-xl p-md shadow-[0px_2px_4px_rgba(0,0,0,0.04)] flex items-center gap-md hover:shadow-md transition-shadow">
-<div class="w-12 h-12 rounded-lg bg-secondary-container/30 flex items-center justify-center">
-<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">bolt</span>
-</div>
-<div class="flex-1">
-<div class="flex justify-between items-start">
-<h4 class="font-body-lg text-body-lg font-semibold">Electricity</h4>
-<p class="font-body-lg text-body-lg font-bold">$145.50</p>
-</div>
-<div class="flex justify-between items-center mt-1">
-<p class="font-label-md text-label-md text-on-surface-variant">Due Oct 12, 2023</p>
-<span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm">Pending</span>
-</div>
-</div>
-</div>
-<!-- Bill Card: Water -->
-<div class="bg-white border border-outline-variant rounded-xl p-md shadow-[0px_2px_4px_rgba(0,0,0,0.04)] flex items-center gap-md hover:shadow-md transition-shadow">
-<div class="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center">
-<span class="material-symbols-outlined text-blue-700" style="font-variation-settings: 'FILL' 1;">water_drop</span>
-</div>
-<div class="flex-1">
-<div class="flex justify-between items-start">
-<h4 class="font-body-lg text-body-lg font-semibold">Water Supply</h4>
-<p class="font-body-lg text-body-lg font-bold">$64.50</p>
-</div>
-<div class="flex justify-between items-center mt-1">
-<p class="font-label-md text-label-md text-on-surface-variant">Due Oct 15, 2023</p>
-<span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm">Pending</span>
-</div>
-</div>
-</div>
-<!-- Bill Card: Waste Management -->
-<div class="bg-white border border-outline-variant rounded-xl p-md shadow-[0px_2px_4px_rgba(0,0,0,0.04)] flex items-center gap-md hover:shadow-md transition-shadow">
-<div class="w-12 h-12 rounded-lg bg-tertiary-fixed-dim/20 flex items-center justify-center">
-<span class="material-symbols-outlined text-tertiary" style="font-variation-settings: 'FILL' 1;">delete</span>
-</div>
-<div class="flex-1">
-<div class="flex justify-between items-start">
-<h4 class="font-body-lg text-body-lg font-semibold">Waste Management</h4>
-<p class="font-body-lg text-body-lg font-bold">$40.00</p>
-</div>
-<div class="flex justify-between items-center mt-1">
-<p class="font-label-md text-label-md text-on-surface-variant">Due Oct 20, 2023</p>
-<span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm">Pending</span>
-</div>
-</div>
-</div>
-<!-- Recent Activity Indicator -->
-<div class="mt-xl pt-md border-t border-outline-variant">
-<h4 class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant mb-md">Last Paid Bill</h4>
-<div class="bg-surface-container-lowest border border-outline-variant/50 rounded-lg p-md flex items-center justify-between opacity-80">
-<div class="flex items-center gap-sm">
-<span class="material-symbols-outlined text-primary-fixed-dim">check_circle</span>
-<div>
-<p class="font-body-md text-body-md">Internet &amp; Cable</p>
-<p class="font-label-sm text-label-sm text-on-surface-variant">Sept 28, 2023</p>
-</div>
-</div>
-<p class="font-body-md text-body-md font-bold">$85.00</p>
-</div>
-</div>
-</section>
-<!-- Hidden History Section (JS Toggled) -->
-<section class="hidden space-y-md" id="history-content">
-<h3 class="font-headline-sm text-headline-sm mb-sm">Past Payments</h3>
-<!-- Sample History Item -->
-<div class="bg-white border border-outline-variant rounded-xl p-md flex items-center gap-md">
-<div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
-<span class="material-symbols-outlined text-green-700" style="font-variation-settings: 'FILL' 1;">done_all</span>
-</div>
-<div class="flex-1">
-<div class="flex justify-between">
-<p class="font-body-lg text-body-lg font-semibold">House Rent - Sept</p>
-<p class="font-body-lg text-body-lg">$1,200.00</p>
-</div>
-<p class="font-label-sm text-label-sm text-on-surface-variant">Paid on Sept 04, 2023</p>
-</div>
-</div>
-<div class="bg-white border border-outline-variant rounded-xl p-md flex items-center gap-md">
-<div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
-<span class="material-symbols-outlined text-green-700" style="font-variation-settings: 'FILL' 1;">done_all</span>
-</div>
-<div class="flex-1">
-<div class="flex justify-between">
-<p class="font-body-lg text-body-lg font-semibold">Electricity - Aug</p>
-<p class="font-body-lg text-body-lg">$132.20</p>
-</div>
-<p class="font-label-sm text-label-sm text-on-surface-variant">Paid on Aug 12, 2023</p>
-</div>
-</div>
-</section>
-</main>
-<!-- BottomNavBar -->
-<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 pb-safe bg-surface dark:bg-on-background border-t border-outline-variant dark:border-outline shadow-lg rounded-t-xl">
-<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low px-4 py-1 active:scale-90 transition-transform" href="#">
-<span class="material-symbols-outlined">home</span>
-<span class="font-label-sm text-label-sm">Home</span>
-</a>
-<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-full px-4 py-1 active:scale-90 transition-transform" href="#">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">receipt_long</span>
-<span class="font-label-sm text-label-sm">Bills</span>
-</a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low px-4 py-1 active:scale-90 transition-transform" href="#">
-<span class="material-symbols-outlined">handyman</span>
-<span class="font-label-sm text-label-sm">Support</span>
-</a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low px-4 py-1 active:scale-90 transition-transform" href="#">
-<span class="material-symbols-outlined">person</span>
-<span class="font-label-sm text-label-sm">Profile</span>
-</a>
-</nav>
+
+<script src="/js/api.js"></script>
 <script>
-        // Simple tab switching logic
-        const tabBills = document.getElementById('tab-bills');
-        const tabHistory = document.getElementById('tab-history');
-        const billsContent = document.getElementById('bills-content');
-        const historyContent = document.getElementById('history-content');
+const user = Auth.requireAuth('tenant');
+if(user){document.getElementById('sidebarName').textContent=user.name;document.getElementById('sidebarAvatar').textContent=user.name[0];}
+function openModal(id){document.getElementById(id).classList.remove('hidden');document.getElementById(id).classList.add('flex');}
+function closeModal(id){document.getElementById(id).classList.add('hidden');document.getElementById(id).classList.remove('flex');}
 
-        tabBills.addEventListener('click', () => {
-            tabBills.classList.add('bg-white', 'shadow-sm', 'text-primary');
-            tabBills.classList.remove('text-on-surface-variant');
-            tabHistory.classList.remove('bg-white', 'shadow-sm', 'text-primary');
-            tabHistory.classList.add('text-on-surface-variant');
-            
-            billsContent.classList.remove('hidden');
-            historyContent.classList.add('hidden');
-        });
+let currentFilter='', selectedMethod='bank_transfer', activeBillId=null;
 
-        tabHistory.addEventListener('click', () => {
-            tabHistory.classList.add('bg-white', 'shadow-sm', 'text-primary');
-            tabHistory.classList.remove('text-on-surface-variant');
-            tabBills.classList.remove('bg-white', 'shadow-sm', 'text-primary');
-            tabBills.classList.add('text-on-surface-variant');
-            
-            historyContent.classList.remove('hidden');
-            billsContent.classList.add('hidden');
-        });
+function setFilter(f){
+  currentFilter=f;
+  ['All','Pending','Overdue','Paid'].forEach(n=>{
+    const el=document.getElementById(`f${n}`);
+    if(el) el.className='px-4 py-2 rounded-lg text-sm font-medium border border-outline-variant hover:bg-surface-container-high whitespace-nowrap';
+  });
+  const key=f?f.charAt(0).toUpperCase()+f.slice(1):'All';
+  const active=document.getElementById(`f${key}`);
+  if(active) active.className='px-4 py-2 rounded-lg text-sm font-semibold bg-primary text-white whitespace-nowrap';
+  loadBills();
+}
 
-        // Micro-interaction for cards
-        document.querySelectorAll('.bg-white').forEach(card => {
-            card.addEventListener('mousedown', () => card.style.transform = 'scale(0.98)');
-            card.addEventListener('mouseup', () => card.style.transform = 'scale(1)');
-            card.addEventListener('mouseleave', () => card.style.transform = 'scale(1)');
-        });
-    </script>
+async function loadBills(){
+  document.getElementById('billsContainer').innerHTML='<div class="flex justify-center py-12"><span class="material-symbols-outlined spin text-2xl text-on-surface-variant">refresh</span></div>';
+  try{
+    const d=await api.get(`/bills?limit=50&status=${currentFilter}`);
+    const bills=d.bills||[];
+
+    // Summary
+    const paid=bills.filter(b=>b.status==='paid').reduce((s,b)=>s+b.amount,0);
+    const pending=bills.filter(b=>b.status==='pending').reduce((s,b)=>s+b.amount,0);
+    const overdue=bills.filter(b=>b.status==='overdue').reduce((s,b)=>s+b.amount,0);
+    document.getElementById('sumPaid').textContent=fmt.money(paid);
+    document.getElementById('sumPending').textContent=fmt.money(pending);
+    document.getElementById('sumOverdue').textContent=fmt.money(overdue);
+
+    if(!bills.length){document.getElementById('billsContainer').innerHTML='<div class="text-center py-16 text-sm text-on-surface-variant flex flex-col items-center gap-2"><span class="material-symbols-outlined text-4xl text-green-400" style="font-variation-settings:\'FILL\' 1">check_circle</span>No bills found</div>';return;}
+
+    const catIcon={rent:'home',utility:'bolt',service:'cleaning_services',maintenance:'build',other:'receipt'};
+    const statusColor={pending:'border-yellow-200 bg-yellow-50',overdue:'border-red-200 bg-red-50',paid:'border-green-200 bg-green-50',cancelled:'border-gray-200 bg-gray-50'};
+    const statusBadge={pending:'bg-yellow-100 text-yellow-700',overdue:'bg-red-100 text-red-700',paid:'bg-green-100 text-green-700',cancelled:'bg-gray-100 text-gray-500'};
+
+    document.getElementById('billsContainer').innerHTML=bills.map(b=>`
+      <div class="bg-white rounded-xl border ${statusColor[b.status]||'border-outline-variant'} p-4 shadow-sm hover:shadow-md transition-all">
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-surface-container-low flex items-center justify-center text-on-surface-variant">
+              <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">${catIcon[b.category]||'receipt'}</span>
+            </div>
+            <div>
+              <h4 class="font-semibold text-sm">${b.title}</h4>
+              <p class="text-xs text-on-surface-variant capitalize">${b.category||'rent'} · Due ${fmt.date(b.due_date)}</p>
+              ${b.description?`<p class="text-xs text-on-surface-variant mt-0.5">${b.description}</p>`:''}
+            </div>
+          </div>
+          <div class="text-right shrink-0">
+            <p class="text-lg font-bold">${fmt.money(b.amount)}</p>
+            <span class="px-2 py-0.5 rounded-full text-xs font-semibold ${statusBadge[b.status]||'bg-gray-100 text-gray-600'}">${b.status}</span>
+          </div>
+        </div>
+        ${b.status==='pending'||b.status==='overdue'?`
+        <button onclick="openPayModal('${b.id}','${b.title}',${b.amount})" class="mt-3 w-full py-2.5 bg-primary text-white rounded-lg text-sm font-semibold hover:brightness-110 transition-all flex items-center justify-center gap-2">
+          <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL' 1">payments</span>Pay Now — ${fmt.money(b.amount)}
+        </button>`:''}
+        ${b.status==='paid'?`<p class="mt-2 text-xs text-green-600 flex items-center gap-1"><span class="material-symbols-outlined text-xs" style="font-variation-settings:'FILL' 1">check_circle</span>Paid on ${fmt.date(b.paid_at)} via ${b.payment_method||'—'}</p>`:''}
+      </div>`).join('');
+  }catch(e){ document.getElementById('billsContainer').innerHTML=`<div class="text-center py-8 text-sm text-red-500">${e.message}</div>`; }
+}
+
+function openPayModal(id, title, amount){
+  activeBillId=id;
+  document.getElementById('payBillInfo').innerHTML=`
+    <div class="bg-surface-container-low rounded-xl p-4 mb-4">
+      <p class="text-xs text-on-surface-variant">Paying for</p>
+      <p class="font-semibold">${title}</p>
+      <p class="text-2xl font-bold text-primary mt-1">${fmt.money(amount)}</p>
+    </div>`;
+  selectMethod('bank_transfer');
+  openModal('payModal');
+}
+
+function selectMethod(m){
+  selectedMethod=m;
+  document.querySelectorAll('.pay-method').forEach(btn=>{
+    btn.className='pay-method flex flex-col items-center gap-2 p-3 border-2 border-outline-variant rounded-xl hover:border-primary hover:bg-green-50 transition-all';
+    btn.querySelector('.material-symbols-outlined').className='material-symbols-outlined text-on-surface-variant text-2xl';
+  });
+  const active=document.querySelector(`[data-method="${m}"]`);
+  if(active){
+    active.className='pay-method flex flex-col items-center gap-2 p-3 border-2 border-primary rounded-xl bg-green-50 transition-all';
+    active.querySelector('.material-symbols-outlined').className='material-symbols-outlined text-primary text-2xl';
+  }
+}
+
+async function confirmPay(){
+  if(!activeBillId)return;
+  const btn=document.getElementById('confirmPayBtn');
+  btn.disabled=true; btn.innerHTML='<span class="material-symbols-outlined spin text-base">refresh</span> Processing...';
+  try{
+    await api.post(`/bills/${activeBillId}/pay`,{payment_method:selectedMethod});
+    closeModal('payModal');
+    toast('Payment successful! 🎉','success');
+    loadBills();
+  }catch(e){ toast(e.message,'error'); }
+  finally{ btn.disabled=false; btn.innerHTML=`Confirm Payment`; }
+}
+
+loadBills();
+</script>
 </body></html>

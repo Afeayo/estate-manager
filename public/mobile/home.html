@@ -1,291 +1,192 @@
 <!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<title>EstateManager Mobile</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script>tailwind.config={theme:{extend:{colors:{"primary":"#00361a","surface":"#f8fafb","surface-container-low":"#f2f4f5","surface-container":"#eceeef","outline-variant":"#c1c9bf","on-surface":"#191c1d","on-surface-variant":"#414942"}}}}</script>
+<style>
+  body{font-family:'Hanken Grotesk',sans-serif;background:#f8fafb;overscroll-behavior:none}
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;vertical-align:middle}
+  .spin{animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+  .safe-bottom{padding-bottom:env(safe-area-inset-bottom,16px)}
+  .card-swipe{transition:transform .15s ease}
+</style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen">
 
-<html class="light" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
-<title>EstateManager - Tenant Home</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "on-tertiary-fixed": "#410002",
-                        "surface-bright": "#f8fafb",
-                        "on-secondary": "#ffffff",
-                        "surface-dim": "#d8dadb",
-                        "surface-container": "#eceeef",
-                        "on-primary": "#ffffff",
-                        "secondary-fixed": "#d3e3ff",
-                        "surface-container-lowest": "#ffffff",
-                        "tertiary-fixed-dim": "#ffb4ab",
-                        "tertiary": "#630005",
-                        "inverse-primary": "#9dd3aa",
-                        "on-primary-container": "#88bd95",
-                        "surface-container-low": "#f2f4f5",
-                        "secondary": "#3f608b",
-                        "primary-fixed-dim": "#9dd3aa",
-                        "on-tertiary": "#ffffff",
-                        "on-surface-variant": "#414942",
-                        "error": "#ba1a1a",
-                        "primary-fixed": "#b8f0c5",
-                        "inverse-on-surface": "#eff1f2",
-                        "on-primary-fixed": "#00210e",
-                        "on-secondary-fixed": "#001c39",
-                        "on-secondary-container": "#365882",
-                        "outline-variant": "#c1c9bf",
-                        "surface-tint": "#366847",
-                        "secondary-fixed-dim": "#a7c9f9",
-                        "primary": "#00361a",
-                        "tertiary-fixed": "#ffdad6",
-                        "background": "#f8fafb",
-                        "surface-variant": "#e1e3e4",
-                        "on-error": "#ffffff",
-                        "on-tertiary-container": "#ff9288",
-                        "error-container": "#ffdad6",
-                        "on-surface": "#191c1d",
-                        "surface-container-highest": "#e1e3e4",
-                        "on-error-container": "#93000a",
-                        "surface-container-high": "#e6e8e9",
-                        "on-secondary-fixed-variant": "#254872",
-                        "tertiary-container": "#8d000c",
-                        "primary-container": "#1a4d2e",
-                        "surface": "#f8fafb",
-                        "inverse-surface": "#2e3132",
-                        "on-primary-fixed-variant": "#1d5031",
-                        "on-tertiary-fixed-variant": "#93000d",
-                        "outline": "#717971",
-                        "on-background": "#191c1d",
-                        "secondary-container": "#adceff"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-                    "spacing": {
-                        "md": "16px",
-                        "xl": "32px",
-                        "margin-mobile": "16px",
-                        "base": "4px",
-                        "gutter": "20px",
-                        "xs": "4px",
-                        "margin-desktop": "32px",
-                        "sm": "8px",
-                        "lg": "24px"
-                    },
-                    "fontFamily": {
-                        "body-md": ["Hanken Grotesk"],
-                        "headline-sm": ["Hanken Grotesk"],
-                        "headline-lg-mobile": ["Hanken Grotesk"],
-                        "body-lg": ["Hanken Grotesk"],
-                        "headline-md": ["Hanken Grotesk"],
-                        "display-lg": ["Hanken Grotesk"],
-                        "label-md": ["Hanken Grotesk"],
-                        "label-sm": ["Hanken Grotesk"]
-                    },
-                    "fontSize": {
-                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
-                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
-                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
-                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
-                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
-                        "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
-                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500"}],
-                        "label-sm": ["11px", {"lineHeight": "14px", "fontWeight": "600"}]
-                    }
-                },
-            },
-        }
-    </script>
-<style>
-        body {
-            font-family: 'Hanken Grotesk', sans-serif;
-            background-color: #F8FAFB;
-        }
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
-        .bento-item {
-            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        .bento-item:active {
-            transform: scale(0.97);
-        }
-    </style>
-<style>
-    body {
-      min-height: max(884px, 100dvh);
-    }
-  </style>
-  </head>
-<body class="bg-background text-on-surface">
-<!-- TopAppBar -->
-<header class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16 bg-surface dark:bg-on-background border-b border-outline-variant dark:border-outline shadow-sm fixed top-0 z-40">
-<div class="flex items-center gap-3">
-<div class="w-10 h-10 rounded-full bg-secondary-container overflow-hidden border-2 border-primary/10">
-<img alt="User profile photo" class="w-full h-full object-cover" data-alt="A professional headshot of a smiling young man with a warm, friendly expression, set against a clean, softly lit interior background. The lighting is bright and natural, reflecting a high-end light-mode corporate aesthetic. The overall mood is welcoming and secure, aligning with a premium property management application." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDS4RsL_52XYdXUbCZPbupiJimp961qn5Gtr80ho1G3Jm4aKdWk6o6a7hXk9tQA-hH1b829Jy6-tbTia_ft_a6ggxmHZrEVMt4MRGKDcSIHpBEcYP2z--nav9D5jljlGHFLF1HXypVgMJFokmoGJcE5EqZ-ZLkNicQ5_vpfRuH1FOihcGRdhdrlHEPxu40c9HE2_GrZWH6eSSnKJBcWC0OgaYQ1aWMHgs6PdzYDBNP3U__Gp_n_3tLT_xfZumFKcwhK-nJWUm_OhL0"/>
+<!-- Status Bar Spacer -->
+<div class="h-10 bg-primary"></div>
+
+<!-- Header -->
+<div class="bg-primary text-white px-5 pb-6 pt-2 relative overflow-hidden">
+  <div class="absolute right-0 top-0 w-32 h-32 rounded-full bg-white/5 -translate-y-1/2 translate-x-1/4"></div>
+  <div class="flex items-center justify-between mb-4">
+    <div class="flex items-center gap-3">
+      <div id="mobileAvatar" class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white font-bold text-lg">T</div>
+      <div>
+        <p class="text-green-200 text-xs">Welcome back,</p>
+        <p id="mobileName" class="font-bold text-lg leading-tight">Resident</p>
+      </div>
+    </div>
+    <a href="/tenant/notifications.html" class="relative p-2">
+      <span class="material-symbols-outlined text-white">notifications</span>
+      <span id="notifDot" class="hidden absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-red-400 rounded-full border border-primary"></span>
+    </a>
+  </div>
+  <!-- Unit Card -->
+  <div class="bg-white/10 backdrop-blur rounded-2xl p-4">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-green-200 text-xs">Your Unit</p>
+        <p id="mobileUnit" class="font-bold text-xl">Loading...</p>
+        <p id="mobileBlock" class="text-green-200 text-sm">—</p>
+      </div>
+      <div class="text-right">
+        <p class="text-green-200 text-xs">Monthly Rent</p>
+        <p id="mobileRent" class="font-bold text-lg">—</p>
+        <p class="text-green-200 text-xs mt-0.5">Lease expires</p>
+        <p id="mobileLeaseEnd" class="text-sm font-semibold">—</p>
+      </div>
+    </div>
+  </div>
 </div>
-<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">EstateManager</span>
+
+<!-- Quick Action Buttons -->
+<div class="px-4 -mt-4">
+  <div class="bg-white rounded-2xl shadow-lg p-4 grid grid-cols-4 gap-3">
+    <a href="/tenant/bills.html" class="flex flex-col items-center gap-1.5">
+      <div class="w-12 h-12 rounded-xl bg-green-50 flex items-center justify-center"><span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings:'FILL' 1">receipt_long</span></div>
+      <span class="text-xs font-medium text-center text-on-surface-variant leading-tight">Pay Bills</span>
+    </a>
+    <a href="/tenant/support.html" class="flex flex-col items-center gap-1.5">
+      <div class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center"><span class="material-symbols-outlined text-blue-600 text-xl" style="font-variation-settings:'FILL' 1">support_agent</span></div>
+      <span class="text-xs font-medium text-center text-on-surface-variant leading-tight">Support</span>
+    </a>
+    <a href="/tenant/access.html" class="flex flex-col items-center gap-1.5">
+      <div class="w-12 h-12 rounded-xl bg-purple-50 flex items-center justify-center"><span class="material-symbols-outlined text-purple-600 text-xl" style="font-variation-settings:'FILL' 1">key</span></div>
+      <span class="text-xs font-medium text-center text-on-surface-variant leading-tight">Access</span>
+    </a>
+    <a href="/tenant/notifications.html" class="flex flex-col items-center gap-1.5">
+      <div class="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center relative"><span class="material-symbols-outlined text-orange-600 text-xl" style="font-variation-settings:'FILL' 1">notifications</span><span id="qaDot" class="hidden absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border border-white"></span></div>
+      <span class="text-xs font-medium text-center text-on-surface-variant leading-tight">Alerts</span>
+    </a>
+  </div>
 </div>
-<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors active:scale-95 duration-150">
-<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
-</button>
-</header>
-<main class="pt-20 pb-28 px-margin-mobile">
-<!-- Greeting Section -->
-<section class="mb-lg">
-<h1 class="font-display-lg text-display-lg text-primary">Hello, Tosin</h1>
-<p class="font-body-md text-body-md text-on-surface-variant">Welcome back to Green Gardens Estate.</p>
-</section>
-<!-- Bento Grid Layout -->
-<div class="grid grid-cols-1 gap-md">
-<!-- Virtual Entry Pass (Hero/Glassmorphism) -->
-<div class="bento-item relative overflow-hidden rounded-xl h-48 bg-primary text-on-primary shadow-lg p-lg flex flex-col justify-between">
-<div class="absolute top-[-20px] right-[-20px] w-40 h-40 bg-on-primary-container/20 rounded-full blur-3xl"></div>
-<div class="flex justify-between items-start z-10">
-<div>
-<p class="font-label-sm text-label-sm uppercase tracking-wider opacity-80">Virtual Entry Pass</p>
-<h2 class="font-headline-sm text-headline-sm mt-xs">Tower A • Unit 402</h2>
+
+<!-- Pending Bills Alert -->
+<div id="billAlert" class="hidden mx-4 mt-4 bg-red-50 border border-red-200 rounded-2xl p-4">
+  <div class="flex items-start gap-3">
+    <span class="material-symbols-outlined text-red-500 mt-0.5" style="font-variation-settings:'FILL' 1">error</span>
+    <div class="flex-1">
+      <p class="text-sm font-bold text-red-700">Payment Required</p>
+      <p id="billAlertMsg" class="text-xs text-red-600 mt-0.5">You have outstanding bills</p>
+    </div>
+    <a href="/tenant/bills.html" class="shrink-0 px-3 py-1.5 bg-red-600 text-white rounded-lg text-xs font-semibold">Pay Now</a>
+  </div>
 </div>
-<span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">qr_code_2</span>
+
+<!-- Recent Bills -->
+<div class="mx-4 mt-4">
+  <div class="flex items-center justify-between mb-3">
+    <h3 class="font-bold text-sm">Upcoming Bills</h3>
+    <a href="/tenant/bills.html" class="text-xs text-primary font-semibold">View all →</a>
+  </div>
+  <div id="mobileBills" class="space-y-2">
+    <div class="flex justify-center py-6"><span class="material-symbols-outlined spin text-on-surface-variant">refresh</span></div>
+  </div>
 </div>
-<div class="flex items-end justify-between z-10">
-<div class="bg-white/10 backdrop-blur-md px-md py-sm rounded-lg border border-white/20">
-<p class="font-label-sm text-label-sm">TAP TO ENLARGE</p>
+
+<!-- Active Complaints -->
+<div class="mx-4 mt-5">
+  <div class="flex items-center justify-between mb-3">
+    <h3 class="font-bold text-sm">Active Requests</h3>
+    <a href="/tenant/support.html" class="text-xs text-primary font-semibold">View all →</a>
+  </div>
+  <div id="mobileComplaints" class="space-y-2">
+    <div class="flex justify-center py-6"><span class="material-symbols-outlined spin text-on-surface-variant">refresh</span></div>
+  </div>
 </div>
-<span class="material-symbols-outlined animate-pulse text-on-primary-container">sensors</span>
+
+<!-- Announcements -->
+<div class="mx-4 mt-5 mb-24">
+  <h3 class="font-bold text-sm mb-3">Announcements</h3>
+  <div id="mobileAnnouncements" class="space-y-2">
+    <div class="flex justify-center py-6"><span class="material-symbols-outlined spin text-on-surface-variant">refresh</span></div>
+  </div>
 </div>
-</div>
-<!-- Bill Summary Widget -->
-<div class="bento-item rounded-xl bg-white border border-outline-variant shadow-sm p-lg">
-<div class="flex items-center gap-md mb-md">
-<div class="w-10 h-10 rounded-lg bg-error-container/20 flex items-center justify-center">
-<span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">receipt_long</span>
-</div>
-<div>
-<p class="font-label-sm text-label-sm text-on-surface-variant">Next Bill Due</p>
-<p class="font-headline-sm text-headline-sm text-on-surface">₦ 145,200.00</p>
-</div>
-</div>
-<div class="flex items-center justify-between border-t border-outline-variant pt-md">
-<div class="flex flex-col">
-<span class="font-label-sm text-label-sm text-on-surface-variant">Due Date</span>
-<span class="font-body-md text-body-md font-semibold text-error">Oct 15, 2023</span>
-</div>
-<button class="bg-primary text-on-primary px-lg py-sm rounded-full font-label-sm text-label-sm font-bold shadow-sm hover:brightness-110 active:scale-95 transition-all">
-                        Pay Now
-                    </button>
-</div>
-</div>
-<!-- Recent Activity Feed -->
-<div class="bento-item rounded-xl bg-white border border-outline-variant shadow-sm p-lg">
-<div class="flex justify-between items-center mb-lg">
-<h3 class="font-headline-sm text-headline-sm text-on-surface">Recent Activity</h3>
-<span class="font-label-md text-label-md text-secondary cursor-pointer">View All</span>
-</div>
-<div class="space-y-lg relative">
-<!-- Vertical Timeline Line -->
-<div class="absolute left-[11px] top-2 bottom-2 w-[2px] bg-surface-container-highest"></div>
-<!-- Activity Item 1 -->
-<div class="flex gap-lg relative z-10">
-<div class="w-6 h-6 rounded-full bg-primary-container flex items-center justify-center ring-4 ring-white">
-<span class="material-symbols-outlined text-[14px] text-on-primary-container" style="font-variation-settings: 'FILL' 1;">package_2</span>
-</div>
-<div class="flex-1">
-<div class="flex justify-between">
-<p class="font-body-md text-body-md font-semibold text-on-surface">Package Delivered</p>
-<span class="font-label-sm text-label-sm text-on-surface-variant">2h ago</span>
-</div>
-<p class="font-label-md text-label-md text-on-surface-variant">Amazon delivery at front desk</p>
-</div>
-</div>
-<!-- Activity Item 2 -->
-<div class="flex gap-lg relative z-10">
-<div class="w-6 h-6 rounded-full bg-secondary-container flex items-center justify-center ring-4 ring-white">
-<span class="material-symbols-outlined text-[14px] text-on-secondary-container" style="font-variation-settings: 'FILL' 1;">campaign</span>
-</div>
-<div class="flex-1">
-<div class="flex justify-between">
-<p class="font-body-md text-body-md font-semibold text-on-surface">Elevator Maintenance</p>
-<span class="font-label-sm text-label-sm text-on-surface-variant">5h ago</span>
-</div>
-<p class="font-label-md text-label-md text-on-surface-variant">Tower A elevator service tomorrow 9AM-11AM</p>
-</div>
-</div>
-<!-- Activity Item 3 -->
-<div class="flex gap-lg relative z-10">
-<div class="w-6 h-6 rounded-full bg-surface-container-highest flex items-center justify-center ring-4 ring-white">
-<span class="material-symbols-outlined text-[14px] text-on-surface-variant" style="font-variation-settings: 'FILL' 1;">login</span>
-</div>
-<div class="flex-1">
-<div class="flex justify-between">
-<p class="font-body-md text-body-md font-semibold text-on-surface">Visitor Entry</p>
-<span class="font-label-sm text-label-sm text-on-surface-variant">Yesterday</span>
-</div>
-<p class="font-label-md text-label-md text-on-surface-variant">Guest 'Segun' checked in via QR code</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</main>
-<!-- BottomNavBar -->
-<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 pb-safe bg-surface dark:bg-on-background border-t border-outline-variant dark:border-outline shadow-lg rounded-t-xl">
-<!-- Home (Active) -->
-<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-full px-4 py-1 active:scale-90 transition-transform" href="#">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
-<span class="font-label-sm text-label-sm">Home</span>
-</a>
-<!-- Bills -->
-<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low active:scale-90 transition-transform" href="#">
-<span class="material-symbols-outlined">receipt_long</span>
-<span class="font-label-sm text-label-sm">Bills</span>
-</a>
-<!-- Support -->
-<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low active:scale-90 transition-transform" href="#">
-<span class="material-symbols-outlined">handyman</span>
-<span class="font-label-sm text-label-sm">Support</span>
-</a>
-<!-- Profile -->
-<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low active:scale-90 transition-transform" href="#">
-<span class="material-symbols-outlined">person</span>
-<span class="font-label-sm text-label-sm">Profile</span>
-</a>
+
+<!-- Bottom Nav -->
+<nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-outline-variant safe-bottom z-50">
+  <div class="flex items-center">
+    <a href="/mobile/home.html" class="flex-1 flex flex-col items-center pt-3 pb-2 text-primary"><span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL' 1">home</span><span class="text-xs font-semibold mt-0.5">Home</span></a>
+    <a href="/tenant/bills.html" class="flex-1 flex flex-col items-center pt-3 pb-2 text-on-surface-variant"><span class="material-symbols-outlined text-xl">receipt_long</span><span class="text-xs mt-0.5">Bills</span></a>
+    <a href="/tenant/support.html" class="flex-1 flex flex-col items-center pt-3 pb-2 text-on-surface-variant"><span class="material-symbols-outlined text-xl">support_agent</span><span class="text-xs mt-0.5">Support</span></a>
+    <a href="/tenant/access.html" class="flex-1 flex flex-col items-center pt-3 pb-2 text-on-surface-variant"><span class="material-symbols-outlined text-xl">key</span><span class="text-xs mt-0.5">Access</span></a>
+    <a href="/tenant/notifications.html" class="flex-1 flex flex-col items-center pt-3 pb-2 text-on-surface-variant relative"><span class="material-symbols-outlined text-xl">notifications</span><span id="navDot" class="hidden absolute top-2 right-4 w-2 h-2 bg-red-500 rounded-full"></span><span class="text-xs mt-0.5">Alerts</span></a>
+  </div>
 </nav>
-<!-- Floating Action Button (Quick Action: Support Request) -->
-<button class="fixed bottom-24 right-6 w-14 h-14 bg-primary text-on-primary rounded-xl shadow-lg flex items-center justify-center hover:scale-105 active:scale-90 transition-all z-40">
-<span class="material-symbols-outlined text-3xl">add</span>
-</button>
-<script>
-        // Simple micro-interaction for entry pass
-        const entryPass = document.querySelector('.bento-item:first-child');
-        entryPass.addEventListener('click', () => {
-            entryPass.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-            entryPass.classList.toggle('scale-105');
-            setTimeout(() => {
-                entryPass.classList.toggle('scale-105');
-            }, 500);
-        });
 
-        // Add visual feedback for clicking activity items
-        document.querySelectorAll('.space-y-lg > div').forEach(item => {
-            item.addEventListener('click', () => {
-                item.style.backgroundColor = 'rgba(0, 54, 26, 0.05)';
-                setTimeout(() => {
-                    item.style.backgroundColor = 'transparent';
-                }, 200);
-            });
-        });
-    </script>
+<script src="/js/api.js"></script>
+<script>
+const user = Auth.requireAuth('tenant');
+if(user){
+  document.getElementById('mobileName').textContent=user.name.split(' ')[0];
+  document.getElementById('mobileAvatar').textContent=user.name[0];
+}
+
+async function loadHome(){
+  try{
+    const d = await api.get('/dashboard/tenant');
+    const p=d.profile||{};
+    document.getElementById('mobileUnit').textContent=p.unit_number?`Unit ${p.unit_number}`:'No unit';
+    document.getElementById('mobileBlock').textContent=p.block||'';
+    document.getElementById('mobileRent').textContent=p.monthly_rent?fmt.money(p.monthly_rent):'—';
+    document.getElementById('mobileLeaseEnd').textContent=fmt.date(p.end_date)||'—';
+
+    const unread=(d.notifications||[]).filter(n=>!n.is_read).length;
+    if(unread>0){['notifDot','qaDot','navDot'].forEach(id=>document.getElementById(id)?.classList.remove('hidden'));}
+
+    const overdue=(d.pendingBills||[]).filter(b=>b.status==='overdue');
+    const pending=(d.pendingBills||[]).filter(b=>b.status==='pending');
+    if(overdue.length||pending.length){
+      document.getElementById('billAlert').classList.remove('hidden');
+      document.getElementById('billAlertMsg').textContent=`${overdue.length} overdue + ${pending.length} pending — Total ${fmt.money((d.billSummary?.pending||0)+(d.billSummary?.overdue||0))}`;
+    }
+
+    // Bills list
+    const billColors={pending:'bg-yellow-50 border-yellow-200',overdue:'bg-red-50 border-red-200'};
+    document.getElementById('mobileBills').innerHTML=(d.pendingBills||[]).slice(0,3).map(b=>`
+      <a href="/tenant/bills.html" class="flex items-center justify-between bg-white border ${billColors[b.status]||'border-outline-variant'} rounded-xl p-3.5 shadow-sm active:scale-95 transition-transform">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-lg bg-surface-container-low flex items-center justify-center"><span class="material-symbols-outlined text-on-surface-variant text-base" style="font-variation-settings:'FILL' 1">receipt</span></div>
+          <div><p class="text-sm font-semibold leading-tight">${b.title}</p><p class="text-xs text-on-surface-variant">Due ${fmt.date(b.due_date)}</p></div>
+        </div>
+        <div class="text-right"><p class="font-bold">${fmt.money(b.amount)}</p><span class="text-xs ${b.status==='overdue'?'text-red-600 font-semibold':'text-yellow-600'}">${b.status}</span></div>
+      </a>`).join('')||(d.pendingBills?.length===0?'<div class="bg-white border border-outline-variant rounded-xl p-4 text-center text-sm text-on-surface-variant flex items-center justify-center gap-2"><span class="material-symbols-outlined text-green-500 text-xl" style="font-variation-settings:\'FILL\' 1">check_circle</span>All bills are clear!</div>':'');
+
+    // Complaints
+    const statColor={open:'text-blue-600',in_progress:'text-orange-600',resolved:'text-green-600'};
+    const active=(d.recentComplaints||[]).filter(c=>c.status!=='resolved'&&c.status!=='closed');
+    document.getElementById('mobileComplaints').innerHTML=active.slice(0,3).map(c=>`
+      <a href="/tenant/support.html" class="flex items-center gap-3 bg-white border border-outline-variant rounded-xl p-3.5 shadow-sm active:scale-95 transition-transform">
+        <div class="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center"><span class="material-symbols-outlined text-blue-500 text-base" style="font-variation-settings:'FILL' 1">build_circle</span></div>
+        <div class="flex-1 min-w-0"><p class="text-sm font-semibold truncate">${c.title}</p><p class="text-xs ${statColor[c.status]||'text-on-surface-variant'} capitalize font-medium">${c.status.replace('_',' ')}</p></div>
+        <span class="material-symbols-outlined text-on-surface-variant text-base">chevron_right</span>
+      </a>`).join('')||'<div class="bg-white border border-outline-variant rounded-xl p-4 text-center text-sm text-on-surface-variant">No active requests</div>';
+
+    // Announcements
+    const ann = await api.get('/announcements');
+    const aColor={general:'bg-blue-50 border-blue-100',maintenance:'bg-orange-50 border-orange-100',event:'bg-purple-50 border-purple-100',emergency:'bg-red-50 border-red-100'};
+    document.getElementById('mobileAnnouncements').innerHTML=(ann||[]).slice(0,3).map(a=>`
+      <div class="border rounded-xl p-3.5 ${aColor[a.type]||'bg-gray-50 border-gray-200'}">
+        <p class="text-sm font-bold">${a.title}</p>
+        <p class="text-xs mt-1 text-on-surface-variant leading-relaxed">${a.content.length>100?a.content.substring(0,100)+'...':a.content}</p>
+        <p class="text-xs text-on-surface-variant mt-2">${fmt.ago(a.created_at)}</p>
+      </div>`).join('')||'<div class="bg-white border border-outline-variant rounded-xl p-4 text-center text-sm text-on-surface-variant">No announcements</div>';
+  }catch(e){ console.error(e); }
+}
+loadHome();
+</script>
 </body></html>

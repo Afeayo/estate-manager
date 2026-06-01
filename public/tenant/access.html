@@ -1,329 +1,206 @@
 <!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Access & Visitors — EstateManager</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script>tailwind.config={theme:{extend:{colors:{"primary":"#00361a","surface":"#f8fafb","surface-container-lowest":"#fff","surface-container-low":"#f2f4f5","surface-container":"#eceeef","surface-container-high":"#e6e8e9","outline-variant":"#c1c9bf","on-surface":"#191c1d","on-surface-variant":"#414942"}}}}</script>
+<style>body{font-family:'Hanken Grotesk',sans-serif;background:#f8fafb}.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;vertical-align:middle}.spin{animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.code-display{letter-spacing:.3em;font-family:monospace}</style>
+</head>
+<body class="text-on-surface pb-20 md:pb-0">
+<div class="flex h-screen overflow-hidden">
+<aside class="hidden md:flex flex-col w-64 bg-white border-r border-outline-variant py-6 px-4 shrink-0">
+  <div class="mb-8 px-2"><h1 class="text-xl font-bold text-primary">EstateManager</h1><p class="text-xs text-on-surface-variant">Tenant Portal</p></div>
+  <nav class="flex-1 space-y-1">
+    <a href="/tenant/dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">home</span>Home</a>
+    <a href="/tenant/bills.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">receipt_long</span>Bills & Payments</a>
+    <a href="/tenant/support.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">support_agent</span>Support & Complaints</a>
+    <a href="/tenant/access.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-primary font-semibold bg-green-50 border-r-4 border-primary"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">key</span>Access & Visitors</a>
+    <a href="/tenant/notifications.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">notifications</span>Notifications</a>
+  </nav>
+  <div class="border-t border-outline-variant pt-4"><div class="flex items-center gap-3 px-2"><div id="sidebarAvatar" class="w-9 h-9 rounded-full bg-primary flex items-center justify-center text-white text-sm font-bold">T</div><div><p id="sidebarName" class="text-sm font-bold">Tenant</p><p class="text-xs text-on-surface-variant">Resident</p></div></div><button onclick="Auth.logout()" class="mt-3 w-full flex items-center gap-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors"><span class="material-symbols-outlined text-base">logout</span>Logout</button></div>
+</aside>
+<div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+  <header class="flex items-center justify-between h-14 px-4 md:px-6 bg-white border-b border-outline-variant shrink-0">
+    <div class="flex items-center gap-3"><a href="/tenant/dashboard.html" class="md:hidden p-1.5 rounded-lg hover:bg-surface-container"><span class="material-symbols-outlined">arrow_back</span></a><h2 class="font-semibold">Access & Visitors</h2></div>
+  </header>
+  <main class="flex-1 overflow-y-auto p-4 md:p-6 space-y-5">
+    <!-- NFC Card Display -->
+    <div id="cardDisplay">
+      <div class="flex justify-center py-6"><span class="material-symbols-outlined spin text-2xl text-on-surface-variant">refresh</span></div>
+    </div>
 
-<html class="light" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
-<title>EstateManager - Access Card Management</title>
-<!-- Material Symbols -->
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<!-- Typography: Hanken Grotesk -->
-<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<script id="tailwind-config">
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          "colors": {
-                  "on-tertiary-fixed": "#410002",
-                  "surface-bright": "#f8fafb",
-                  "on-secondary": "#ffffff",
-                  "surface-dim": "#d8dadb",
-                  "surface-container": "#eceeef",
-                  "on-primary": "#ffffff",
-                  "secondary-fixed": "#d3e3ff",
-                  "surface-container-lowest": "#ffffff",
-                  "tertiary-fixed-dim": "#ffb4ab",
-                  "tertiary": "#630005",
-                  "inverse-primary": "#9dd3aa",
-                  "on-primary-container": "#88bd95",
-                  "surface-container-low": "#f2f4f5",
-                  "secondary": "#3f608b",
-                  "primary-fixed-dim": "#9dd3aa",
-                  "on-tertiary": "#ffffff",
-                  "on-surface-variant": "#414942",
-                  "error": "#ba1a1a",
-                  "primary-fixed": "#b8f0c5",
-                  "inverse-on-surface": "#eff1f2",
-                  "on-primary-fixed": "#00210e",
-                  "on-secondary-fixed": "#001c39",
-                  "on-secondary-container": "#365882",
-                  "outline-variant": "#c1c9bf",
-                  "surface-tint": "#366847",
-                  "secondary-fixed-dim": "#a7c9f9",
-                  "primary": "#00361a",
-                  "tertiary-fixed": "#ffdad6",
-                  "background": "#f8fafb",
-                  "surface-variant": "#e1e3e4",
-                  "on-error": "#ffffff",
-                  "on-tertiary-container": "#ff9288",
-                  "error-container": "#ffdad6",
-                  "on-surface": "#191c1d",
-                  "surface-container-highest": "#e1e3e4",
-                  "on-error-container": "#93000a",
-                  "surface-container-high": "#e6e8e9",
-                  "on-secondary-fixed-variant": "#254872",
-                  "tertiary-container": "#8d000c",
-                  "primary-container": "#1a4d2e",
-                  "surface": "#f8fafb",
-                  "inverse-surface": "#2e3132",
-                  "on-primary-fixed-variant": "#1d5031",
-                  "on-tertiary-fixed-variant": "#93000d",
-                  "outline": "#717971",
-                  "on-background": "#191c1d",
-                  "secondary-container": "#adceff"
-          },
-          "borderRadius": {
-                  "DEFAULT": "0.25rem",
-                  "lg": "0.5rem",
-                  "xl": "0.75rem",
-                  "full": "9999px"
-          },
-          "spacing": {
-                  "md": "16px",
-                  "xl": "32px",
-                  "margin-mobile": "16px",
-                  "base": "4px",
-                  "gutter": "20px",
-                  "xs": "4px",
-                  "margin-desktop": "32px",
-                  "sm": "8px",
-                  "lg": "24px"
-          },
-          "fontFamily": {
-                  "body-md": ["Hanken Grotesk"],
-                  "headline-sm": ["Hanken Grotesk"],
-                  "headline-lg-mobile": ["Hanken Grotesk"],
-                  "body-lg": ["Hanken Grotesk"],
-                  "headline-md": ["Hanken Grotesk"],
-                  "display-lg": ["Hanken Grotesk"],
-                  "label-md": ["Hanken Grotesk"],
-                  "label-sm": ["Hanken Grotesk"]
-          },
-          "fontSize": {
-                  "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
-                  "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
-                  "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
-                  "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
-                  "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
-                  "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
-                  "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500"}],
-                  "label-sm": ["11px", {"lineHeight": "14px", "fontWeight": "600"}]
-          }
-        }
-      }
-    }
-  </script>
-<style>
-    body { font-family: 'Hanken Grotesk', sans-serif; }
-    .material-symbols-outlined {
-      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-    }
-    .virtual-key-active {
-      box-shadow: 0 0 40px rgba(136, 189, 149, 0.4);
-    }
-    @keyframes pulse-ring {
-      0% { transform: scale(0.95); opacity: 0.8; }
-      50% { transform: scale(1.05); opacity: 0.4; }
-      100% { transform: scale(0.95); opacity: 0.8; }
-    }
-    .pulse-effect { animation: pulse-ring 3s infinite ease-in-out; }
-  </style>
-<style>
-    body {
-      min-height: max(884px, 100dvh);
-    }
-  </style>
-  </head>
-<body class="bg-surface text-on-surface min-h-screen pb-24">
-<!-- TopAppBar -->
-<header class="bg-surface dark:bg-on-background docked full-width top-0 border-b border-outline-variant dark:border-outline shadow-sm flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16 sticky z-50">
-<div class="flex items-center gap-md">
-<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center overflow-hidden">
-<img alt="User profile photo" class="w-full h-full object-cover" data-alt="A clean, professional headshot of a friendly individual with soft studio lighting. The background is a neutral, light gray consistent with a modern corporate aesthetic. The focus is sharp on the person's face, conveying reliability and trustworthiness within a high-end property management context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-vmcseqIvFf9RQ2GLU_N-kSbI51cqu5V3geCFwoalmHpNguVgvM9xoa-9eDOzfPi5V48FBods08h60xvjXgqRO926IBiQN_zDZFoF2eqKRMGSqaz1gWVbTatcY1I26FZxsXz6LC_5YOSNTPPOvm1lWw7IeNvZfvA7G6O_FKcclhpeAAUIjg2DOwDLEUMURW1-1rHBbWXxoEnkDOVos9Mm-hhujjEdVCk-Kq_lb9MnKXGqzN2uo-oA7RpsNofaDg3DwbfLq9i-OoI"/>
-</div>
-<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">EstateManager</h1>
-</div>
-<div class="p-2 rounded-full hover:bg-surface-container transition-colors active:scale-95 duration-150 cursor-pointer">
-<span class="material-symbols-outlined text-primary dark:text-primary-fixed" data-icon="notifications">notifications</span>
-</div>
-</header>
-<main class="px-margin-mobile pt-lg space-y-lg max-w-md mx-auto">
-<!-- Hero / Virtual Key Section -->
-<section class="flex flex-col items-center justify-center py-xl bg-surface-container-low rounded-xl border border-outline-variant/30">
-<div class="text-center mb-lg">
-<h2 class="font-headline-sm text-headline-sm text-on-surface">Secure Access</h2>
-<p class="font-body-md text-body-md text-on-surface-variant">Tap to unlock main entrance</p>
-</div>
-<!-- Large Virtual Key Button -->
-<div class="relative group cursor-pointer active:scale-95 transition-transform duration-200" id="virtual-key-container">
-<div class="absolute inset-0 bg-primary-container/20 rounded-full pulse-effect" id="key-ring"></div>
-<button class="relative z-10 w-48 h-48 rounded-full bg-primary flex flex-col items-center justify-center shadow-lg border-4 border-primary-fixed-dim/20" id="virtual-key">
-<span class="material-symbols-outlined text-white text-6xl mb-2" data-icon="lock_open">lock_open</span>
-<span class="font-label-sm text-label-sm text-white tracking-widest uppercase">Hold to Open</span>
-</button>
-</div>
-<div class="mt-lg hidden" id="unlock-status">
-<div class="flex items-center gap-xs text-on-primary-fixed-variant bg-primary-fixed px-md py-sm rounded-full">
-<span class="material-symbols-outlined text-[18px]" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-<span class="font-label-md text-label-md">Entrance Unlocked</span>
+    <!-- Visitor Codes -->
+    <div class="bg-white rounded-xl border border-outline-variant shadow-sm overflow-hidden">
+      <div class="flex items-center justify-between px-5 py-4 border-b border-outline-variant">
+        <h3 class="font-semibold flex items-center gap-2"><span class="material-symbols-outlined text-primary" style="font-variation-settings:'FILL' 1">person_add</span>Visitor Codes</h3>
+        <button onclick="openModal('newCodeModal')" class="flex items-center gap-1.5 px-3 py-1.5 bg-primary text-white rounded-lg text-sm font-semibold hover:brightness-110">
+          <span class="material-symbols-outlined text-base">add</span>Generate Code
+        </button>
+      </div>
+      <div id="visitorCodesList" class="p-4 space-y-3">
+        <div class="flex justify-center py-6"><span class="material-symbols-outlined spin text-2xl text-on-surface-variant">refresh</span></div>
+      </div>
+    </div>
+
+    <!-- Access History -->
+    <div class="bg-white rounded-xl border border-outline-variant shadow-sm overflow-hidden">
+      <div class="px-5 py-4 border-b border-outline-variant"><h3 class="font-semibold flex items-center gap-2"><span class="material-symbols-outlined text-on-surface-variant">history</span>Access History</h3></div>
+      <div id="accessHistory" class="divide-y divide-outline-variant">
+        <div class="flex justify-center py-6"><span class="material-symbols-outlined spin text-2xl text-on-surface-variant">refresh</span></div>
+      </div>
+    </div>
+  </main>
 </div>
 </div>
-</section>
-<!-- Guest Access Section -->
-<section class="space-y-md">
-<div class="flex justify-between items-center">
-<h3 class="font-headline-sm text-headline-sm">Guest Access</h3>
-<button class="text-primary font-label-md text-label-md flex items-center gap-xs">
-          View History
-          <span class="material-symbols-outlined text-[16px]" data-icon="arrow_forward">arrow_forward</span>
-</button>
-</div>
-<div class="grid grid-cols-1 gap-md">
-<!-- Generate Code Card -->
-<div class="bg-white p-md rounded-xl border border-outline-variant shadow-sm flex items-center justify-between hover:bg-surface-container-low transition-colors cursor-pointer" onclick="toggleCodeDisplay()">
-<div class="flex items-center gap-md">
-<div class="w-12 h-12 rounded-lg bg-secondary-container flex items-center justify-center">
-<span class="material-symbols-outlined text-on-secondary-container" data-icon="qr_code_2">qr_code_2</span>
-</div>
-<div>
-<p class="font-body-lg text-body-lg font-semibold text-on-surface">Generate Guest Pass</p>
-<p class="font-body-md text-body-md text-on-surface-variant">Create a temporary QR or PIN</p>
-</div>
-</div>
-<span class="material-symbols-outlined text-on-surface-variant" data-icon="chevron_right">chevron_right</span>
-</div>
-<!-- Code/QR Display (Hidden by default) -->
-<div class="hidden bg-surface-container-lowest p-lg rounded-xl border-2 border-dashed border-outline-variant text-center space-y-md animate-in fade-in slide-in-from-top-4 duration-300" id="code-display">
-<div class="flex justify-center">
-<div class="w-32 h-32 bg-white p-2 border border-outline-variant rounded-lg">
-<img alt="Guest Access QR Code" class="w-full h-full grayscale opacity-80" data-alt="A clean, high-contrast QR code rendered in a minimalist style on a white square background. The image represents a digital security pass within a modern property management application. The lighting is flat and clear, emphasizing the functional and secure nature of the digital token." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfELx_bM70XjnwH7L7oI63BwPSSpzBs2lOb-9kCDqAaMtB89YXfewnYXtFgKXDySa9jYzhRqLQ1RjmdH1yGx0ZWoouKmfSnO8NDpdK51trdzm3kl78VGfHLVms1qYwtCv_7yvp7jpX5aES6GYlGLhgfhIkg3PWvli98ktL8i--3DrrxgdAmOWFW-six-g8pHYAl8U7U-IhUk6DmcUEd4iiZunaPBKjHaSDHf2BwX0Y2VXcK7teLIxIDHlrdtOeKUK7kNUgKqVG83c"/>
-</div>
-</div>
-<div>
-<p class="font-label-sm text-label-sm text-on-surface-variant uppercase">Your Temporary PIN</p>
-<p class="font-display-lg text-display-lg text-primary tracking-[0.5em] font-bold">4920</p>
-</div>
-<p class="font-body-md text-body-md text-on-surface-variant italic">Expires in 2 hours</p>
-<button class="w-full bg-secondary-container text-on-secondary-container py-md rounded-lg font-label-md text-label-md">Share Access Link</button>
-</div>
-</div>
-</section>
-<!-- Physical Card Management -->
-<section class="space-y-md">
-<h3 class="font-headline-sm text-headline-sm">Physical Card</h3>
-<div class="bg-primary-container text-on-primary-container p-lg rounded-xl shadow-sm relative overflow-hidden">
-<!-- Visual "Card" pattern background -->
-<div class="absolute -right-8 -top-8 w-32 h-32 bg-white/10 rounded-full"></div>
-<div class="absolute -left-4 -bottom-4 w-24 h-24 bg-white/5 rounded-full"></div>
-<div class="relative z-10 space-y-lg">
-<div class="flex justify-between items-start">
-<div class="flex flex-col">
-<span class="font-label-sm text-label-sm opacity-80">ACTIVE CARD</span>
-<span class="font-headline-sm text-headline-sm font-bold">**** 8842</span>
-</div>
-<span class="material-symbols-outlined text-3xl" data-icon="contactless">contactless</span>
-</div>
-<div class="flex justify-between items-end">
-<span class="font-body-md text-body-md">Johnathan Tenant</span>
-<span class="font-label-sm text-label-sm bg-white/20 px-sm py-xs rounded">MEMBER</span>
-</div>
-</div>
-</div>
-<div class="grid grid-cols-2 gap-md">
-<button class="bg-white border border-outline-variant p-md rounded-xl flex flex-col items-center gap-sm active:scale-95 transition-transform">
-<span class="material-symbols-outlined text-error" data-icon="report">report</span>
-<span class="font-label-md text-label-md text-on-surface">Report Lost</span>
-</button>
-<button class="bg-white border border-outline-variant p-md rounded-xl flex flex-col items-center gap-sm active:scale-95 transition-transform">
-<span class="material-symbols-outlined text-primary" data-icon="credit_card">credit_card</span>
-<span class="font-label-md text-label-md text-on-surface">Replacement</span>
-</button>
-</div>
-</section>
-<!-- Security Tips -->
-<section class="bg-surface-container p-md rounded-xl flex gap-md items-start">
-<span class="material-symbols-outlined text-on-surface-variant" data-icon="info">info</span>
-<p class="font-body-md text-body-md text-on-surface-variant">
-        Never share your personal access code. Guest codes are one-time use only and expire automatically.
-      </p>
-</section>
-</main>
-<!-- BottomNavBar -->
-<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 pb-safe bg-surface dark:bg-on-background border-t border-outline-variant dark:border-outline shadow-lg md:hidden">
-<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low transition-colors active:scale-90 duration-150 p-2 cursor-pointer">
-<span class="material-symbols-outlined" data-icon="home">home</span>
-<span class="font-label-sm text-label-sm">Home</span>
-</div>
-<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low transition-colors active:scale-90 duration-150 p-2 cursor-pointer">
-<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
-<span class="font-label-sm text-label-sm">Bills</span>
-</div>
-<div class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-full px-4 py-1 active:scale-90 transition-transform cursor-pointer">
-<span class="material-symbols-outlined" data-icon="handyman" style="font-variation-settings: 'FILL' 1;">handyman</span>
-<span class="font-label-sm text-label-sm">Support</span>
-</div>
-<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low transition-colors active:scale-90 duration-150 p-2 cursor-pointer">
-<span class="material-symbols-outlined" data-icon="person">person</span>
-<span class="font-label-sm text-label-sm">Profile</span>
-</div>
+<!-- Bottom Nav -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-outline-variant flex items-center z-50">
+  <a href="/tenant/dashboard.html" class="flex-1 flex flex-col items-center py-3 text-on-surface-variant"><span class="material-symbols-outlined text-xl">home</span><span class="text-xs mt-0.5">Home</span></a>
+  <a href="/tenant/bills.html" class="flex-1 flex flex-col items-center py-3 text-on-surface-variant"><span class="material-symbols-outlined text-xl">receipt_long</span><span class="text-xs mt-0.5">Bills</span></a>
+  <a href="/tenant/support.html" class="flex-1 flex flex-col items-center py-3 text-on-surface-variant"><span class="material-symbols-outlined text-xl">support_agent</span><span class="text-xs mt-0.5">Support</span></a>
+  <a href="/tenant/access.html" class="flex-1 flex flex-col items-center py-3 text-primary"><span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL' 1">key</span><span class="text-xs font-semibold mt-0.5">Access</span></a>
+  <a href="/tenant/notifications.html" class="flex-1 flex flex-col items-center py-3 text-on-surface-variant"><span class="material-symbols-outlined text-xl">notifications</span><span class="text-xs mt-0.5">Alerts</span></a>
 </nav>
+
+<!-- Generate Visitor Code Modal -->
+<div id="newCodeModal" class="hidden fixed inset-0 bg-black/40 z-50 items-end sm:items-center justify-center">
+  <div class="bg-white rounded-t-3xl sm:rounded-2xl w-full sm:max-w-sm shadow-2xl">
+    <div class="w-10 h-1 bg-gray-200 rounded-full mx-auto mt-3 mb-1 sm:hidden"></div>
+    <div class="flex items-center justify-between px-5 py-4 border-b border-outline-variant"><h3 class="font-bold text-lg">Generate Visitor Code</h3><button onclick="closeModal('newCodeModal')" class="p-1.5 hover:bg-surface-container rounded-lg sm:flex hidden"><span class="material-symbols-outlined">close</span></button></div>
+    <form id="visitorCodeForm" class="p-5 space-y-3">
+      <div><label class="text-xs font-semibold text-on-surface-variant">Visitor Name</label><input name="visitor_name" class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary" placeholder="John Doe"/></div>
+      <div><label class="text-xs font-semibold text-on-surface-variant">Visitor Phone</label><input name="visitor_phone" class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary" placeholder="+234..."/></div>
+      <div class="grid grid-cols-2 gap-3">
+        <div><label class="text-xs font-semibold text-on-surface-variant">Valid Until *</label><input name="valid_until" required type="datetime-local" class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
+        <div><label class="text-xs font-semibold text-on-surface-variant">Max Uses</label><input name="max_uses" type="number" value="1" min="1" max="10" class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
+      </div>
+      <div class="flex gap-3 pt-2"><button type="button" onclick="closeModal('newCodeModal')" class="flex-1 py-2.5 border border-outline-variant rounded-xl text-sm">Cancel</button><button type="submit" class="flex-1 py-2.5 bg-primary text-white rounded-xl text-sm font-semibold">Generate</button></div>
+    </form>
+  </div>
+</div>
+
+<!-- Show Generated Code -->
+<div id="showCodeModal" class="hidden fixed inset-0 bg-black/40 z-50 items-center justify-center p-4">
+  <div class="bg-white rounded-2xl w-full max-w-sm shadow-2xl p-6 text-center">
+    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+      <span class="material-symbols-outlined text-green-600 text-3xl" style="font-variation-settings:'FILL' 1">check_circle</span>
+    </div>
+    <h3 class="font-bold text-xl mb-1">Code Generated!</h3>
+    <p class="text-sm text-on-surface-variant mb-4">Share this code with your visitor</p>
+    <div class="bg-primary rounded-2xl p-5 mb-4">
+      <p id="generatedCode" class="text-4xl font-bold text-white code-display tracking-widest">—</p>
+    </div>
+    <p id="codeDetails" class="text-xs text-on-surface-variant mb-4"></p>
+    <button onclick="copyCode()" class="w-full py-2.5 border border-outline-variant rounded-xl text-sm font-semibold mb-2 hover:bg-surface-container transition-colors flex items-center justify-center gap-2"><span class="material-symbols-outlined text-base">content_copy</span>Copy Code</button>
+    <button onclick="closeModal('showCodeModal');loadAll();" class="w-full py-2.5 bg-primary text-white rounded-xl text-sm font-semibold hover:brightness-110">Done</button>
+  </div>
+</div>
+
+<script src="/js/api.js"></script>
 <script>
-    const virtualKey = document.getElementById('virtual-key');
-    const keyContainer = document.getElementById('virtual-key-container');
-    const keyRing = document.getElementById('key-ring');
-    const unlockStatus = document.getElementById('unlock-status');
-    const codeDisplay = document.getElementById('code-display');
+const user = Auth.requireAuth('tenant');
+if(user){document.getElementById('sidebarName').textContent=user.name;document.getElementById('sidebarAvatar').textContent=user.name[0];}
+function openModal(id){document.getElementById(id).classList.remove('hidden');document.getElementById(id).classList.add('flex');}
+function closeModal(id){document.getElementById(id).classList.add('hidden');document.getElementById(id).classList.remove('flex');}
+let lastCode='';
 
-    let pressTimer;
+async function loadAll(){
+  await Promise.all([loadCards(), loadVisitorCodes(), loadHistory()]);
+}
 
-    // Simulated Long Press Logic
-    virtualKey.addEventListener('mousedown', startPress);
-    virtualKey.addEventListener('touchstart', startPress);
-    virtualKey.addEventListener('mouseup', endPress);
-    virtualKey.addEventListener('touchend', endPress);
-    virtualKey.addEventListener('mouseleave', endPress);
+async function loadCards(){
+  try{
+    const cards=await api.get('/access/cards');
+    const typeIcon={nfc:'nfc',physical:'badge',virtual:'phonelink'};
+    const statusColor={active:'from-primary to-green-700',inactive:'from-gray-400 to-gray-600',suspended:'from-red-500 to-red-700'};
+    document.getElementById('cardDisplay').innerHTML=(cards||[]).length?`
+      <div class="space-y-3">
+        <h3 class="font-semibold flex items-center gap-2"><span class="material-symbols-outlined text-primary" style="font-variation-settings:'FILL' 1">credit_card</span>My Access Cards</h3>
+        ${(cards||[]).map(c=>`
+        <div class="rounded-2xl bg-gradient-to-r ${statusColor[c.status]||'from-primary to-green-700'} p-5 text-white shadow-lg">
+          <div class="flex items-start justify-between mb-4">
+            <div><p class="text-green-200 text-xs font-medium">Access Card</p><p class="font-bold text-xl mt-0.5">${c.card_number}</p></div>
+            <span class="material-symbols-outlined text-3xl opacity-80" style="font-variation-settings:'FILL' 1">${typeIcon[c.type]||'badge'}</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <div><p class="text-green-200 text-xs">Type</p><p class="font-semibold capitalize">${c.type}</p></div>
+            <div><p class="text-green-200 text-xs">Status</p><span class="px-2 py-0.5 rounded-full text-xs font-bold ${c.status==='active'?'bg-white text-primary':'bg-red-100 text-red-700'} uppercase">${c.status}</span></div>
+            <div><p class="text-green-200 text-xs">Issued</p><p class="font-semibold text-sm">${fmt.date(c.created_at)}</p></div>
+          </div>
+        </div>`).join('')}
+      </div>` : `<div class="bg-white rounded-xl border border-outline-variant p-6 text-center shadow-sm">
+        <span class="material-symbols-outlined text-4xl text-on-surface-variant/30 block mb-2">credit_card_off</span>
+        <p class="text-sm text-on-surface-variant">No access cards assigned</p>
+        <p class="text-xs text-on-surface-variant mt-1">Contact management to request one</p>
+      </div>`;
+  }catch(e){}
+}
 
-    function startPress(e) {
-      e.preventDefault();
-      keyRing.classList.remove('pulse-effect');
-      keyRing.classList.add('animate-ping');
-      keyRing.style.backgroundColor = 'rgba(157, 211, 170, 0.6)';
-      
-      pressTimer = setTimeout(() => {
-        completeUnlock();
-      }, 1500);
-    }
+async function loadVisitorCodes(){
+  try{
+    const codes=await api.get('/access/visitor-codes');
+    const statusColor={active:'border-green-200 bg-green-50',expired:'border-gray-200 bg-gray-50',revoked:'border-red-200 bg-red-50'};
+    document.getElementById('visitorCodesList').innerHTML=(codes||[]).length?(codes||[]).map(c=>`
+      <div class="flex items-center justify-between p-3 rounded-xl border ${statusColor[c.status]||'border-outline-variant'} gap-3">
+        <div>
+          <p class="code-display text-xl font-bold text-primary">${c.code}</p>
+          <p class="text-xs text-on-surface-variant mt-0.5">${c.visitor_name||'Guest'} · Until ${fmt.date(c.valid_until)}</p>
+          <p class="text-xs text-on-surface-variant">Used ${c.used_count}/${c.max_uses} times</p>
+        </div>
+        <div class="text-right shrink-0">
+          <span class="px-2 py-0.5 rounded-full text-xs font-semibold ${c.status==='active'?'bg-green-100 text-green-700':c.status==='expired'?'bg-gray-100 text-gray-500':'bg-red-100 text-red-700'}">${c.status}</span>
+          ${c.status==='active'?`<button onclick="revokeCode('${c.id}')" class="block mt-2 text-xs text-red-500 hover:underline">Revoke</button>`:''}
+        </div>
+      </div>`).join(''):'<div class="text-center py-6 text-sm text-on-surface-variant">No visitor codes yet</div>';
+  }catch(e){}
+}
 
-    function endPress() {
-      clearTimeout(pressTimer);
-      if (!unlockStatus.classList.contains('hidden')) return;
-      keyRing.classList.add('pulse-effect');
-      keyRing.classList.remove('animate-ping');
-      keyRing.style.backgroundColor = 'rgba(26, 77, 46, 0.2)';
-    }
+async function loadHistory(){
+  try{
+    const logs=await api.get('/access/logs?limit=20');
+    const resultColor={granted:'text-green-600 bg-green-50',denied:'text-red-600 bg-red-50'};
+    document.getElementById('accessHistory').innerHTML=(logs||[]).length?(logs||[]).map(l=>`
+      <div class="flex items-center justify-between px-5 py-3">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full ${l.status==='granted'?'bg-green-50':'bg-red-50'} flex items-center justify-center">
+            <span class="material-symbols-outlined text-sm ${l.status==='granted'?'text-green-600':'text-red-600'}" style="font-variation-settings:'FILL' 1">${l.direction==='entry'?'login':'logout'}</span>
+          </div>
+          <div>
+            <p class="text-sm font-medium capitalize">${l.direction||'access'} · ${(l.access_type||'').replace('_',' ')}</p>
+            <p class="text-xs text-on-surface-variant">${l.card_number||l.visitor_code||'—'}</p>
+          </div>
+        </div>
+        <div class="text-right">
+          <span class="px-2 py-0.5 rounded-full text-xs font-semibold ${resultColor[l.status]||'bg-gray-100 text-gray-600'}">${l.status}</span>
+          <p class="text-xs text-on-surface-variant mt-0.5">${fmt.ago(l.timestamp)}</p>
+        </div>
+      </div>`).join(''):'<div class="text-center py-6 text-sm text-on-surface-variant">No access history</div>';
+  }catch(e){}
+}
 
-    function completeUnlock() {
-      virtualKey.innerHTML = '<span class="material-symbols-outlined text-white text-6xl" style="font-variation-settings: \'FILL\' 1;">lock_open</span>';
-      virtualKey.classList.add('bg-on-primary-container');
-      keyRing.classList.remove('animate-ping');
-      keyRing.classList.add('scale-150', 'opacity-0', 'transition-all', 'duration-500');
-      unlockStatus.classList.remove('hidden');
-      
-      // Haptic feedback simulation
-      if (window.navigator.vibrate) {
-        window.navigator.vibrate(200);
-      }
+async function revokeCode(id){
+  if(!confirm('Revoke this visitor code?'))return;
+  try{await api.del(`/access/visitor-codes/${id}`);toast('Code revoked');loadVisitorCodes();}
+  catch(e){toast(e.message,'error');}
+}
 
-      setTimeout(() => {
-        resetKey();
-      }, 3000);
-    }
+function copyCode(){
+  navigator.clipboard.writeText(lastCode).then(()=>toast('Code copied!')).catch(()=>toast('Copy failed','error'));
+}
 
-    function resetKey() {
-      virtualKey.innerHTML = '<span class="material-symbols-outlined text-white text-6xl mb-2" data-icon="lock_open">lock_open</span><span class="font-label-sm text-label-sm text-white tracking-widest uppercase">Hold to Open</span>';
-      virtualKey.classList.remove('bg-on-primary-container');
-      unlockStatus.classList.add('hidden');
-      keyRing.classList.remove('scale-150', 'opacity-0', 'transition-all', 'duration-500');
-      keyRing.classList.add('pulse-effect');
-    }
+document.getElementById('visitorCodeForm').addEventListener('submit',async e=>{
+  e.preventDefault();const fd=new FormData(e.target);const data={};fd.forEach((v,k)=>data[k]=v);
+  const btn=e.target.querySelector('[type=submit]');btn.disabled=true;
+  try{
+    const r=await api.post('/access/visitor-codes',data);
+    lastCode=r.code;
+    document.getElementById('generatedCode').textContent=r.code;
+    document.getElementById('codeDetails').textContent=`Valid until: ${fmt.date(data.valid_until)} · Max ${data.max_uses||1} use(s)`;
+    closeModal('newCodeModal'); e.target.reset(); openModal('showCodeModal');
+  }catch(err){toast(err.message,'error');}finally{btn.disabled=false;}
+});
 
-    function toggleCodeDisplay() {
-      codeDisplay.classList.toggle('hidden');
-      if (!codeDisplay.classList.contains('hidden')) {
-        codeDisplay.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }
-    }
-  </script>
+loadAll();
+</script>
 </body></html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Complaints — EstateManager</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script>tailwind.config={theme:{extend:{colors:{"primary":"#00361a","surface":"#f8fafb","surface-container-lowest":"#fff","surface-container-low":"#f2f4f5","surface-container":"#eceeef","surface-container-high":"#e6e8e9","outline-variant":"#c1c9bf","on-surface":"#191c1d","on-surface-variant":"#414942","error":"#ba1a1a","secondary":"#3f608b"}}}}</script>
+<style>body{font-family:'Hanken Grotesk',sans-serif;background:#f8fafb}.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;vertical-align:middle}.spin{animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}</style>
+</head>
+<body class="text-on-surface">
+<div class="flex h-screen overflow-hidden">
+<aside class="fixed md:static inset-y-0 left-0 w-64 bg-white border-r border-outline-variant flex flex-col py-6 px-4 z-50 transform -translate-x-full md:translate-x-0 transition-transform" id="sidebar">
+  <div class="mb-8 px-2"><h1 class="text-xl font-bold text-primary">EstateManager</h1><p class="text-xs text-on-surface-variant">Admin Panel</p></div>
+  <nav class="flex-1 space-y-1">
+    <a href="/admin/dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">dashboard</span>Dashboard</a>
+    <a href="/admin/tenants.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">group</span>Tenants</a>
+    <a href="/admin/properties.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">domain</span>Properties</a>
+    <a href="/admin/bills.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">receipt_long</span>Financials</a>
+    <a href="/admin/complaints.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-primary font-semibold bg-green-50 border-r-4 border-primary"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">support_agent</span>Complaints</a>
+    <a href="/admin/maintenance.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">handyman</span>Maintenance</a>
+    <a href="/admin/access.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">key</span>Access Control</a>
+  </nav>
+  <div class="border-t border-outline-variant pt-4"><div class="flex items-center gap-3 px-2"><div id="sidebarAvatar" class="w-9 h-9 rounded-full bg-primary flex items-center justify-center text-white text-sm font-bold">A</div><div><p id="sidebarName" class="text-sm font-bold">Admin</p><p class="text-xs text-on-surface-variant">Administrator</p></div></div><button onclick="Auth.logout()" class="mt-3 w-full flex items-center gap-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors"><span class="material-symbols-outlined text-base">logout</span>Logout</button></div>
+</aside>
+<div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+  <header class="flex items-center justify-between h-14 px-4 md:px-6 bg-white border-b border-outline-variant shrink-0">
+    <div class="flex items-center gap-3"><button onclick="document.getElementById('sidebar').classList.toggle('-translate-x-full')" class="md:hidden p-1.5 rounded-lg"><span class="material-symbols-outlined">menu</span></button><h2 class="font-semibold">Complaints & Support</h2></div>
+  </header>
+  <main class="flex-1 overflow-y-auto p-4 md:p-6 space-y-4">
+    <!-- Filters -->
+    <div class="flex flex-wrap gap-2 items-center">
+      <select id="filterStatus" class="px-3 py-2 bg-white border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+        <option value="">All Status</option><option value="open">Open</option><option value="in_progress">In Progress</option><option value="resolved">Resolved</option><option value="closed">Closed</option>
+      </select>
+      <select id="filterPriority" class="px-3 py-2 bg-white border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+        <option value="">All Priority</option><option value="urgent">Urgent</option><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option>
+      </select>
+      <span id="total" class="text-sm text-on-surface-variant ml-auto">Loading...</span>
+    </div>
+    <!-- Cards Grid -->
+    <div id="complaintsGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+      <div class="flex justify-center items-center py-16 col-span-3"><span class="material-symbols-outlined spin text-2xl text-on-surface-variant">refresh</span></div>
+    </div>
+  </main>
+</div>
+</div>
+
+<!-- Complaint Detail Modal -->
+<div id="detailModal" class="hidden fixed inset-0 bg-black/40 z-50 items-start justify-center p-4 overflow-y-auto">
+  <div class="bg-white rounded-2xl w-full max-w-2xl shadow-2xl my-8">
+    <div class="flex items-center justify-between p-5 border-b border-outline-variant">
+      <h3 class="font-bold text-lg" id="modalTitle">Complaint</h3>
+      <button onclick="closeModal('detailModal')" class="p-1.5 hover:bg-surface-container rounded-lg"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <div id="detailContent" class="p-5 space-y-4"></div>
+  </div>
+</div>
+
+<script src="/js/api.js"></script>
+<script>
+const user=Auth.requireAuth(['admin','support']);
+if(user){document.getElementById('sidebarName').textContent=user.name;document.getElementById('sidebarAvatar').textContent=user.name[0];}
+function openModal(id){document.getElementById(id).classList.remove('hidden');document.getElementById(id).classList.add('flex');}
+function closeModal(id){document.getElementById(id).classList.add('hidden');document.getElementById(id).classList.remove('flex');}
+
+const priorityColor={urgent:'bg-red-100 text-red-700 border-red-200',high:'bg-orange-100 text-orange-700 border-orange-200',medium:'bg-yellow-100 text-yellow-700 border-yellow-200',low:'bg-gray-100 text-gray-600 border-gray-200'};
+const statusColor={open:'bg-blue-100 text-blue-700',in_progress:'bg-orange-100 text-orange-700',resolved:'bg-green-100 text-green-700',closed:'bg-gray-100 text-gray-600'};
+
+async function loadComplaints(){
+  const status=document.getElementById('filterStatus').value;
+  const priority=document.getElementById('filterPriority').value;
+  const grid=document.getElementById('complaintsGrid');
+  grid.innerHTML='<div class="flex justify-center items-center py-16 col-span-3"><span class="material-symbols-outlined spin text-2xl text-on-surface-variant">refresh</span></div>';
+  try{
+    const d=await api.get(`/complaints?status=${status}&priority=${priority}&limit=50`);
+    document.getElementById('total').textContent=`${d.total||0} complaints`;
+    grid.innerHTML=(d.complaints||[]).length?(d.complaints||[]).map(c=>`
+      <div onclick="openComplaint('${c.id}')" class="bg-white rounded-xl border ${priorityColor[c.priority]?.split(' ').find(s=>s.startsWith('border'))||'border-outline-variant'} p-4 shadow-sm hover:shadow-md cursor-pointer transition-all">
+        <div class="flex items-start justify-between gap-2 mb-3">
+          <span class="px-2 py-0.5 rounded-full text-xs font-semibold ${priorityColor[c.priority]||'bg-gray-100 text-gray-600'} capitalize">${c.priority}</span>
+          <span class="px-2 py-0.5 rounded-full text-xs font-semibold ${statusColor[c.status]||'bg-gray-100 text-gray-600'} capitalize">${c.status.replace('_',' ')}</span>
+        </div>
+        <h4 class="font-semibold text-sm mb-1 line-clamp-1">${c.title}</h4>
+        <p class="text-xs text-on-surface-variant line-clamp-2 mb-3">${c.description}</p>
+        <div class="flex items-center justify-between text-xs text-on-surface-variant">
+          <div class="flex items-center gap-1.5">
+            <div class="w-5 h-5 rounded-full bg-primary flex items-center justify-center text-white text-xs font-bold">${(c.tenant_name||'?')[0]}</div>
+            <span>${c.tenant_name||'—'} · ${c.unit_number||'—'}</span>
+          </div>
+          <span>${fmt.ago(c.created_at)}</span>
+        </div>
+        ${c.assigned_to_name?`<p class="text-xs text-blue-600 mt-2 flex items-center gap-1"><span class="material-symbols-outlined text-xs">person</span>Assigned: ${c.assigned_to_name}</p>`:''}
+      </div>`).join(''):'<div class="col-span-3 text-center py-16 text-sm text-on-surface-variant">No complaints found</div>';
+  }catch(e){grid.innerHTML=`<div class="col-span-3 text-center py-8 text-sm text-red-500">${e.message}</div>`;}
+}
+
+async function openComplaint(id){
+  openModal('detailModal');
+  document.getElementById('detailContent').innerHTML='<div class="flex justify-center py-8"><span class="material-symbols-outlined spin text-2xl">refresh</span></div>';
+  try{
+    const c=await api.get(`/complaints/${id}`);
+    document.getElementById('modalTitle').textContent=c.title;
+    // Load maintenance staff for assignment
+    const staffRes=await api.get('/tenants?limit=100').catch(()=>({tenants:[]}));
+
+    document.getElementById('detailContent').innerHTML=`
+      <div class="flex flex-wrap gap-2 mb-2">
+        <span class="px-2 py-1 rounded-full text-xs font-semibold ${priorityColor[c.priority]||'bg-gray-100'}">${c.priority} priority</span>
+        <span class="px-2 py-1 rounded-full text-xs font-semibold ${statusColor[c.status]||'bg-gray-100'}">${c.status.replace('_',' ')}</span>
+        <span class="px-2 py-1 bg-gray-100 text-gray-600 rounded-full text-xs">${c.category||'general'}</span>
+      </div>
+      <p class="text-sm text-on-surface-variant bg-surface-container-low rounded-xl p-4">${c.description}</p>
+      <div class="grid grid-cols-2 gap-3">
+        <div class="bg-surface-container-low rounded-xl p-3"><p class="text-xs text-on-surface-variant font-semibold">Tenant</p><p class="text-sm font-semibold mt-1">${c.tenant_name||'—'}</p><p class="text-xs text-on-surface-variant">${c.unit_number||'—'}</p></div>
+        <div class="bg-surface-container-low rounded-xl p-3"><p class="text-xs text-on-surface-variant font-semibold">Submitted</p><p class="text-sm font-semibold mt-1">${fmt.date(c.created_at)}</p><p class="text-xs text-on-surface-variant">${fmt.ago(c.created_at)}</p></div>
+      </div>
+      <!-- Update Form -->
+      <div class="border border-outline-variant rounded-xl p-4 space-y-3">
+        <h4 class="text-sm font-bold">Update Status</h4>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="text-xs font-semibold text-on-surface-variant">Status</label>
+            <select id="updateStatus" class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+              <option value="open" ${c.status==='open'?'selected':''}>Open</option>
+              <option value="in_progress" ${c.status==='in_progress'?'selected':''}>In Progress</option>
+              <option value="resolved" ${c.status==='resolved'?'selected':''}>Resolved</option>
+              <option value="closed" ${c.status==='closed'?'selected':''}>Closed</option>
+            </select>
+          </div>
+          <div><label class="text-xs font-semibold text-on-surface-variant">Priority</label>
+            <select id="updatePriority" class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+              <option value="low" ${c.priority==='low'?'selected':''}>Low</option>
+              <option value="medium" ${c.priority==='medium'?'selected':''}>Medium</option>
+              <option value="high" ${c.priority==='high'?'selected':''}>High</option>
+              <option value="urgent" ${c.priority==='urgent'?'selected':''}>Urgent</option>
+            </select>
+          </div>
+        </div>
+        <div><label class="text-xs font-semibold text-on-surface-variant">Resolution Notes</label><textarea id="updateNotes" rows="2" class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary resize-none" placeholder="What was done to resolve this...">${c.resolution_notes||''}</textarea></div>
+        <button onclick="updateComplaint('${c.id}')" class="w-full py-2 bg-primary text-white rounded-lg text-sm font-semibold hover:brightness-110">Update Complaint</button>
+      </div>
+      <!-- Chat -->
+      <div class="border border-outline-variant rounded-xl overflow-hidden">
+        <div class="bg-surface-container-low px-4 py-2.5 border-b border-outline-variant"><p class="text-sm font-semibold">Conversation (${(c.messages||[]).length})</p></div>
+        <div id="chatMsgs" class="p-4 space-y-3 max-h-48 overflow-y-auto">
+          ${(c.messages||[]).length?(c.messages||[]).map(m=>`<div class="flex gap-2 ${m.sender_id===user.id?'flex-row-reverse':''}"><div class="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-white text-xs font-bold shrink-0">${(m.sender_name||'?')[0]}</div><div class="${m.sender_id===user.id?'bg-primary text-white':'bg-surface-container'} rounded-xl px-3 py-2 max-w-xs"><p class="text-xs font-semibold mb-0.5">${m.sender_name||'—'}</p><p class="text-sm">${m.content}</p><p class="text-xs opacity-70 mt-1">${fmt.ago(m.created_at)}</p></div></div>`).join(''):'<p class="text-xs text-center text-on-surface-variant">No messages yet</p>'}
+        </div>
+        <div class="flex gap-2 p-3 border-t border-outline-variant">
+          <input id="chatInput" type="text" placeholder="Type a message..." class="flex-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary" onkeydown="if(event.key==='Enter')sendMsg('${c.id}')"/>
+          <button onclick="sendMsg('${c.id}')" class="px-3 py-2 bg-primary text-white rounded-lg text-sm hover:brightness-110"><span class="material-symbols-outlined text-base">send</span></button>
+        </div>
+      </div>`;
+  }catch(e){document.getElementById('detailContent').innerHTML=`<p class="text-sm text-red-500">${e.message}</p>`;}
+}
+
+async function updateComplaint(id){
+  const status=document.getElementById('updateStatus').value;
+  const priority=document.getElementById('updatePriority').value;
+  const resolution_notes=document.getElementById('updateNotes').value;
+  try{await api.put(`/complaints/${id}`,{status,priority,resolution_notes});toast('Complaint updated!');closeModal('detailModal');loadComplaints();}
+  catch(e){toast(e.message,'error');}
+}
+
+async function sendMsg(id){
+  const input=document.getElementById('chatInput');const content=input.value.trim();
+  if(!content)return;input.value='';
+  try{
+    const m=await api.post(`/complaints/${id}/messages`,{content});
+    const box=document.getElementById('chatMsgs');
+    box.innerHTML+=`<div class="flex gap-2 flex-row-reverse"><div class="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-white text-xs font-bold shrink-0">${user.name[0]}</div><div class="bg-primary text-white rounded-xl px-3 py-2 max-w-xs"><p class="text-xs font-semibold mb-0.5">${user.name}</p><p class="text-sm">${content}</p><p class="text-xs opacity-70 mt-1">just now</p></div></div>`;
+    box.scrollTop=box.scrollHeight;
+  }catch(e){toast(e.message,'error');}
+}
+
+document.getElementById('filterStatus').addEventListener('change',loadComplaints);
+document.getElementById('filterPriority').addEventListener('change',loadComplaints);
+loadComplaints();
+</script>
+</body></html>
