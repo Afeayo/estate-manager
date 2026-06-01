@@ -1,326 +1,197 @@
 <!DOCTYPE html>
-
 <html lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Tenant Support - EstateManager</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            "colors": {
-                    "on-tertiary-fixed": "#410002",
-                    "surface-bright": "#f8fafb",
-                    "on-secondary": "#ffffff",
-                    "surface-dim": "#d8dadb",
-                    "surface-container": "#eceeef",
-                    "on-primary": "#ffffff",
-                    "secondary-fixed": "#d3e3ff",
-                    "surface-container-lowest": "#ffffff",
-                    "tertiary-fixed-dim": "#ffb4ab",
-                    "tertiary": "#630005",
-                    "inverse-primary": "#9dd3aa",
-                    "on-primary-container": "#88bd95",
-                    "surface-container-low": "#f2f4f5",
-                    "secondary": "#3f608b",
-                    "primary-fixed-dim": "#9dd3aa",
-                    "on-tertiary": "#ffffff",
-                    "on-surface-variant": "#414942",
-                    "error": "#ba1a1a",
-                    "primary-fixed": "#b8f0c5",
-                    "inverse-on-surface": "#eff1f2",
-                    "on-primary-fixed": "#00210e",
-                    "on-secondary-fixed": "#001c39",
-                    "on-secondary-container": "#365882",
-                    "outline-variant": "#c1c9bf",
-                    "surface-tint": "#366847",
-                    "secondary-fixed-dim": "#a7c9f9",
-                    "primary": "#00361a",
-                    "tertiary-fixed": "#ffdad6",
-                    "background": "#f8fafb",
-                    "surface-variant": "#e1e3e4",
-                    "on-error": "#ffffff",
-                    "on-tertiary-container": "#ff9288",
-                    "error-container": "#ffdad6",
-                    "on-surface": "#191c1d",
-                    "surface-container-highest": "#e1e3e4",
-                    "on-error-container": "#93000a",
-                    "surface-container-high": "#e6e8e9",
-                    "on-secondary-fixed-variant": "#254872",
-                    "tertiary-container": "#8d000c",
-                    "primary-container": "#1a4d2e",
-                    "surface": "#f8fafb",
-                    "inverse-surface": "#2e3132",
-                    "on-primary-fixed-variant": "#1d5031",
-                    "on-tertiary-fixed-variant": "#93000d",
-                    "outline": "#717971",
-                    "on-background": "#191c1d",
-                    "secondary-container": "#adceff"
-            },
-            "borderRadius": {
-                    "DEFAULT": "0.25rem",
-                    "lg": "0.5rem",
-                    "xl": "0.75rem",
-                    "full": "9999px"
-            },
-            "spacing": {
-                    "md": "16px",
-                    "xl": "32px",
-                    "margin-mobile": "16px",
-                    "base": "4px",
-                    "gutter": "20px",
-                    "xs": "4px",
-                    "margin-desktop": "32px",
-                    "sm": "8px",
-                    "lg": "24px"
-            },
-            "fontFamily": {
-                    "body-md": ["Hanken Grotesk"],
-                    "headline-sm": ["Hanken Grotesk"],
-                    "headline-lg-mobile": ["Hanken Grotesk"],
-                    "body-lg": ["Hanken Grotesk"],
-                    "headline-md": ["Hanken Grotesk"],
-                    "display-lg": ["Hanken Grotesk"],
-                    "label-md": ["Hanken Grotesk"],
-                    "label-sm": ["Hanken Grotesk"]
-            },
-            "fontSize": {
-                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
-                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
-                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
-                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
-                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
-                    "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
-                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500"}],
-                    "label-sm": ["11px", {"lineHeight": "14px", "fontWeight": "600"}]
-            }
-          }
-        }
-      }
-    </script>
-<style>
-        body { font-family: 'Hanken Grotesk', sans-serif; }
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        .ticket-card {
-            box-shadow: 0px 2px 4px rgba(0,0,0,0.04);
-            border: 1px solid #E2E8F0;
-        }
-        .shadow-soft {
-            box-shadow: 0px 10px 15px rgba(0,0,0,0.08);
-        }
-    </style>
-<style>
-    body {
-      min-height: max(884px, 100dvh);
-    }
-  </style>
-  </head>
-<body class="bg-background text-on-background min-h-screen pb-32">
-<!-- TopAppBar -->
-<header class="bg-surface dark:bg-on-background border-b border-outline-variant dark:border-outline shadow-sm docked full-width top-0 flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16 fixed z-40">
-<div class="flex items-center gap-md">
-<div class="w-10 h-10 rounded-full bg-primary-container overflow-hidden">
-<img alt="User profile photo" class="w-full h-full object-cover" data-alt="A professional high-resolution headshot of a friendly man in his early 30s with a warm expression. The background is a soft-focus modern office interior with warm natural lighting. The image style is clean, corporate, and trustworthy, aligning with a premium estate management application's aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_tWf1DOVZE8lLOdm_p67fHw1Xt0lV3Wg3lC5H4y4G1m7cUdDk7Z2miIvCBiu3GIBoTX_0SiMUfgYaJ0H2i-y_gIp8Y_4DqWZsV4nTOM1RozJ-3L76jKX2X8hKoJTvMOZFV_ftioPGT0Gml4_nnldkgCqNO0QIoi78rJy9GH9mIdNP37kBVhHZKMDVz_s4jYdHiUhyCG007uD3HTuoIh41vuxKYDbZorjZZdy47YMeiqq2qbmQvVsbAJXMRI7moZtVyn07p-bae2k"/>
-</div>
-<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">EstateManager</h1>
-</div>
-<button class="text-on-surface-variant dark:text-surface-variant hover:bg-surface-container transition-colors p-2 rounded-full">
-<span class="material-symbols-outlined">notifications</span>
-</button>
-</header>
-<main class="pt-20 px-margin-mobile">
-<!-- Hero Section / CTA -->
-<section class="mb-lg">
-<div class="flex flex-col gap-sm">
-<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary">Support &amp; Complaints</h2>
-<p class="font-body-md text-body-md text-on-surface-variant">How can we help you with your residence today?</p>
-</div>
-</section>
-<!-- Quick Actions Grid -->
-<div class="grid grid-cols-1 gap-md mb-xl">
-<button class="bg-primary text-on-primary py-lg rounded-xl flex items-center justify-center gap-md active:scale-95 transition-transform shadow-soft" onclick="document.getElementById('complaint-modal').classList.remove('hidden')">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_circle</span>
-<span class="font-headline-sm text-headline-sm">New Complaint</span>
-</button>
-<a class="bg-surface border border-outline-variant py-md rounded-xl flex items-center justify-center gap-sm text-secondary active:scale-95 transition-transform" href="tel:+123456789">
-<span class="material-symbols-outlined">call</span>
-<span class="font-label-md text-label-md">Contact Manager Quick Dial</span>
-</a>
-</div>
-<!-- Ticket Filter Tabs -->
-<div class="flex gap-sm mb-md overflow-x-auto pb-2 scrollbar-hide">
-<button class="bg-primary-container text-on-primary-container px-lg py-sm rounded-full font-label-md text-label-md">All Tickets</button>
-<button class="bg-surface-container text-on-surface-variant px-lg py-sm rounded-full font-label-md text-label-md">Active (2)</button>
-<button class="bg-surface-container text-on-surface-variant px-lg py-sm rounded-full font-label-md text-label-md">Resolved</button>
-</div>
-<!-- Tickets Feed -->
-<div class="flex flex-col gap-md">
-<!-- Active Ticket 1 -->
-<div class="ticket-card bg-surface rounded-xl p-md flex flex-col gap-md">
-<div class="flex justify-between items-start">
-<div class="flex items-center gap-sm">
-<div class="w-10 h-10 rounded-lg bg-error-container/20 flex items-center justify-center text-error">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">water_drop</span>
-</div>
-<div>
-<h3 class="font-headline-sm text-headline-sm">Leaking Sink</h3>
-<p class="font-label-sm text-label-sm text-on-surface-variant">Ticket #EM-4029 • Kitchen</p>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Support — EstateManager</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script>tailwind.config={theme:{extend:{colors:{"primary":"#00361a","surface":"#f8fafb","surface-container-lowest":"#fff","surface-container-low":"#f2f4f5","surface-container":"#eceeef","surface-container-high":"#e6e8e9","outline-variant":"#c1c9bf","on-surface":"#191c1d","on-surface-variant":"#414942"}}}}</script>
+<style>body{font-family:'Hanken Grotesk',sans-serif;background:#f8fafb}.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;vertical-align:middle}.spin{animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}</style>
+</head>
+<body class="text-on-surface pb-20 md:pb-0">
+<div class="flex h-screen overflow-hidden">
+<aside class="hidden md:flex flex-col w-64 bg-white border-r border-outline-variant py-6 px-4 shrink-0">
+  <div class="mb-8 px-2"><h1 class="text-xl font-bold text-primary">EstateManager</h1><p class="text-xs text-on-surface-variant">Tenant Portal</p></div>
+  <nav class="flex-1 space-y-1">
+    <a href="/tenant/dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">home</span>Home</a>
+    <a href="/tenant/bills.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">receipt_long</span>Bills & Payments</a>
+    <a href="/tenant/support.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-primary font-semibold bg-green-50 border-r-4 border-primary"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">support_agent</span>Support & Complaints</a>
+    <a href="/tenant/access.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">key</span>Access & Visitors</a>
+    <a href="/tenant/notifications.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">notifications</span>Notifications</a>
+  </nav>
+  <div class="border-t border-outline-variant pt-4"><div class="flex items-center gap-3 px-2"><div id="sidebarAvatar" class="w-9 h-9 rounded-full bg-primary flex items-center justify-center text-white text-sm font-bold">T</div><div><p id="sidebarName" class="text-sm font-bold">Tenant</p><p class="text-xs text-on-surface-variant">Resident</p></div></div><button onclick="Auth.logout()" class="mt-3 w-full flex items-center gap-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors"><span class="material-symbols-outlined text-base">logout</span>Logout</button></div>
+</aside>
+<div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+  <header class="flex items-center justify-between h-14 px-4 md:px-6 bg-white border-b border-outline-variant shrink-0">
+    <div class="flex items-center gap-3"><a href="/tenant/dashboard.html" class="md:hidden p-1.5 rounded-lg hover:bg-surface-container"><span class="material-symbols-outlined">arrow_back</span></a><h2 class="font-semibold">Support & Complaints</h2></div>
+    <button onclick="openModal('newComplaintModal')" class="flex items-center gap-1.5 px-3 py-1.5 bg-primary text-white rounded-lg text-sm font-semibold hover:brightness-110 shadow-sm">
+      <span class="material-symbols-outlined text-base">add</span>New Complaint
+    </button>
+  </header>
+  <main class="flex-1 overflow-y-auto p-4 md:p-6 space-y-4">
+    <!-- Filter Tabs -->
+    <div class="flex gap-2 overflow-x-auto">
+      <button onclick="setFilter('')" id="fAll" class="px-4 py-2 rounded-lg text-sm font-semibold bg-primary text-white whitespace-nowrap">All</button>
+      <button onclick="setFilter('open')" id="fOpen" class="px-4 py-2 rounded-lg text-sm font-medium border border-outline-variant hover:bg-surface-container-high whitespace-nowrap">Open</button>
+      <button onclick="setFilter('in_progress')" id="fIn_progress" class="px-4 py-2 rounded-lg text-sm font-medium border border-outline-variant hover:bg-surface-container-high whitespace-nowrap">In Progress</button>
+      <button onclick="setFilter('resolved')" id="fResolved" class="px-4 py-2 rounded-lg text-sm font-medium border border-outline-variant hover:bg-surface-container-high whitespace-nowrap">Resolved</button>
+    </div>
+    <!-- Complaints -->
+    <div id="complaintsContainer" class="space-y-3">
+      <div class="flex justify-center py-12"><span class="material-symbols-outlined spin text-2xl text-on-surface-variant">refresh</span></div>
+    </div>
+  </main>
 </div>
 </div>
-<span class="bg-secondary-container text-on-secondary-container px-sm py-1 rounded-full font-label-sm text-label-sm">In Progress</span>
-</div>
-<div class="bg-surface-container-low rounded-lg p-md">
-<div class="flex items-start gap-sm mb-sm">
-<span class="material-symbols-outlined text-primary text-sm">schedule</span>
-<p class="font-body-md text-body-md text-on-surface">Update: <span class="font-bold">Plumber assigned.</span> Expected arrival tomorrow between 10:00 - 12:00.</p>
-</div>
-<div class="h-1 w-full bg-surface-container-highest rounded-full overflow-hidden">
-<div class="bg-primary h-full w-2/3"></div>
-</div>
-</div>
-<div class="flex justify-end">
-<button class="text-primary font-label-md text-label-md flex items-center gap-xs">
-                        View Updates
-                        <span class="material-symbols-outlined text-sm">chevron_right</span>
-</button>
-</div>
-</div>
-<!-- Active Ticket 2 -->
-<div class="ticket-card bg-surface rounded-xl p-md flex flex-col gap-md">
-<div class="flex justify-between items-start">
-<div class="flex items-center gap-sm">
-<div class="w-10 h-10 rounded-lg bg-tertiary-container/10 flex items-center justify-center text-tertiary">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">bolt</span>
-</div>
-<div>
-<h3 class="font-headline-sm text-headline-sm">Power Outage</h3>
-<p class="font-label-sm text-label-sm text-on-surface-variant">Ticket #EM-4031 • Unit 4B</p>
-</div>
-</div>
-<span class="bg-error-container text-on-error-container px-sm py-1 rounded-full font-label-sm text-label-sm">Urgent</span>
-</div>
-<div class="border-l-2 border-outline-variant ml-5 pl-lg py-sm flex flex-col gap-md">
-<div class="flex flex-col gap-xs">
-<p class="font-label-sm text-label-sm text-on-surface-variant">Today, 09:45 AM</p>
-<p class="font-body-md text-body-md bg-surface-container px-md py-sm rounded-r-xl rounded-bl-xl inline-block">Management is checking the main fuse board. Please stay updated.</p>
-</div>
-<div class="flex flex-col gap-xs items-end">
-<p class="font-label-sm text-label-sm text-on-surface-variant">Today, 08:30 AM</p>
-<p class="font-body-md text-body-md bg-primary-container text-on-primary-container px-md py-sm rounded-l-xl rounded-br-xl inline-block">Reported: Master bedroom and kitchen sockets are not working.</p>
-</div>
-</div>
-<div class="flex gap-md">
-<input class="flex-grow bg-surface-container-low border-none rounded-full px-lg py-sm font-body-md text-body-md focus:ring-1 focus:ring-primary" placeholder="Type a message..." type="text"/>
-<button class="bg-primary-container text-on-primary-container w-10 h-10 rounded-full flex items-center justify-center">
-<span class="material-symbols-outlined">send</span>
-</button>
-</div>
-</div>
-<!-- Resolved Ticket -->
-<div class="ticket-card bg-surface opacity-75 rounded-xl p-md flex flex-col gap-md">
-<div class="flex justify-between items-start">
-<div class="flex items-center gap-sm">
-<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center text-on-surface-variant">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">key</span>
-</div>
-<div>
-<h3 class="font-headline-sm text-headline-sm">Key Replacement</h3>
-<p class="font-label-sm text-label-sm text-on-surface-variant">Ticket #EM-3980 • Entrance</p>
-</div>
-</div>
-<span class="bg-surface-container-highest text-on-surface-variant px-sm py-1 rounded-full font-label-sm text-label-sm">Resolved</span>
-</div>
-<p class="font-body-md text-body-md text-on-surface-variant italic">This issue was resolved on Oct 12, 2023.</p>
-</div>
-</div>
-</main>
-<!-- BottomNavBar -->
-<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 pb-safe bg-surface dark:bg-on-background border-t border-outline-variant dark:border-outline shadow-lg rounded-t-xl">
-<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low transition-colors px-4 py-1" href="#">
-<span class="material-symbols-outlined">home</span>
-<span class="font-label-sm text-label-sm">Home</span>
-</a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low transition-colors px-4 py-1" href="#">
-<span class="material-symbols-outlined">receipt_long</span>
-<span class="font-label-sm text-label-sm">Bills</span>
-</a>
-<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-full px-4 py-1 active:scale-90 transition-transform" href="#">
-<span class="material-symbols-outlined">handyman</span>
-<span class="font-label-sm text-label-sm">Support</span>
-</a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low transition-colors px-4 py-1" href="#">
-<span class="material-symbols-outlined">person</span>
-<span class="font-label-sm text-label-sm">Profile</span>
-</a>
+<!-- Bottom Nav -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-outline-variant flex items-center z-50">
+  <a href="/tenant/dashboard.html" class="flex-1 flex flex-col items-center py-3 text-on-surface-variant"><span class="material-symbols-outlined text-xl">home</span><span class="text-xs mt-0.5">Home</span></a>
+  <a href="/tenant/bills.html" class="flex-1 flex flex-col items-center py-3 text-on-surface-variant"><span class="material-symbols-outlined text-xl">receipt_long</span><span class="text-xs mt-0.5">Bills</span></a>
+  <a href="/tenant/support.html" class="flex-1 flex flex-col items-center py-3 text-primary"><span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL' 1">support_agent</span><span class="text-xs font-semibold mt-0.5">Support</span></a>
+  <a href="/tenant/access.html" class="flex-1 flex flex-col items-center py-3 text-on-surface-variant"><span class="material-symbols-outlined text-xl">key</span><span class="text-xs mt-0.5">Access</span></a>
+  <a href="/tenant/notifications.html" class="flex-1 flex flex-col items-center py-3 text-on-surface-variant"><span class="material-symbols-outlined text-xl">notifications</span><span class="text-xs mt-0.5">Alerts</span></a>
 </nav>
-<!-- New Complaint Modal (Hidden by default) -->
-<div class="fixed inset-0 z-[60] bg-black/50 hidden flex items-end sm:items-center justify-center p-md" id="complaint-modal">
-<div class="bg-surface w-full max-w-md rounded-t-xl sm:rounded-xl p-lg animate-in slide-in-from-bottom duration-300">
-<div class="flex justify-between items-center mb-lg">
-<h2 class="font-headline-md text-headline-md text-primary">Submit Complaint</h2>
-<button class="p-2" onclick="document.getElementById('complaint-modal').classList.add('hidden')">
-<span class="material-symbols-outlined">close</span>
-</button>
-</div>
-<form class="flex flex-col gap-md">
-<div class="flex flex-col gap-xs">
-<label class="font-label-md text-label-md text-on-surface-variant">Issue Title</label>
-<input class="w-full bg-white border border-outline rounded-lg p-md font-body-md focus:border-primary outline-none" placeholder="e.g. Broken AC Unit" type="text"/>
-</div>
-<div class="flex flex-col gap-xs">
-<label class="font-label-md text-label-md text-on-surface-variant">Category</label>
-<select class="w-full bg-white border border-outline rounded-lg p-md font-body-md focus:border-primary outline-none appearance-none">
-<option>Plumbing</option>
-<option>Electrical</option>
-<option>Security</option>
-<option>Appliance</option>
-<option>General Maintenance</option>
-</select>
-</div>
-<div class="flex flex-col gap-xs">
-<label class="font-label-md text-label-md text-on-surface-variant">Description</label>
-<textarea class="w-full bg-white border border-outline rounded-lg p-md font-body-md focus:border-primary outline-none" placeholder="Describe the problem in detail..." rows="4"></textarea>
-</div>
-<div class="flex flex-col gap-xs">
-<label class="font-label-md text-label-md text-on-surface-variant">Upload Photo (Optional)</label>
-<div class="border-2 border-dashed border-outline-variant rounded-lg p-lg flex flex-col items-center justify-center text-on-surface-variant">
-<span class="material-symbols-outlined text-display-lg">add_a_photo</span>
-<p class="font-label-sm text-label-sm">Click to upload image</p>
-</div>
-</div>
-<button class="bg-primary text-on-primary py-md rounded-lg font-headline-sm text-headline-sm mt-md" type="button">
-                    Submit Ticket
-                </button>
-</form>
-</div>
-</div>
-<script>
-        // Simple micro-interaction for tab buttons
-        const tabs = document.querySelectorAll('.flex.gap-sm.mb-md button');
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                tabs.forEach(t => {
-                    t.classList.remove('bg-primary-container', 'text-on-primary-container');
-                    t.classList.add('bg-surface-container', 'text-on-surface-variant');
-                });
-                tab.classList.remove('bg-surface-container', 'text-on-surface-variant');
-                tab.classList.add('bg-primary-container', 'text-on-primary-container');
-            });
-        });
 
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('complaint-modal');
-            if (event.target == modal) {
-                modal.classList.add('hidden');
-            }
-        }
-    </script>
+<!-- New Complaint Modal -->
+<div id="newComplaintModal" class="hidden fixed inset-0 bg-black/40 z-50 items-end sm:items-center justify-center">
+  <div class="bg-white rounded-t-3xl sm:rounded-2xl w-full sm:max-w-md shadow-2xl">
+    <div class="w-10 h-1 bg-gray-200 rounded-full mx-auto mt-3 mb-1 sm:hidden"></div>
+    <div class="flex items-center justify-between px-5 py-4 border-b border-outline-variant"><h3 class="font-bold text-lg">Submit Complaint</h3><button onclick="closeModal('newComplaintModal')" class="p-1.5 hover:bg-surface-container rounded-lg sm:flex hidden"><span class="material-symbols-outlined">close</span></button></div>
+    <form id="complaintForm" class="p-5 space-y-3">
+      <div><label class="text-xs font-semibold text-on-surface-variant">Title *</label><input name="title" required class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Brief description of the issue"/></div>
+      <div class="grid grid-cols-2 gap-3">
+        <div><label class="text-xs font-semibold text-on-surface-variant">Category</label>
+          <select name="category" class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+            <option value="general">General</option><option value="plumbing">Plumbing</option><option value="electrical">Electrical</option><option value="hvac">HVAC/AC</option><option value="security">Security</option><option value="cleaning">Cleaning</option><option value="noise">Noise</option>
+          </select>
+        </div>
+        <div><label class="text-xs font-semibold text-on-surface-variant">Priority</label>
+          <select name="priority" class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+            <option value="low">Low</option><option value="medium" selected>Medium</option><option value="high">High</option><option value="urgent">Urgent</option>
+          </select>
+        </div>
+      </div>
+      <div><label class="text-xs font-semibold text-on-surface-variant">Description *</label><textarea name="description" required rows="4" class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary resize-none" placeholder="Please describe the issue in detail..."></textarea></div>
+      <div class="flex gap-3 pt-2">
+        <button type="button" onclick="closeModal('newComplaintModal')" class="flex-1 py-2.5 border border-outline-variant rounded-xl text-sm">Cancel</button>
+        <button type="submit" class="flex-1 py-2.5 bg-primary text-white rounded-xl text-sm font-semibold hover:brightness-110">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Complaint Thread Modal -->
+<div id="threadModal" class="hidden fixed inset-0 bg-black/40 z-50 items-end sm:items-center justify-center">
+  <div class="bg-white rounded-t-3xl sm:rounded-2xl w-full sm:max-w-lg shadow-2xl flex flex-col max-h-[90vh]">
+    <div class="w-10 h-1 bg-gray-200 rounded-full mx-auto mt-3 sm:hidden shrink-0"></div>
+    <div class="flex items-center justify-between px-5 py-4 border-b border-outline-variant shrink-0">
+      <h3 class="font-bold" id="threadTitle">Complaint</h3>
+      <button onclick="closeModal('threadModal')" class="p-1.5 hover:bg-surface-container rounded-lg"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <div id="threadDetails" class="px-5 py-3 border-b border-outline-variant shrink-0"></div>
+    <div id="threadMsgs" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
+    <div class="flex gap-2 p-4 border-t border-outline-variant shrink-0">
+      <input id="threadInput" type="text" placeholder="Send a message to support..." class="flex-1 px-3 py-2 border border-outline-variant rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary" onkeydown="if(event.key==='Enter')sendThreadMsg()"/>
+      <button onclick="sendThreadMsg()" class="px-3 py-2 bg-primary text-white rounded-xl hover:brightness-110 transition-all"><span class="material-symbols-outlined text-base">send</span></button>
+    </div>
+  </div>
+</div>
+
+<script src="/js/api.js"></script>
+<script>
+const user = Auth.requireAuth('tenant');
+if(user){document.getElementById('sidebarName').textContent=user.name;document.getElementById('sidebarAvatar').textContent=user.name[0];}
+function openModal(id){document.getElementById(id).classList.remove('hidden');document.getElementById(id).classList.add('flex');}
+function closeModal(id){document.getElementById(id).classList.add('hidden');document.getElementById(id).classList.remove('flex');}
+
+let currentFilter='', activeComplaintId=null;
+const priorityColor={urgent:'border-red-200 bg-red-50',high:'border-orange-200 bg-orange-50',medium:'border-yellow-100',low:'border-outline-variant'};
+const statusBadge={open:'bg-blue-100 text-blue-700',in_progress:'bg-orange-100 text-orange-700',resolved:'bg-green-100 text-green-700',closed:'bg-gray-100 text-gray-600'};
+
+function setFilter(f){
+  currentFilter=f;
+  document.querySelectorAll('[id^="f"]').forEach(el=>{ if(el.tagName==='BUTTON') el.className='px-4 py-2 rounded-lg text-sm font-medium border border-outline-variant hover:bg-surface-container-high whitespace-nowrap'; });
+  const k=f?'f'+f.charAt(0).toUpperCase()+f.slice(1):'fAll';
+  const a=document.getElementById(k);
+  if(a) a.className='px-4 py-2 rounded-lg text-sm font-semibold bg-primary text-white whitespace-nowrap';
+  loadComplaints();
+}
+
+async function loadComplaints(){
+  document.getElementById('complaintsContainer').innerHTML='<div class="flex justify-center py-12"><span class="material-symbols-outlined spin text-2xl text-on-surface-variant">refresh</span></div>';
+  try{
+    const d=await api.get(`/complaints?status=${currentFilter}&limit=50`);
+    const complaints=d.complaints||[];
+    document.getElementById('complaintsContainer').innerHTML=complaints.length?complaints.map(c=>`
+      <div onclick="openThread('${c.id}')" class="bg-white rounded-xl border ${priorityColor[c.priority]||'border-outline-variant'} p-4 shadow-sm hover:shadow-md cursor-pointer transition-all">
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex-1">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="px-2 py-0.5 rounded-full text-xs font-semibold capitalize ${statusBadge[c.status]||'bg-gray-100 text-gray-600'}">${c.status.replace('_',' ')}</span>
+              <span class="text-xs text-on-surface-variant capitalize">${c.category||'general'}</span>
+            </div>
+            <h4 class="font-semibold text-sm">${c.title}</h4>
+            <p class="text-xs text-on-surface-variant mt-0.5 line-clamp-2">${c.description}</p>
+          </div>
+          <div class="text-right shrink-0">
+            <span class="text-xs text-on-surface-variant">${fmt.ago(c.created_at)}</span>
+            <p class="text-xs font-semibold capitalize mt-1 ${c.priority==='urgent'?'text-red-600':c.priority==='high'?'text-orange-600':'text-on-surface-variant'}">${c.priority}</p>
+          </div>
+        </div>
+        ${c.assigned_to_name?`<div class="flex items-center gap-1.5 mt-2 text-xs text-blue-600"><span class="material-symbols-outlined text-xs">engineering</span>Assigned to ${c.assigned_to_name}</div>`:''}
+        ${c.resolution_notes?`<div class="mt-2 p-2 bg-green-50 rounded-lg border border-green-100"><p class="text-xs text-green-700"><span class="font-semibold">Resolution:</span> ${c.resolution_notes}</p></div>`:''}
+      </div>`).join(''):'<div class="text-center py-16 flex flex-col items-center gap-2"><span class="material-symbols-outlined text-4xl text-on-surface-variant/30" style="font-variation-settings:\'FILL\' 1">support_agent</span><p class="text-sm text-on-surface-variant">No complaints found</p><button onclick="openModal(\'newComplaintModal\')" class="mt-2 px-4 py-2 bg-primary text-white rounded-lg text-sm font-semibold">Submit Your First Complaint</button></div>';
+  }catch(e){ document.getElementById('complaintsContainer').innerHTML=`<div class="text-center py-8 text-sm text-red-500">${e.message}</div>`; }
+}
+
+async function openThread(id){
+  activeComplaintId=id;
+  openModal('threadModal');
+  document.getElementById('threadMsgs').innerHTML='<div class="flex justify-center py-8"><span class="material-symbols-outlined spin text-2xl">refresh</span></div>';
+  try{
+    const c=await api.get(`/complaints/${id}`);
+    document.getElementById('threadTitle').textContent=c.title;
+    document.getElementById('threadDetails').innerHTML=`
+      <div class="flex flex-wrap gap-2">
+        <span class="px-2 py-0.5 rounded-full text-xs font-semibold ${statusBadge[c.status]||'bg-gray-100 text-gray-600'} capitalize">${c.status.replace('_',' ')}</span>
+        <span class="px-2 py-0.5 bg-gray-100 text-gray-600 rounded-full text-xs capitalize">${c.category||'general'}</span>
+        <span class="px-2 py-0.5 bg-gray-100 text-gray-600 rounded-full text-xs">Submitted ${fmt.date(c.created_at)}</span>
+      </div>`;
+    renderMessages(c.messages||[]);
+  }catch(e){ document.getElementById('threadMsgs').innerHTML=`<p class="text-sm text-red-500">${e.message}</p>`; }
+}
+
+function renderMessages(msgs){
+  const box=document.getElementById('threadMsgs');
+  box.innerHTML=msgs.length?msgs.map(m=>`
+    <div class="flex gap-2 ${m.sender_id===user?.id?'flex-row-reverse':''}">
+      <div class="w-7 h-7 rounded-full ${m.sender_role==='tenant'?'bg-primary':'bg-secondary'} flex items-center justify-center text-white text-xs font-bold shrink-0">${(m.sender_name||'?')[0]}</div>
+      <div class="${m.sender_id===user?.id?'bg-primary text-white':'bg-surface-container'} rounded-2xl px-4 py-2.5 max-w-xs">
+        <p class="text-xs font-semibold mb-1 opacity-70">${m.sender_name||'—'} · ${m.sender_role||''}</p>
+        <p class="text-sm">${m.content}</p>
+        <p class="text-xs opacity-50 mt-1">${fmt.ago(m.created_at)}</p>
+      </div>
+    </div>`).join(''):'<div class="text-center py-6 text-xs text-on-surface-variant"><span class="material-symbols-outlined text-2xl text-on-surface-variant/30 block mb-1">chat_bubble</span>No messages yet. Send one to get started!</div>';
+  box.scrollTop=box.scrollHeight;
+}
+
+async function sendThreadMsg(){
+  const inp=document.getElementById('threadInput'); const content=inp.value.trim();
+  if(!content||!activeComplaintId)return; inp.value='';
+  try{
+    await api.post(`/complaints/${activeComplaintId}/messages`,{content});
+    const box=document.getElementById('threadMsgs');
+    box.innerHTML+=`<div class="flex gap-2 flex-row-reverse"><div class="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-white text-xs font-bold">${user?.name[0]||'?'}</div><div class="bg-primary text-white rounded-2xl px-4 py-2.5 max-w-xs"><p class="text-xs font-semibold mb-1 opacity-70">You</p><p class="text-sm">${content}</p><p class="text-xs opacity-50 mt-1">just now</p></div></div>`;
+    box.scrollTop=box.scrollHeight;
+  }catch(e){ toast(e.message,'error'); }
+}
+
+document.getElementById('complaintForm').addEventListener('submit',async e=>{
+  e.preventDefault();const fd=new FormData(e.target);const btn=e.target.querySelector('[type=submit]');btn.disabled=true;
+  try{ await api.upload('/complaints',fd); toast('Complaint submitted!'); closeModal('newComplaintModal'); e.target.reset(); loadComplaints(); }
+  catch(err){ toast(err.message,'error'); }finally{ btn.disabled=false; }
+});
+
+loadComplaints();
+</script>
 </body></html>

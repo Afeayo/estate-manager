@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Financials — EstateManager</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script>tailwind.config={theme:{extend:{colors:{"primary":"#00361a","surface":"#f8fafb","surface-container-lowest":"#fff","surface-container-low":"#f2f4f5","surface-container":"#eceeef","surface-container-high":"#e6e8e9","outline-variant":"#c1c9bf","on-surface":"#191c1d","on-surface-variant":"#414942","error":"#ba1a1a","secondary":"#3f608b"}}}}</script>
+<style>body{font-family:'Hanken Grotesk',sans-serif;background:#f8fafb}.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;vertical-align:middle}.spin{animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}</style>
+</head>
+<body class="text-on-surface">
+<div class="flex h-screen overflow-hidden">
+<aside class="fixed md:static inset-y-0 left-0 w-64 bg-white border-r border-outline-variant flex flex-col py-6 px-4 z-50 transform -translate-x-full md:translate-x-0 transition-transform" id="sidebar">
+  <div class="mb-8 px-2"><h1 class="text-xl font-bold text-primary">EstateManager</h1><p class="text-xs text-on-surface-variant">Admin Panel</p></div>
+  <nav class="flex-1 space-y-1">
+    <a href="/admin/dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">dashboard</span>Dashboard</a>
+    <a href="/admin/tenants.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">group</span>Tenants</a>
+    <a href="/admin/properties.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">domain</span>Properties</a>
+    <a href="/admin/bills.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-primary font-semibold bg-green-50 border-r-4 border-primary"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">receipt_long</span>Financials</a>
+    <a href="/admin/complaints.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">support_agent</span>Complaints</a>
+    <a href="/admin/maintenance.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">handyman</span>Maintenance</a>
+    <a href="/admin/access.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">key</span>Access Control</a>
+  </nav>
+  <div class="border-t border-outline-variant pt-4"><div class="flex items-center gap-3 px-2"><div id="sidebarAvatar" class="w-9 h-9 rounded-full bg-primary flex items-center justify-center text-white text-sm font-bold">A</div><div><p id="sidebarName" class="text-sm font-bold">Admin</p><p class="text-xs text-on-surface-variant">Administrator</p></div></div><button onclick="Auth.logout()" class="mt-3 w-full flex items-center gap-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors"><span class="material-symbols-outlined text-base">logout</span>Logout</button></div>
+</aside>
+<div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+  <header class="flex items-center justify-between h-14 px-4 md:px-6 bg-white border-b border-outline-variant shrink-0">
+    <div class="flex items-center gap-3"><button onclick="document.getElementById('sidebar').classList.toggle('-translate-x-full')" class="md:hidden p-1.5 rounded-lg hover:bg-surface-container"><span class="material-symbols-outlined">menu</span></button><h2 class="font-semibold">Financials & Bills</h2></div>
+    <div class="flex items-center gap-2">
+      <button onclick="openModal('createBillModal')" class="flex items-center gap-1.5 px-3 py-1.5 bg-primary text-white rounded-lg text-sm font-semibold hover:brightness-110"><span class="material-symbols-outlined text-base">add</span>New Bill</button>
+      <button onclick="openModal('bulkBillModal')" class="flex items-center gap-1.5 px-3 py-1.5 border border-outline-variant rounded-lg text-sm hover:bg-surface-container"><span class="material-symbols-outlined text-base">dynamic_feed</span>Bulk</button>
+    </div>
+  </header>
+  <main class="flex-1 overflow-y-auto p-4 md:p-6 space-y-5">
+    <!-- Summary Cards -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="bg-white rounded-xl border border-outline-variant p-4 shadow-sm"><p class="text-xs text-on-surface-variant font-medium">Total Revenue</p><p id="sumRevenue" class="text-2xl font-bold text-green-700 mt-2">—</p><p class="text-xs text-on-surface-variant mt-1">All time collected</p></div>
+      <div class="bg-white rounded-xl border border-outline-variant p-4 shadow-sm"><p class="text-xs text-on-surface-variant font-medium">Outstanding</p><p id="sumOutstanding" class="text-2xl font-bold text-yellow-600 mt-2">—</p><p class="text-xs text-on-surface-variant mt-1">Pending + overdue</p></div>
+      <div class="bg-white rounded-xl border border-outline-variant p-4 shadow-sm"><p class="text-xs text-on-surface-variant font-medium">Pending Bills</p><p id="sumPending" class="text-2xl font-bold text-on-surface mt-2">—</p><p class="text-xs text-on-surface-variant mt-1">Awaiting payment</p></div>
+      <div class="bg-white rounded-xl border border-outline-variant p-4 shadow-sm"><p class="text-xs text-on-surface-variant font-medium">Overdue</p><p id="sumOverdue" class="text-2xl font-bold text-red-600 mt-2">—</p><p class="text-xs text-on-surface-variant mt-1">Requires follow-up</p></div>
+    </div>
+    <!-- Filters + Table -->
+    <div class="bg-white rounded-xl border border-outline-variant shadow-sm overflow-hidden">
+      <div class="p-4 border-b border-outline-variant flex flex-col sm:flex-row gap-3">
+        <select id="filterStatus" class="px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+          <option value="">All Status</option><option value="pending">Pending</option><option value="paid">Paid</option><option value="overdue">Overdue</option><option value="cancelled">Cancelled</option>
+        </select>
+        <select id="filterCategory" class="px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+          <option value="">All Categories</option><option value="rent">Rent</option><option value="utility">Utility</option><option value="service">Service</option><option value="maintenance">Maintenance</option>
+        </select>
+        <div class="flex-1"></div>
+        <span id="billCount" class="text-sm text-on-surface-variant self-center">Loading...</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left">
+          <thead class="bg-surface-container-low border-b border-outline-variant">
+            <tr>
+              <th class="px-5 py-3 text-xs font-semibold text-on-surface-variant uppercase">Bill</th>
+              <th class="px-5 py-3 text-xs font-semibold text-on-surface-variant uppercase">Tenant</th>
+              <th class="px-5 py-3 text-xs font-semibold text-on-surface-variant uppercase">Amount</th>
+              <th class="px-5 py-3 text-xs font-semibold text-on-surface-variant uppercase">Due Date</th>
+              <th class="px-5 py-3 text-xs font-semibold text-on-surface-variant uppercase">Status</th>
+              <th class="px-5 py-3 text-xs font-semibold text-on-surface-variant uppercase text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="billsTable" class="divide-y divide-outline-variant">
+            <tr><td colspan="6" class="text-center py-10"><span class="material-symbols-outlined spin text-on-surface-variant text-2xl">refresh</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="px-5 py-3 border-t border-outline-variant bg-surface-container-low flex items-center justify-between">
+        <span id="paginationInfo" class="text-xs text-on-surface-variant">Loading...</span>
+        <div id="paginationBtns" class="flex gap-1"></div>
+      </div>
+    </div>
+  </main>
+</div>
+</div>
+
+<!-- Create Bill Modal -->
+<div id="createBillModal" class="hidden fixed inset-0 bg-black/40 z-50 items-center justify-center p-4">
+  <div class="bg-white rounded-2xl w-full max-w-md shadow-2xl">
+    <div class="flex items-center justify-between p-5 border-b border-outline-variant"><h3 class="font-bold text-lg">Create Bill</h3><button onclick="closeModal('createBillModal')" class="p-1.5 hover:bg-surface-container rounded-lg"><span class="material-symbols-outlined">close</span></button></div>
+    <form id="createBillForm" class="p-5 space-y-3">
+      <div><label class="text-xs font-semibold text-on-surface-variant">Tenant *</label>
+        <select name="tenant_id" required id="tenantSelect" class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"><option value="">Select tenant...</option></select>
+      </div>
+      <div><label class="text-xs font-semibold text-on-surface-variant">Title *</label><input name="title" required class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Monthly Rent — July"/></div>
+      <div class="grid grid-cols-2 gap-3">
+        <div><label class="text-xs font-semibold text-on-surface-variant">Amount (₦) *</label><input name="amount" required type="number" class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
+        <div><label class="text-xs font-semibold text-on-surface-variant">Category</label><select name="category" class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"><option value="rent">Rent</option><option value="utility">Utility</option><option value="service">Service</option><option value="maintenance">Maintenance</option></select></div>
+      </div>
+      <div><label class="text-xs font-semibold text-on-surface-variant">Due Date *</label><input name="due_date" required type="date" class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
+      <div><label class="text-xs font-semibold text-on-surface-variant">Description</label><textarea name="description" rows="2" class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary resize-none"></textarea></div>
+      <div class="flex gap-3 pt-2"><button type="button" onclick="closeModal('createBillModal')" class="flex-1 py-2 border border-outline-variant rounded-lg text-sm">Cancel</button><button type="submit" class="flex-1 py-2 bg-primary text-white rounded-lg text-sm font-semibold">Create Bill</button></div>
+    </form>
+  </div>
+</div>
+
+<!-- Bulk Bill Modal -->
+<div id="bulkBillModal" class="hidden fixed inset-0 bg-black/40 z-50 items-center justify-center p-4">
+  <div class="bg-white rounded-2xl w-full max-w-md shadow-2xl">
+    <div class="flex items-center justify-between p-5 border-b border-outline-variant"><h3 class="font-bold text-lg">Generate Bulk Bills</h3><button onclick="closeModal('bulkBillModal')" class="p-1.5 hover:bg-surface-container rounded-lg"><span class="material-symbols-outlined">close</span></button></div>
+    <form id="bulkBillForm" class="p-5 space-y-3">
+      <div><label class="text-xs font-semibold text-on-surface-variant">Bill Title *</label><input name="title" required class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
+      <div class="grid grid-cols-2 gap-3">
+        <div><label class="text-xs font-semibold text-on-surface-variant">Category</label><select name="category" class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"><option value="rent">Rent</option><option value="service">Service</option><option value="utility">Utility</option></select></div>
+        <div><label class="text-xs font-semibold text-on-surface-variant">Due Date *</label><input name="due_date" required type="date" class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
+      </div>
+      <div><label class="text-xs font-semibold text-on-surface-variant">Custom Amount (leave blank to use each lease amount)</label><input name="custom_amount" type="number" class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
+      <p class="text-xs bg-yellow-50 border border-yellow-200 rounded-lg px-3 py-2">⚠️ This creates bills for ALL active tenants.</p>
+      <div class="flex gap-3 pt-2"><button type="button" onclick="closeModal('bulkBillModal')" class="flex-1 py-2 border border-outline-variant rounded-lg text-sm">Cancel</button><button type="submit" class="flex-1 py-2 bg-primary text-white rounded-lg text-sm font-semibold">Generate</button></div>
+    </form>
+  </div>
+</div>
+
+<script src="/js/api.js"></script>
+<script>
+const user = Auth.requireAuth('admin');
+if(user){document.getElementById('sidebarName').textContent=user.name;document.getElementById('sidebarAvatar').textContent=user.name[0];}
+function openModal(id){document.getElementById(id).classList.remove('hidden');document.getElementById(id).classList.add('flex');}
+function closeModal(id){document.getElementById(id).classList.add('hidden');document.getElementById(id).classList.remove('flex');}
+
+async function loadSummary(){
+  try{
+    const d=await api.get('/bills/summary');
+    document.getElementById('sumRevenue').textContent=fmt.money(d.totals?.total_revenue);
+    document.getElementById('sumOutstanding').textContent=fmt.money(d.totals?.outstanding);
+    document.getElementById('sumPending').textContent=d.totals?.pending_count||0;
+    document.getElementById('sumOverdue').textContent=d.totals?.overdue_count||0;
+  }catch(e){}
+}
+
+let curPage=1;
+async function loadBills(page=1){
+  curPage=page;
+  const status=document.getElementById('filterStatus').value;
+  const category=document.getElementById('filterCategory').value;
+  const tbody=document.getElementById('billsTable');
+  tbody.innerHTML='<tr><td colspan="6" class="text-center py-10"><span class="material-symbols-outlined spin text-2xl text-on-surface-variant">refresh</span></td></tr>';
+  try{
+    const d=await api.get(`/bills?page=${page}&limit=15&status=${status}&category=${category}`);
+    const total=d.total||0;
+    document.getElementById('billCount').textContent=`${total} bills`;
+    document.getElementById('paginationInfo').textContent=`${(page-1)*15+1}–${Math.min(page*15,total)} of ${total}`;
+    document.getElementById('paginationBtns').innerHTML=Array.from({length:Math.min(Math.ceil(total/15),5)},(_,i)=>i+1).map(p=>`<button onclick="loadBills(${p})" class="w-8 h-8 rounded text-xs font-semibold ${p===page?'bg-primary text-white':'hover:bg-surface-container-high'}">${p}</button>`).join('');
+
+    const statusColor={paid:'bg-green-100 text-green-700',pending:'bg-yellow-100 text-yellow-700',overdue:'bg-red-100 text-red-700',cancelled:'bg-gray-100 text-gray-500'};
+    tbody.innerHTML=(d.bills||[]).length?(d.bills||[]).map(b=>`
+      <tr class="hover:bg-surface-container-low/50 transition-colors">
+        <td class="px-5 py-3"><p class="text-sm font-semibold">${b.title}</p><p class="text-xs text-on-surface-variant capitalize">${b.category||'rent'}</p></td>
+        <td class="px-5 py-3"><p class="text-sm">${b.tenant_name||'—'}</p><p class="text-xs text-on-surface-variant">${b.unit_number||'—'}</p></td>
+        <td class="px-5 py-3 font-semibold text-sm">${fmt.money(b.amount)}</td>
+        <td class="px-5 py-3 text-sm text-on-surface-variant">${fmt.date(b.due_date)}</td>
+        <td class="px-5 py-3"><span class="px-2 py-0.5 rounded-full text-xs font-semibold ${statusColor[b.status]||'bg-gray-100 text-gray-600'}">${b.status}</span>${b.paid_at?`<p class="text-xs text-on-surface-variant mt-0.5">Paid ${fmt.date(b.paid_at)}</p>`:''}</td>
+        <td class="px-5 py-3 text-right">${b.status==='pending'?`<button onclick="cancelBill('${b.id}')" class="text-xs text-red-600 hover:underline px-2 py-1 rounded hover:bg-red-50">Cancel</button>`:'<span class="text-xs text-on-surface-variant">—</span>'}</td>
+      </tr>`).join(''):'<tr><td colspan="6" class="text-center py-10 text-sm text-on-surface-variant">No bills found</td></tr>';
+  }catch(e){tbody.innerHTML=`<tr><td colspan="6" class="text-center py-8 text-sm text-red-500">${e.message}</td></tr>`;}
+}
+
+async function cancelBill(id){
+  if(!confirm('Cancel this bill?'))return;
+  try{await api.del(`/bills/${id}`);toast('Bill cancelled');loadBills(curPage);loadSummary();}
+  catch(e){toast(e.message,'error');}
+}
+
+// Load tenants into dropdown
+async function loadTenants(){
+  try{const d=await api.get('/tenants?limit=100');const sel=document.getElementById('tenantSelect');
+  (d.tenants||[]).forEach(t=>{const o=document.createElement('option');o.value=t.id;o.textContent=`${t.name} — ${t.unit_number||'No unit'}`;sel.appendChild(o);});}catch(e){}
+}
+
+document.getElementById('createBillForm').addEventListener('submit',async e=>{
+  e.preventDefault();const fd=new FormData(e.target);const data={};fd.forEach((v,k)=>data[k]=v);
+  const btn=e.target.querySelector('[type=submit]');btn.disabled=true;
+  try{await api.post('/bills',data);toast('Bill created!');closeModal('createBillModal');e.target.reset();loadBills(1);loadSummary();}
+  catch(err){toast(err.message,'error');}finally{btn.disabled=false;}
+});
+document.getElementById('bulkBillForm').addEventListener('submit',async e=>{
+  e.preventDefault();const fd=new FormData(e.target);const data={};fd.forEach((v,k)=>{if(v)data[k]=v;});
+  const btn=e.target.querySelector('[type=submit]');btn.disabled=true;
+  try{const r=await api.post('/bills/bulk',data);toast(r.message||'Bulk bills created!');closeModal('bulkBillModal');e.target.reset();loadBills(1);loadSummary();}
+  catch(err){toast(err.message,'error');}finally{btn.disabled=false;}
+});
+
+document.getElementById('filterStatus').addEventListener('change',()=>loadBills(1));
+document.getElementById('filterCategory').addEventListener('change',()=>loadBills(1));
+
+loadSummary();loadBills();loadTenants();
+</script>
+</body></html>

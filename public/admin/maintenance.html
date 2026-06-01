@@ -1,449 +1,253 @@
 <!DOCTYPE html>
-
-<html class="light" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Support Tickets | EstateManager</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "on-background": "#191c1d",
-                        "surface-bright": "#f8fafb",
-                        "inverse-primary": "#9dd3aa",
-                        "surface-container-lowest": "#ffffff",
-                        "on-primary-fixed-variant": "#1d5031",
-                        "inverse-on-surface": "#eff1f2",
-                        "surface-variant": "#e1e3e4",
-                        "tertiary": "#630005",
-                        "primary": "#00361a",
-                        "on-surface-variant": "#414942",
-                        "inverse-surface": "#2e3132",
-                        "background": "#f8fafb",
-                        "secondary-container": "#adceff",
-                        "secondary": "#3f608b",
-                        "tertiary-fixed": "#ffdad6",
-                        "on-tertiary-container": "#ff9288",
-                        "primary-fixed-dim": "#9dd3aa",
-                        "on-secondary": "#ffffff",
-                        "outline-variant": "#c1c9bf",
-                        "error-container": "#ffdad6",
-                        "surface-tint": "#366847",
-                        "surface-container": "#eceeef",
-                        "secondary-fixed-dim": "#a7c9f9",
-                        "on-secondary-fixed-variant": "#254872",
-                        "primary-fixed": "#b8f0c5",
-                        "on-surface": "#191c1d",
-                        "error": "#ba1a1a",
-                        "tertiary-container": "#8d000c",
-                        "surface": "#f8fafb",
-                        "tertiary-fixed-dim": "#ffb4ab",
-                        "on-primary-container": "#88bd95",
-                        "on-error": "#ffffff",
-                        "on-secondary-container": "#365882",
-                        "on-primary-fixed": "#00210e",
-                        "secondary-fixed": "#d3e3ff",
-                        "primary-container": "#1a4d2e",
-                        "surface-container-highest": "#e1e3e4",
-                        "surface-container-high": "#e6e8e9",
-                        "on-tertiary-fixed-variant": "#93000d",
-                        "on-tertiary-fixed": "#410002",
-                        "surface-container-low": "#f2f4f5",
-                        "on-error-container": "#93000a",
-                        "on-primary": "#ffffff",
-                        "outline": "#717971",
-                        "surface-dim": "#d8dadb",
-                        "on-tertiary": "#ffffff",
-                        "on-secondary-fixed": "#001c39"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-                    "spacing": {
-                        "lg": "24px",
-                        "xl": "32px",
-                        "xs": "4px",
-                        "base": "4px",
-                        "margin-desktop": "32px",
-                        "margin-mobile": "16px",
-                        "md": "16px",
-                        "gutter": "20px",
-                        "sm": "8px"
-                    },
-                    "fontFamily": {
-                        "body-md": ["Hanken Grotesk"],
-                        "label-md": ["Hanken Grotesk"],
-                        "headline-md": ["Hanken Grotesk"],
-                        "label-sm": ["Hanken Grotesk"],
-                        "headline-sm": ["Hanken Grotesk"],
-                        "body-lg": ["Hanken Grotesk"],
-                        "headline-lg-mobile": ["Hanken Grotesk"],
-                        "display-lg": ["Hanken Grotesk"]
-                    },
-                    "fontSize": {
-                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
-                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500"}],
-                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
-                        "label-sm": ["11px", {"lineHeight": "14px", "fontWeight": "600"}],
-                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
-                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
-                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
-                        "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
-                    }
-                },
-            },
-        }
-    </script>
-<style>
-        body {
-            background-color: #f8fafb;
-            font-family: 'Hanken Grotesk', sans-serif;
-        }
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #c1c9bf;
-            border-radius: 10px;
-        }
-    </style>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Maintenance — EstateManager</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script>tailwind.config={theme:{extend:{colors:{"primary":"#00361a","surface":"#f8fafb","surface-container-lowest":"#fff","surface-container-low":"#f2f4f5","surface-container":"#eceeef","surface-container-high":"#e6e8e9","outline-variant":"#c1c9bf","on-surface":"#191c1d","on-surface-variant":"#414942","error":"#ba1a1a"}}}}</script>
+<style>body{font-family:'Hanken Grotesk',sans-serif;background:#f8fafb}.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;vertical-align:middle}.spin{animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.kanban-col{min-height:300px}</style>
 </head>
-<body class="text-on-surface bg-background">
-<div class="flex min-h-screen">
-<!-- NavigationDrawer (Shared Component) -->
-<aside class="hidden md:flex flex-col h-screen w-60 bg-surface dark:bg-on-background border-r border-outline-variant dark:border-outline shadow-sm py-lg px-md shrink-0">
-<div class="flex items-center gap-2 mb-xl">
-<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-<span class="material-symbols-outlined text-white text-lg">domain</span>
-</div>
-<h1 class="font-headline-md text-headline-md font-bold text-primary">EstateManager</h1>
-</div>
-<nav class="flex-1 space-y-1">
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-container transition-all active:translate-x-1 duration-200 font-body-md text-body-md" href="#">
-<span class="material-symbols-outlined">dashboard</span>
-<span>Dashboard</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-container transition-all active:translate-x-1 duration-200 font-body-md text-body-md" href="#">
-<span class="material-symbols-outlined">group</span>
-<span>Tenants</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-container transition-all active:translate-x-1 duration-200 font-body-md text-body-md" href="#">
-<span class="material-symbols-outlined">domain</span>
-<span>Properties</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-container transition-all active:translate-x-1 duration-200 font-body-md text-body-md" href="#">
-<span class="material-symbols-outlined">account_balance</span>
-<span>Financials</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-primary dark:text-primary-fixed font-bold bg-primary-container/10 border-r-4 border-primary transition-all active:translate-x-1 duration-200 font-body-md text-body-md" href="#">
-<span class="material-symbols-outlined">handyman</span>
-<span>Support</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-container transition-all active:translate-x-1 duration-200 font-body-md text-body-md" href="#">
-<span class="material-symbols-outlined">settings</span>
-<span>Settings</span>
-</a>
-</nav>
-<div class="mt-auto pt-lg border-t border-outline-variant flex items-center gap-3">
-<img alt="Admin profile" class="w-10 h-10 rounded-full bg-surface-container-high" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6v9_W6TadiPMkL644m5eHS1kkNGYQMH1wzOoubMLGn_7Bre20X5-XN2JasC5UnRxlVwZWfdjz3cCMItrtOIkVx1ZrQ2bOiSr-xGtgBmuh6VXTrSXBi_lPTpR0sbm-QAmfhRikEKbz19W5QehjjN7sHMlTzcfdHzlotI-l9LugYSjVX7pfQa4VH4w3ZVaZp9GLisSyWgE3Wp3cZPo2FnKKRQuVh8ZVkOkw4Y8vie4ZSLTHpgl6ay6Lj-DUyfk0o3SfjKxafmAUaTA"/>
-<div class="overflow-hidden">
-<p class="font-label-md text-label-md font-bold truncate">Admin Panel</p>
-<p class="text-[10px] text-on-surface-variant truncate">Estate Management</p>
-</div>
-</div>
+<body class="text-on-surface">
+<div class="flex h-screen overflow-hidden">
+<aside class="fixed md:static inset-y-0 left-0 w-64 bg-white border-r border-outline-variant flex flex-col py-6 px-4 z-50 transform -translate-x-full md:translate-x-0 transition-transform" id="sidebar">
+  <div class="mb-8 px-2"><h1 class="text-xl font-bold text-primary">EstateManager</h1><p class="text-xs text-on-surface-variant">Admin Panel</p></div>
+  <nav class="flex-1 space-y-1">
+    <a href="/admin/dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">dashboard</span>Dashboard</a>
+    <a href="/admin/tenants.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">group</span>Tenants</a>
+    <a href="/admin/properties.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">domain</span>Properties</a>
+    <a href="/admin/bills.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">receipt_long</span>Financials</a>
+    <a href="/admin/complaints.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">support_agent</span>Complaints</a>
+    <a href="/admin/maintenance.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-primary font-semibold bg-green-50 border-r-4 border-primary"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">handyman</span>Maintenance</a>
+    <a href="/admin/access.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">key</span>Access Control</a>
+  </nav>
+  <div class="border-t border-outline-variant pt-4">
+    <div class="flex items-center gap-3 px-2"><div id="sidebarAvatar" class="w-9 h-9 rounded-full bg-primary flex items-center justify-center text-white text-sm font-bold">A</div><div><p id="sidebarName" class="text-sm font-bold">Admin</p><p id="sidebarRole" class="text-xs text-on-surface-variant">Administrator</p></div></div>
+    <button onclick="Auth.logout()" class="mt-3 w-full flex items-center gap-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors"><span class="material-symbols-outlined text-base">logout</span>Logout</button>
+  </div>
 </aside>
-<!-- Main Content Area -->
-<main class="flex-1 flex flex-col min-w-0 overflow-hidden">
-<!-- TopAppBar (Shared Component) -->
-<header class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16 bg-surface dark:bg-on-background border-b border-outline-variant dark:border-outline shadow-sm sticky top-0 z-40">
-<div class="flex items-center gap-4">
-<button class="md:hidden p-2 hover:bg-surface-container rounded-full">
-<span class="material-symbols-outlined">menu</span>
-</button>
-<h2 class="font-headline-sm text-headline-sm dark:text-surface-bright text-primary">Support Tickets</h2>
-</div>
-<div class="flex items-center gap-2">
-<button class="p-2 hover:bg-surface-container dark:hover:bg-surface-container-highest transition-colors active:scale-95 duration-150 relative text-on-surface-variant">
-<span class="material-symbols-outlined">notifications</span>
-<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
-</button>
-<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-bold text-xs">
-                        JD
-                    </div>
-</div>
-</header>
-<div class="flex-1 flex flex-col md:flex-row overflow-hidden">
-<!-- Ticket List Section -->
-<section class="flex-1 overflow-y-auto p-md md:p-lg space-y-md custom-scrollbar bg-background">
-<!-- Filters & Stats Bento-ish Grid -->
-<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-lg">
-<div class="md:col-span-1 bg-surface-container-lowest p-md rounded-xl border border-outline-variant shadow-sm flex items-center gap-4">
-<div class="w-12 h-12 rounded-lg bg-primary-container/20 flex items-center justify-center text-primary">
-<span class="material-symbols-outlined">confirmation_number</span>
-</div>
-<div>
-<p class="text-label-sm text-on-surface-variant">Total Tickets</p>
-<p class="font-headline-sm text-headline-sm">24</p>
-</div>
-</div>
-<div class="md:col-span-1 bg-surface-container-lowest p-md rounded-xl border border-outline-variant shadow-sm flex items-center gap-4">
-<div class="w-12 h-12 rounded-lg bg-tertiary-container/10 flex items-center justify-center text-error">
-<span class="material-symbols-outlined">priority_high</span>
-</div>
-<div>
-<p class="text-label-sm text-on-surface-variant">Urgent Priority</p>
-<p class="font-headline-sm text-headline-sm">8</p>
-</div>
-</div>
-<div class="md:col-span-2 bg-surface-container-lowest p-md rounded-xl border border-outline-variant shadow-sm flex items-center gap-4 justify-between">
-<div class="flex-1">
-<p class="text-label-sm text-on-surface-variant">Resolution Rate</p>
-<div class="flex items-center gap-2 mt-1">
-<div class="flex-1 h-2 bg-surface-container-high rounded-full overflow-hidden">
-<div class="h-full bg-primary w-[65%]"></div>
-</div>
-<span class="text-label-md font-bold">65%</span>
-</div>
-</div>
-</div>
-</div>
-<!-- List Header / Filter -->
-<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 sticky top-0 bg-background/95 backdrop-blur py-2 z-10">
-<div class="flex gap-2">
-<button class="bg-primary text-white px-4 py-2 rounded-full text-label-md hover:opacity-90 transition-all flex items-center gap-2">
-<span class="material-symbols-outlined text-sm">filter_list</span>
-                                All Tickets
-                            </button>
-<button class="bg-surface-container-high text-on-surface px-4 py-2 rounded-full text-label-md hover:bg-surface-container-highest transition-all">New</button>
-<button class="bg-surface-container-high text-on-surface px-4 py-2 rounded-full text-label-md hover:bg-surface-container-highest transition-all">Plumbing</button>
-</div>
-<div class="relative group">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">search</span>
-<input class="pl-10 pr-4 py-2 rounded-full border border-outline-variant bg-surface-container-lowest focus:ring-2 focus:ring-primary focus:border-transparent outline-none w-full sm:w-64 transition-all" placeholder="Search tickets..." type="text"/>
-</div>
-</div>
-<!-- Tickets Table-like View -->
-<div class="space-y-3">
-<!-- Ticket Card 1 -->
-<div class="group bg-surface-container-lowest border border-outline-variant rounded-xl p-md hover:border-primary/40 hover:shadow-md transition-all cursor-pointer relative overflow-hidden" onclick="openDetails('TCK-882')">
-<div class="absolute left-0 top-0 bottom-0 w-1 bg-tertiary"></div>
-<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-<div class="flex items-center gap-4">
-<div class="w-10 h-10 rounded-full bg-tertiary-fixed-dim/20 flex items-center justify-center text-tertiary-container">
-<span class="material-symbols-outlined">plumbing</span>
-</div>
-<div>
-<div class="flex items-center gap-2">
-<h4 class="font-label-md text-label-md font-bold uppercase tracking-wider text-on-surface-variant">TCK-882 • Plumbing</h4>
-<span class="px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant text-[10px] font-bold">URGENT</span>
-</div>
-<p class="font-body-md text-body-md text-on-surface mt-1">Water leak in master bathroom ceiling</p>
-</div>
-</div>
-<div class="flex items-center justify-between md:justify-end gap-6 md:w-1/3">
-<div class="text-right">
-<p class="text-label-sm font-bold text-on-surface">Alex Nwosu</p>
-<p class="text-[10px] text-on-surface-variant">Unit B-402</p>
-</div>
-<div class="flex items-center gap-2">
-<span class="w-2 h-2 rounded-full bg-error"></span>
-<span class="text-label-sm font-bold text-error">New</span>
-</div>
-<span class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform">chevron_right</span>
-</div>
-</div>
-</div>
-<!-- Ticket Card 2 -->
-<div class="group bg-surface-container-lowest border border-outline-variant rounded-xl p-md hover:border-primary/40 hover:shadow-md transition-all cursor-pointer relative overflow-hidden" onclick="openDetails('TCK-879')">
-<div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary"></div>
-<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-<div class="flex items-center gap-4">
-<div class="w-10 h-10 rounded-full bg-secondary-container/20 flex items-center justify-center text-secondary">
-<span class="material-symbols-outlined">bolt</span>
-</div>
-<div>
-<div class="flex items-center gap-2">
-<h4 class="font-label-md text-label-md font-bold uppercase tracking-wider text-on-surface-variant">TCK-879 • Electrical</h4>
-<span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant text-[10px] font-bold">MEDIUM</span>
-</div>
-<p class="font-body-md text-body-md text-on-surface mt-1">Kitchen sockets not working since morning</p>
-</div>
-</div>
-<div class="flex items-center justify-between md:justify-end gap-6 md:w-1/3">
-<div class="text-right">
-<p class="text-label-sm font-bold text-on-surface">Tobi Johnson</p>
-<p class="text-[10px] text-on-surface-variant">Unit A-102</p>
-</div>
-<div class="flex items-center gap-2">
-<span class="w-2 h-2 rounded-full bg-secondary"></span>
-<span class="text-label-sm font-bold text-secondary">In Progress</span>
-</div>
-<span class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform">chevron_right</span>
-</div>
-</div>
-</div>
-<!-- Ticket Card 3 -->
-<div class="group bg-surface-container-lowest border border-outline-variant rounded-xl p-md hover:border-primary/40 hover:shadow-md transition-all cursor-pointer relative overflow-hidden">
-<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
-<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 opacity-70">
-<div class="flex items-center gap-4">
-<div class="w-10 h-10 rounded-full bg-primary-fixed/20 flex items-center justify-center text-primary">
-<span class="material-symbols-outlined">vpn_key</span>
-</div>
-<div>
-<div class="flex items-center gap-2">
-<h4 class="font-label-md text-label-md font-bold uppercase tracking-wider text-on-surface-variant">TCK-860 • Access</h4>
-<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant text-[10px] font-bold">LOW</span>
-</div>
-<p class="font-body-md text-body-md text-on-surface mt-1 line-through">Keycard replacement requested</p>
-</div>
-</div>
-<div class="flex items-center justify-between md:justify-end gap-6 md:w-1/3">
-<div class="text-right">
-<p class="text-label-sm font-bold text-on-surface">Sarah Peters</p>
-<p class="text-[10px] text-on-surface-variant">Unit C-505</p>
-</div>
-<div class="flex items-center gap-2">
-<span class="w-2 h-2 rounded-full bg-primary"></span>
-<span class="text-label-sm font-bold text-primary">Resolved</span>
-</div>
-<span class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform">check_circle</span>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- Ticket Details & Chat Pane -->
-<aside class="hidden md:flex flex-col w-full md:w-96 bg-surface-container-lowest border-l border-outline-variant h-full overflow-hidden transition-all duration-300 transform translate-x-full md:translate-x-0" id="ticket-detail-pane">
-<div class="p-lg border-b border-outline-variant">
-<div class="flex justify-between items-start mb-md">
-<div>
-<h3 class="font-headline-sm text-headline-sm text-on-surface" id="detail-id">TCK-882</h3>
-<p class="text-label-sm text-on-surface-variant">Opened Jan 15, 2024 at 10:45 AM</p>
-</div>
-<button class="md:hidden p-1 hover:bg-surface-container rounded-full" onclick="closeDetails()">
-<span class="material-symbols-outlined">close</span>
-</button>
-</div>
-<div class="space-y-4">
-<div class="flex justify-between items-center text-body-md">
-<span class="text-on-surface-variant">Status</span>
-<select class="bg-surface-container-high border-none rounded-lg text-label-md font-bold focus:ring-1 focus:ring-primary py-1 px-3">
-<option value="new">New</option>
-<option value="in_progress">In Progress</option>
-<option value="resolved">Resolved</option>
-</select>
-</div>
-<div class="flex justify-between items-center text-body-md">
-<span class="text-on-surface-variant">Priority</span>
-<span class="px-3 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant text-label-sm font-bold">URGENT</span>
-</div>
-</div>
-</div>
-<!-- Chat History -->
-<div class="flex-1 overflow-y-auto p-md space-y-md bg-surface-container-low/30 custom-scrollbar">
-<div class="text-center">
-<span class="text-[10px] bg-surface-container-high px-2 py-1 rounded-full text-on-surface-variant uppercase font-bold">Ticket Created</span>
-</div>
-<!-- Tenant Message -->
-<div class="flex flex-col items-start max-w-[85%]">
-<div class="bg-surface-container-highest p-3 rounded-2xl rounded-tl-none text-body-md">
-                                Help! There is a major leak coming from the upstairs bathroom. It's dripping onto the kitchen counter.
-                            </div>
-<span class="text-[10px] mt-1 ml-1 text-on-surface-variant font-medium">Alex Nwosu • 10:45 AM</span>
-</div>
-<!-- Admin Response -->
-<div class="flex flex-col items-end max-w-[85%] ml-auto">
-<div class="bg-primary text-white p-3 rounded-2xl rounded-tr-none text-body-md">
-                                Hi Alex, I've received your complaint. We're dispatching a plumber right now. He should be there in 30 minutes.
-                            </div>
-<span class="text-[10px] mt-1 mr-1 text-on-surface-variant font-medium">Admin • 11:02 AM</span>
-</div>
-<!-- Media Attachment Placeholder -->
-<div class="flex flex-col items-start max-w-[85%]">
-<div class="bg-surface-container-highest p-1 rounded-2xl rounded-tl-none border border-outline-variant overflow-hidden">
-<img class="w-full h-32 object-cover rounded-xl" data-alt="A detailed closeup of a water leak stain on a pristine white ceiling in a modern apartment. The lighting is natural but highlights the damp texture and concentric circles of water damage. Professional estate maintenance perspective, sharp focus on the textures of the ceiling and water droplets." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDu07np-hOWuCVIT4I1IedOnio8Q6CI5eyHnZM6ElZjBBx17kUU1ncWRDPn8PPBqFWJYf06eelosTUgvZquk_mElUV0qu4R1MkrNyBr7jKAMs0sUV3dX4T_U5Uhaq6V2YC4VOJxn4ZGlktI6R5JtVBpWk-1fAL54067q8DCu6Aih-SWa1n44GkxEKBL0NIofvggqmqwbLop2b3SAhid427R_hqS16c33u9gJtgCPu62AoziBP-JXj0zKuchIn7E7VbBXQKY5VatJpU"/>
-</div>
-<span class="text-[10px] mt-1 ml-1 text-on-surface-variant font-medium">Alex Nwosu • 11:10 AM</span>
-</div>
-</div>
-<!-- Chat Input -->
-<div class="p-md border-t border-outline-variant bg-surface-container-lowest">
-<div class="flex items-end gap-2">
-<div class="flex-1 relative bg-surface-container-high rounded-2xl p-2 min-h-[44px]">
-<textarea class="w-full bg-transparent border-none focus:ring-0 text-body-md resize-none py-1 custom-scrollbar" placeholder="Type a message..." rows="1"></textarea>
-<div class="flex justify-between items-center mt-1">
-<button class="text-on-surface-variant hover:text-primary p-1 rounded-full transition-colors">
-<span class="material-symbols-outlined text-lg">attachment</span>
-</button>
-<button class="bg-primary text-white p-1 rounded-full hover:scale-105 active:scale-95 transition-all shadow-sm">
-<span class="material-symbols-outlined text-lg">send</span>
-</button>
-</div>
-</div>
-</div>
-</div>
-</aside>
-</div>
-<!-- Mobile BottomNavBar (Shared Component) -->
-<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 pb-safe bg-surface dark:bg-on-background border-t border-outline-variant shadow-lg">
-<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant">
-<span class="material-symbols-outlined">home</span>
-<span class="font-label-sm text-label-sm">Home</span>
-</div>
-<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant">
-<span class="material-symbols-outlined">receipt_long</span>
-<span class="font-label-sm text-label-sm">Bills</span>
-</div>
-<div class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-full px-4 py-1">
-<span class="material-symbols-outlined">handyman</span>
-<span class="font-label-sm text-label-sm">Support</span>
-</div>
-<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant">
-<span class="material-symbols-outlined">person</span>
-<span class="font-label-sm text-label-sm">Profile</span>
-</div>
-</nav>
-</main>
-</div>
+<div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+  <header class="flex items-center justify-between h-14 px-4 md:px-6 bg-white border-b border-outline-variant shrink-0">
+    <div class="flex items-center gap-3">
+      <button onclick="document.getElementById('sidebar').classList.toggle('-translate-x-full')" class="md:hidden p-1.5 rounded-lg hover:bg-surface-container"><span class="material-symbols-outlined">menu</span></button>
+      <h2 class="font-semibold">Maintenance Board</h2>
+    </div>
+    <div class="flex items-center gap-2">
+      <span id="lastUpdated" class="hidden sm:block text-xs text-on-surface-variant">Loading...</span>
+      <button onclick="loadBoard()" class="p-2 hover:bg-surface-container rounded-full transition-colors" title="Refresh"><span class="material-symbols-outlined text-on-surface-variant">refresh</span></button>
+    </div>
+  </header>
+  <main class="flex-1 overflow-y-auto p-4 md:p-6 space-y-5">
+    <!-- Stats -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="bg-white rounded-xl border border-outline-variant p-4 shadow-sm flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">inbox</span></div>
+        <div><p id="statOpen" class="text-2xl font-bold">—</p><p class="text-xs text-on-surface-variant">Open</p></div>
+      </div>
+      <div class="bg-white rounded-xl border border-outline-variant p-4 shadow-sm flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-orange-50 flex items-center justify-center text-orange-600"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">engineering</span></div>
+        <div><p id="statInProgress" class="text-2xl font-bold">—</p><p class="text-xs text-on-surface-variant">In Progress</p></div>
+      </div>
+      <div class="bg-white rounded-xl border border-outline-variant p-4 shadow-sm flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-green-50 flex items-center justify-center text-green-600"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">check_circle</span></div>
+        <div><p id="statResolved" class="text-2xl font-bold">—</p><p class="text-xs text-on-surface-variant">Resolved</p></div>
+      </div>
+      <div class="bg-white rounded-xl border border-outline-variant p-4 shadow-sm flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center text-red-600"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">priority_high</span></div>
+        <div><p id="statUrgent" class="text-2xl font-bold text-red-600">—</p><p class="text-xs text-on-surface-variant">Urgent</p></div>
+      </div>
+    </div>
+    <!-- Kanban Board -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <!-- Open -->
+      <div class="bg-white rounded-xl border border-outline-variant shadow-sm overflow-hidden">
+        <div class="flex items-center justify-between px-4 py-3 border-b border-outline-variant bg-blue-50">
+          <div class="flex items-center gap-2"><div class="w-2.5 h-2.5 rounded-full bg-blue-500"></div><h3 class="font-semibold text-sm text-blue-800">Open</h3></div>
+          <span id="openCount" class="text-xs font-bold bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">0</span>
+        </div>
+        <div id="openCol" class="p-3 space-y-2 kanban-col overflow-y-auto max-h-96">
+          <div class="text-center py-8"><span class="material-symbols-outlined spin text-xl text-on-surface-variant">refresh</span></div>
+        </div>
+      </div>
+      <!-- In Progress -->
+      <div class="bg-white rounded-xl border border-outline-variant shadow-sm overflow-hidden">
+        <div class="flex items-center justify-between px-4 py-3 border-b border-outline-variant bg-orange-50">
+          <div class="flex items-center gap-2"><div class="w-2.5 h-2.5 rounded-full bg-orange-500"></div><h3 class="font-semibold text-sm text-orange-800">In Progress</h3></div>
+          <span id="progressCount" class="text-xs font-bold bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full">0</span>
+        </div>
+        <div id="progressCol" class="p-3 space-y-2 kanban-col overflow-y-auto max-h-96">
+          <div class="text-center py-8 text-xs text-on-surface-variant">Empty</div>
+        </div>
+      </div>
+      <!-- Resolved -->
+      <div class="bg-white rounded-xl border border-outline-variant shadow-sm overflow-hidden">
+        <div class="flex items-center justify-between px-4 py-3 border-b border-outline-variant bg-green-50">
+          <div class="flex items-center gap-2"><div class="w-2.5 h-2.5 rounded-full bg-green-500"></div><h3 class="font-semibold text-sm text-green-800">Resolved</h3></div>
+          <span id="resolvedCount" class="text-xs font-bold bg-green-100 text-green-700 px-2 py-0.5 rounded-full">0</span>
+        </div>
+        <div id="resolvedCol" class="p-3 space-y-2 kanban-col overflow-y-auto max-h-96">
+          <div class="text-center py-8 text-xs text-on-surface-variant">Empty</div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</div>
+
+<!-- Task Detail Modal -->
+<div id="taskModal" class="hidden fixed inset-0 bg-black/40 z-50 items-center justify-center p-4">
+  <div class="bg-white rounded-2xl w-full max-w-lg shadow-2xl max-h-[90vh] flex flex-col">
+    <div class="flex items-center justify-between p-5 border-b border-outline-variant shrink-0">
+      <h3 class="font-bold text-lg" id="taskTitle">Task</h3>
+      <button onclick="closeModal()" class="p-1.5 hover:bg-surface-container rounded-lg"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <div id="taskContent" class="flex-1 overflow-y-auto p-5 space-y-4"></div>
+  </div>
+</div>
+
+<script src="/js/api.js"></script>
 <script>
-        function openDetails(ticketId) {
-            const pane = document.getElementById('ticket-detail-pane');
-            const idDisplay = document.getElementById('detail-id');
-            idDisplay.innerText = ticketId;
-            pane.classList.remove('hidden', 'translate-x-full');
-            pane.classList.add('flex', 'translate-x-0', 'fixed', 'inset-0', 'z-50', 'md:relative', 'md:translate-x-0', 'md:z-0');
-        }
+const user = Auth.requireAuth(['admin','maintenance','support']);
+if(user){
+  document.getElementById('sidebarName').textContent=user.name;
+  document.getElementById('sidebarAvatar').textContent=user.name[0];
+  document.getElementById('sidebarRole').textContent=user.role;
+}
+function closeModal(){ document.getElementById('taskModal').classList.add('hidden'); document.getElementById('taskModal').classList.remove('flex'); }
+function openModal(){ document.getElementById('taskModal').classList.remove('hidden'); document.getElementById('taskModal').classList.add('flex'); }
 
-        function closeDetails() {
-            const pane = document.getElementById('ticket-detail-pane');
-            pane.classList.add('translate-x-full');
-            setTimeout(() => {
-                pane.classList.add('hidden');
-                pane.classList.remove('flex', 'fixed', 'inset-0', 'z-50');
-            }, 300);
-        }
+const priorityColor={urgent:'border-l-4 border-red-400',high:'border-l-4 border-orange-400',medium:'border-l-4 border-yellow-400',low:'border-l-4 border-gray-300'};
+const priorityBadge={urgent:'bg-red-100 text-red-700',high:'bg-orange-100 text-orange-700',medium:'bg-yellow-100 text-yellow-700',low:'bg-gray-100 text-gray-600'};
 
-        // Auto-expand textarea
-        const textarea = document.querySelector('textarea');
-        textarea.addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = (this.scrollHeight) + 'px';
-        });
-    </script>
+function makeCard(c){
+  return `<div onclick="openTask('${c.id}')" class="bg-white rounded-lg border border-outline-variant p-3 cursor-pointer hover:shadow-md transition-all ${priorityColor[c.priority]||''}">
+    <div class="flex items-start justify-between gap-2 mb-2">
+      <p class="text-sm font-semibold leading-tight line-clamp-2">${c.title}</p>
+      <span class="px-1.5 py-0.5 rounded text-xs font-semibold shrink-0 ${priorityBadge[c.priority]||'bg-gray-100 text-gray-600'}">${c.priority}</span>
+    </div>
+    <p class="text-xs text-on-surface-variant line-clamp-2 mb-2">${c.description}</p>
+    <div class="flex items-center justify-between text-xs text-on-surface-variant">
+      <span class="flex items-center gap-1"><span class="material-symbols-outlined text-xs">apartment</span>${c.unit_number||'—'}</span>
+      <span>${fmt.ago(c.created_at)}</span>
+    </div>
+    ${c.assigned_to_name?`<p class="text-xs text-blue-600 mt-1.5 flex items-center gap-1"><span class="material-symbols-outlined text-xs">engineering</span>${c.assigned_to_name}</p>`:''}
+  </div>`;
+}
+
+async function loadBoard(){
+  try{
+    const d = await api.get('/complaints?limit=100');
+    const all = d.complaints||[];
+    const open = all.filter(c=>c.status==='open');
+    const prog = all.filter(c=>c.status==='in_progress');
+    const done = all.filter(c=>c.status==='resolved'||c.status==='closed');
+    const urgent = all.filter(c=>c.priority==='urgent'&&c.status!=='resolved'&&c.status!=='closed');
+
+    document.getElementById('statOpen').textContent=open.length;
+    document.getElementById('statInProgress').textContent=prog.length;
+    document.getElementById('statResolved').textContent=done.length;
+    document.getElementById('statUrgent').textContent=urgent.length;
+    document.getElementById('openCount').textContent=open.length;
+    document.getElementById('progressCount').textContent=prog.length;
+    document.getElementById('resolvedCount').textContent=done.length;
+
+    document.getElementById('openCol').innerHTML=open.length?open.map(makeCard).join(''):'<p class="text-xs text-center text-on-surface-variant py-8">No open tasks</p>';
+    document.getElementById('progressCol').innerHTML=prog.length?prog.map(makeCard).join(''):'<p class="text-xs text-center text-on-surface-variant py-8">Nothing in progress</p>';
+    document.getElementById('resolvedCol').innerHTML=done.slice(0,10).map(makeCard).join('')||'<p class="text-xs text-center text-on-surface-variant py-8">None resolved yet</p>';
+
+    document.getElementById('lastUpdated').textContent=`Updated ${new Date().toLocaleTimeString()}`;
+  }catch(e){ console.error(e); }
+}
+
+async function openTask(id){
+  openModal();
+  document.getElementById('taskContent').innerHTML='<div class="flex justify-center py-8"><span class="material-symbols-outlined spin text-2xl">refresh</span></div>';
+  try{
+    const c = await api.get(`/complaints/${id}`);
+    document.getElementById('taskTitle').textContent=c.title;
+    document.getElementById('taskContent').innerHTML=`
+      <div class="flex flex-wrap gap-2">
+        <span class="px-2 py-1 rounded-full text-xs font-semibold ${priorityBadge[c.priority]||'bg-gray-100'}">${c.priority} priority</span>
+        <span class="px-2 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-700">${c.category||'general'}</span>
+        <span class="px-2 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-600">Unit ${c.unit_number||'—'}</span>
+      </div>
+      <div class="bg-surface-container-low rounded-xl p-4">
+        <p class="text-xs font-semibold text-on-surface-variant mb-1">Description</p>
+        <p class="text-sm">${c.description}</p>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div class="bg-surface-container-low rounded-xl p-3"><p class="text-xs text-on-surface-variant">Tenant</p><p class="text-sm font-semibold mt-1">${c.tenant_name||'—'}</p></div>
+        <div class="bg-surface-container-low rounded-xl p-3"><p class="text-xs text-on-surface-variant">Submitted</p><p class="text-sm font-semibold mt-1">${fmt.date(c.created_at)}</p></div>
+      </div>
+      <!-- Update Status -->
+      <div class="border border-outline-variant rounded-xl p-4 space-y-3">
+        <p class="text-sm font-bold">Update Task</p>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="text-xs font-semibold text-on-surface-variant">Status</label>
+            <select id="updStatus" class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+              <option value="open" ${c.status==='open'?'selected':''}>Open</option>
+              <option value="in_progress" ${c.status==='in_progress'?'selected':''}>In Progress</option>
+              <option value="resolved" ${c.status==='resolved'?'selected':''}>Resolved</option>
+              <option value="closed" ${c.status==='closed'?'selected':''}>Closed</option>
+            </select>
+          </div>
+          <div><label class="text-xs font-semibold text-on-surface-variant">Priority</label>
+            <select id="updPriority" class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+              <option value="low" ${c.priority==='low'?'selected':''}>Low</option>
+              <option value="medium" ${c.priority==='medium'?'selected':''}>Medium</option>
+              <option value="high" ${c.priority==='high'?'selected':''}>High</option>
+              <option value="urgent" ${c.priority==='urgent'?'selected':''}>Urgent</option>
+            </select>
+          </div>
+        </div>
+        <div><label class="text-xs font-semibold text-on-surface-variant">Resolution Notes</label>
+          <textarea id="updNotes" rows="2" class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary resize-none" placeholder="Describe what was done...">${c.resolution_notes||''}</textarea>
+        </div>
+        <button onclick="saveTask('${c.id}')" class="w-full py-2 bg-primary text-white rounded-lg text-sm font-semibold hover:brightness-110 transition-all">Save Changes</button>
+      </div>
+      <!-- Messages -->
+      <div class="border border-outline-variant rounded-xl overflow-hidden">
+        <div class="bg-surface-container-low px-4 py-2.5 border-b border-outline-variant flex items-center justify-between">
+          <p class="text-sm font-semibold">Messages</p><span class="text-xs text-on-surface-variant">${(c.messages||[]).length}</span>
+        </div>
+        <div id="msgBox" class="p-3 space-y-2 max-h-40 overflow-y-auto">
+          ${(c.messages||[]).length?(c.messages||[]).map(m=>`
+            <div class="flex gap-2 ${m.sender_id===user?.id?'flex-row-reverse':''}">
+              <div class="w-6 h-6 rounded-full bg-primary flex items-center justify-center text-white text-xs font-bold shrink-0">${(m.sender_name||'?')[0]}</div>
+              <div class="${m.sender_id===user?.id?'bg-primary text-white':'bg-surface-container'} rounded-lg px-3 py-1.5 max-w-xs">
+                <p class="text-xs font-semibold">${m.sender_name||'—'}</p>
+                <p class="text-sm">${m.content}</p>
+                <p class="text-xs opacity-60 mt-0.5">${fmt.ago(m.created_at)}</p>
+              </div>
+            </div>`).join(''):'<p class="text-xs text-center text-on-surface-variant py-3">No messages</p>'}
+        </div>
+        <div class="flex gap-2 p-3 border-t border-outline-variant">
+          <input id="msgInput" type="text" placeholder="Send a message..." class="flex-1 px-3 py-1.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary" onkeydown="if(event.key==='Enter')sendMsg('${c.id}')"/>
+          <button onclick="sendMsg('${c.id}')" class="px-3 py-1.5 bg-primary text-white rounded-lg hover:brightness-110"><span class="material-symbols-outlined text-sm">send</span></button>
+        </div>
+      </div>`;
+  }catch(e){ document.getElementById('taskContent').innerHTML=`<p class="text-sm text-red-500">${e.message}</p>`; }
+}
+
+async function saveTask(id){
+  const status=document.getElementById('updStatus').value;
+  const priority=document.getElementById('updPriority').value;
+  const resolution_notes=document.getElementById('updNotes').value;
+  try{ await api.put(`/complaints/${id}`,{status,priority,resolution_notes}); toast('Task updated!'); closeModal(); loadBoard(); }
+  catch(e){ toast(e.message,'error'); }
+}
+
+async function sendMsg(id){
+  const inp=document.getElementById('msgInput'); const content=inp.value.trim(); if(!content)return; inp.value='';
+  try{
+    await api.post(`/complaints/${id}/messages`,{content});
+    const box=document.getElementById('msgBox');
+    box.innerHTML+=`<div class="flex gap-2 flex-row-reverse"><div class="w-6 h-6 rounded-full bg-primary flex items-center justify-center text-white text-xs font-bold">${user?.name[0]||'?'}</div><div class="bg-primary text-white rounded-lg px-3 py-1.5 max-w-xs"><p class="text-xs font-semibold">${user?.name||'You'}</p><p class="text-sm">${content}</p><p class="text-xs opacity-60 mt-0.5">just now</p></div></div>`;
+    box.scrollTop=box.scrollHeight;
+  }catch(e){ toast(e.message,'error'); }
+}
+
+loadBoard();
+setInterval(loadBoard, 30000); // auto-refresh every 30s
+</script>
 </body></html>
