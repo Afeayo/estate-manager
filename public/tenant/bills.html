@@ -15,23 +15,24 @@
   <nav class="flex-1 space-y-1">
     <a href="/tenant/dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">home</span>Home</a>
     <a href="/tenant/bills.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-primary font-semibold bg-green-50 border-r-4 border-primary"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">receipt_long</span>Bills & Payments</a>
-    <a href="/tenant/support.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">support_agent</span>Support & Complaints</a>
-    <a href="/tenant/access.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">key</span>Access & Visitors</a>
-    <a href="/tenant/notifications.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">notifications</span>Notifications</a>
+    <a href="/tenant/support.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">support_agent</span>Support</a>
+    <a href="/tenant/access.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">key</span>Access</a>
+    <a href="/tenant/notifications.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">notifications</span>Alerts</a>
   </nav>
-  <div class="border-t border-outline-variant pt-4"><div class="flex items-center gap-3 px-2"><div id="sidebarAvatar" class="w-9 h-9 rounded-full bg-primary flex items-center justify-center text-white text-sm font-bold">T</div><div><p id="sidebarName" class="text-sm font-bold">Tenant</p><p class="text-xs text-on-surface-variant">Resident</p></div></div><button onclick="Auth.logout()" class="mt-3 w-full flex items-center gap-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors"><span class="material-symbols-outlined text-base">logout</span>Logout</button></div>
+  <div class="border-t border-outline-variant pt-4"><div class="flex items-center gap-3 px-2"><div id="sidebarAvatar" class="w-9 h-9 rounded-full bg-primary flex items-center justify-center text-white text-sm font-bold">T</div><div><p id="sidebarName" class="text-sm font-bold truncate">Tenant</p><p class="text-xs text-on-surface-variant">Resident</p></div></div><button onclick="Auth.logout()" class="mt-3 w-full flex items-center gap-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors"><span class="material-symbols-outlined text-base">logout</span>Logout</button></div>
 </aside>
 <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
   <header class="flex items-center justify-between h-14 px-4 md:px-6 bg-white border-b border-outline-variant shrink-0">
     <div class="flex items-center gap-3"><a href="/tenant/dashboard.html" class="md:hidden p-1.5 rounded-lg hover:bg-surface-container"><span class="material-symbols-outlined">arrow_back</span></a><h2 class="font-semibold">Bills & Payments</h2></div>
+    <button onclick="switchTab('history')" class="text-xs text-primary font-semibold hover:underline flex items-center gap-1"><span class="material-symbols-outlined text-sm">history</span>Payment History</button>
   </header>
   <main class="flex-1 overflow-y-auto p-4 md:p-6 space-y-5">
     <!-- Balance Summary -->
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-      <div class="bg-gradient-to-br from-primary to-green-700 rounded-2xl p-5 text-white sm:col-span-1">
-        <p class="text-green-200 text-xs font-medium mb-1">Total Paid</p>
+      <div class="bg-gradient-to-br from-primary to-green-700 rounded-2xl p-5 text-white shadow-lg">
+        <p class="text-green-200 text-xs font-medium mb-1">Total Paid (All Time)</p>
         <p id="sumPaid" class="text-3xl font-bold">—</p>
-        <p class="text-green-200 text-xs mt-2">All time</p>
+        <p class="text-green-200 text-xs mt-2 flex items-center gap-1"><span class="material-symbols-outlined text-xs" style="font-variation-settings:'FILL' 1">check_circle</span>Confirmed payments</p>
       </div>
       <div class="bg-white rounded-2xl border border-yellow-200 p-5 shadow-sm">
         <p class="text-xs text-on-surface-variant font-medium mb-1">Pending Amount</p>
@@ -41,24 +42,53 @@
       <div class="bg-white rounded-2xl border border-red-200 p-5 shadow-sm">
         <p class="text-xs text-on-surface-variant font-medium mb-1">Overdue</p>
         <p id="sumOverdue" class="text-3xl font-bold text-red-600">—</p>
-        <p class="text-xs text-red-500 mt-2">Requires immediate payment</p>
+        <p class="text-xs text-red-500 mt-2 flex items-center gap-1"><span class="material-symbols-outlined text-xs" style="font-variation-settings:'FILL' 1">warning</span>Immediate payment required</p>
       </div>
     </div>
-    <!-- Filter Tabs -->
-    <div class="flex gap-2 overflow-x-auto">
-      <button onclick="setFilter('')" id="fAll" class="px-4 py-2 rounded-lg text-sm font-semibold bg-primary text-white whitespace-nowrap">All</button>
-      <button onclick="setFilter('pending')" id="fPending" class="px-4 py-2 rounded-lg text-sm font-medium border border-outline-variant hover:bg-surface-container-high whitespace-nowrap">Pending</button>
-      <button onclick="setFilter('overdue')" id="fOverdue" class="px-4 py-2 rounded-lg text-sm font-medium border border-outline-variant hover:bg-surface-container-high whitespace-nowrap">Overdue</button>
-      <button onclick="setFilter('paid')" id="fPaid" class="px-4 py-2 rounded-lg text-sm font-medium border border-outline-variant hover:bg-surface-container-high whitespace-nowrap">Paid</button>
+
+    <!-- Tabs -->
+    <div id="tabBills">
+      <!-- Filter Tabs -->
+      <div class="flex gap-2 overflow-x-auto pb-1">
+        <button onclick="setFilter('')" id="fAll" class="px-4 py-2 rounded-lg text-sm font-semibold bg-primary text-white whitespace-nowrap">All</button>
+        <button onclick="setFilter('pending')" id="fPending" class="px-4 py-2 rounded-lg text-sm font-medium border border-outline-variant hover:bg-surface-container-high whitespace-nowrap transition-colors">Pending</button>
+        <button onclick="setFilter('overdue')" id="fOverdue" class="px-4 py-2 rounded-lg text-sm font-medium border border-outline-variant hover:bg-surface-container-high whitespace-nowrap transition-colors">Overdue</button>
+        <button onclick="setFilter('paid')" id="fPaid" class="px-4 py-2 rounded-lg text-sm font-medium border border-outline-variant hover:bg-surface-container-high whitespace-nowrap transition-colors">Paid</button>
+      </div>
+      <div id="billsContainer" class="space-y-3 mt-3">
+        <div class="flex justify-center py-12"><span class="material-symbols-outlined spin text-2xl text-on-surface-variant">refresh</span></div>
+      </div>
     </div>
-    <!-- Bills List -->
-    <div id="billsContainer" class="space-y-3">
-      <div class="flex justify-center py-12"><span class="material-symbols-outlined spin text-2xl text-on-surface-variant">refresh</span></div>
+
+    <!-- Payment History Tab -->
+    <div id="tabHistory" class="hidden">
+      <div class="flex items-center gap-3 mb-4">
+        <button onclick="switchTab('bills')" class="p-1.5 hover:bg-surface-container rounded-lg"><span class="material-symbols-outlined">arrow_back</span></button>
+        <h3 class="font-semibold">Payment History</h3>
+      </div>
+      <div class="bg-white rounded-xl border border-outline-variant shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left">
+            <thead class="bg-surface-container-low border-b border-outline-variant">
+              <tr>
+                <th class="px-5 py-3 text-xs font-semibold text-on-surface-variant uppercase">Bill</th>
+                <th class="px-5 py-3 text-xs font-semibold text-on-surface-variant uppercase">Amount</th>
+                <th class="px-5 py-3 text-xs font-semibold text-on-surface-variant uppercase">Method</th>
+                <th class="px-5 py-3 text-xs font-semibold text-on-surface-variant uppercase">Date</th>
+                <th class="px-5 py-3 text-xs font-semibold text-on-surface-variant uppercase">Ref</th>
+              </tr>
+            </thead>
+            <tbody id="historyTable" class="divide-y divide-outline-variant">
+              <tr><td colspan="5" class="text-center py-8"><span class="material-symbols-outlined spin text-2xl text-on-surface-variant">refresh</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </main>
 </div>
 </div>
-<!-- Bottom Nav -->
+<!-- Mobile Bottom Nav -->
 <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-outline-variant flex items-center z-50">
   <a href="/tenant/dashboard.html" class="flex-1 flex flex-col items-center py-3 text-on-surface-variant"><span class="material-symbols-outlined text-xl">home</span><span class="text-xs mt-0.5">Home</span></a>
   <a href="/tenant/bills.html" class="flex-1 flex flex-col items-center py-3 text-primary"><span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL' 1">receipt_long</span><span class="text-xs font-semibold mt-0.5">Bills</span></a>
@@ -74,28 +104,45 @@
     <div class="p-6">
       <h3 class="font-bold text-xl mb-1">Pay Bill</h3>
       <div id="payBillInfo" class="mb-5"></div>
-      <p class="text-sm font-semibold mb-2">Payment Method</p>
-      <div class="grid grid-cols-2 gap-3 mb-5" id="payMethods">
-        <button onclick="selectMethod('bank_transfer')" class="pay-method flex flex-col items-center gap-2 p-3 border-2 border-primary rounded-xl bg-green-50 transition-all" data-method="bank_transfer">
-          <span class="material-symbols-outlined text-primary text-2xl" style="font-variation-settings:'FILL' 1">account_balance</span>
-          <span class="text-xs font-semibold text-primary">Bank Transfer</span>
-        </button>
-        <button onclick="selectMethod('card')" class="pay-method flex flex-col items-center gap-2 p-3 border-2 border-outline-variant rounded-xl hover:border-primary hover:bg-green-50 transition-all" data-method="card">
-          <span class="material-symbols-outlined text-on-surface-variant text-2xl" style="font-variation-settings:'FILL' 1">credit_card</span>
-          <span class="text-xs font-semibold">Card Payment</span>
-        </button>
-        <button onclick="selectMethod('cash')" class="pay-method flex flex-col items-center gap-2 p-3 border-2 border-outline-variant rounded-xl hover:border-primary hover:bg-green-50 transition-all" data-method="cash">
-          <span class="material-symbols-outlined text-on-surface-variant text-2xl" style="font-variation-settings:'FILL' 1">payments</span>
-          <span class="text-xs font-semibold">Cash</span>
-        </button>
-        <button onclick="selectMethod('ussd')" class="pay-method flex flex-col items-center gap-2 p-3 border-2 border-outline-variant rounded-xl hover:border-primary hover:bg-green-50 transition-all" data-method="ussd">
-          <span class="material-symbols-outlined text-on-surface-variant text-2xl" style="font-variation-settings:'FILL' 1">dialpad</span>
-          <span class="text-xs font-semibold">USSD</span>
-        </button>
+
+      <!-- Paystack Card (Primary) -->
+      <div class="mb-4">
+        <p class="text-xs font-bold text-on-surface-variant mb-3 uppercase tracking-wider">Payment Method</p>
+        <div class="space-y-2">
+          <button onclick="selectMethod('paystack_card')" id="m_paystack_card" class="pay-btn w-full flex items-center gap-3 p-3.5 border-2 border-primary rounded-xl bg-green-50 transition-all">
+            <div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-white text-xl" style="font-variation-settings:'FILL' 1">credit_card</span></div>
+            <div class="text-left flex-1"><p class="text-sm font-bold">Card Payment</p><p class="text-xs text-on-surface-variant">Visa, Mastercard via Paystack</p></div>
+            <div class="w-5 h-5 rounded-full border-2 border-primary bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-white text-xs" style="font-size:12px;font-variation-settings:'FILL' 1">check</span></div>
+          </button>
+          <button onclick="selectMethod('bank_transfer')" id="m_bank_transfer" class="pay-btn w-full flex items-center gap-3 p-3.5 border-2 border-outline-variant rounded-xl hover:border-primary hover:bg-green-50 transition-all">
+            <div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-blue-600 text-xl" style="font-variation-settings:'FILL' 1">account_balance</span></div>
+            <div class="text-left flex-1"><p class="text-sm font-bold">Bank Transfer</p><p class="text-xs text-on-surface-variant">Direct bank payment via Paystack</p></div>
+            <div class="w-5 h-5 rounded-full border-2 border-outline-variant"></div>
+          </button>
+          <button onclick="selectMethod('ussd')" id="m_ussd" class="pay-btn w-full flex items-center gap-3 p-3.5 border-2 border-outline-variant rounded-xl hover:border-primary hover:bg-green-50 transition-all">
+            <div class="w-10 h-10 rounded-lg bg-purple-50 flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-purple-600 text-xl" style="font-variation-settings:'FILL' 1">dialpad</span></div>
+            <div class="text-left flex-1"><p class="text-sm font-bold">USSD</p><p class="text-xs text-on-surface-variant">Pay with any bank USSD code</p></div>
+            <div class="w-5 h-5 rounded-full border-2 border-outline-variant"></div>
+          </button>
+        </div>
       </div>
-      <button id="confirmPayBtn" onclick="confirmPay()" class="w-full py-3.5 bg-primary text-white rounded-xl text-sm font-bold hover:brightness-110 transition-all shadow-lg mb-2">Confirm Payment</button>
-      <button onclick="closeModal('payModal')" class="w-full py-2 text-sm text-on-surface-variant hover:text-on-surface">Cancel</button>
+
+      <button id="confirmPayBtn" onclick="confirmPay()" class="w-full py-3.5 bg-primary text-white rounded-xl text-sm font-bold hover:brightness-110 transition-all shadow-lg mb-2 flex items-center justify-center gap-2">
+        <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL' 1">payments</span>Proceed to Payment
+      </button>
+      <button onclick="closeModal('payModal')" class="w-full py-2 text-sm text-on-surface-variant hover:text-on-surface transition-colors">Cancel</button>
     </div>
+  </div>
+</div>
+
+<!-- Payment Processing Modal -->
+<div id="processingModal" class="hidden fixed inset-0 bg-black/60 z-[60] items-center justify-center">
+  <div class="bg-white rounded-2xl p-8 mx-4 max-w-xs w-full text-center shadow-2xl">
+    <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+      <span class="material-symbols-outlined text-primary text-3xl spin">refresh</span>
+    </div>
+    <h3 class="font-bold text-lg mb-1">Processing Payment</h3>
+    <p class="text-sm text-on-surface-variant" id="processingMsg">Connecting to Paystack...</p>
   </div>
 </div>
 
@@ -106,18 +153,39 @@ if(user){document.getElementById('sidebarName').textContent=user.name;document.g
 function openModal(id){document.getElementById(id).classList.remove('hidden');document.getElementById(id).classList.add('flex');}
 function closeModal(id){document.getElementById(id).classList.add('hidden');document.getElementById(id).classList.remove('flex');}
 
-let currentFilter='', selectedMethod='bank_transfer', activeBillId=null;
+let currentFilter='', selectedMethod='paystack_card', activeBillId=null, activeBillAmount=0;
+
+function switchTab(tab) {
+  document.getElementById('tabBills').classList.toggle('hidden', tab !== 'bills');
+  document.getElementById('tabHistory').classList.toggle('hidden', tab !== 'history');
+  if(tab === 'history') loadHistory();
+}
 
 function setFilter(f){
   currentFilter=f;
   ['All','Pending','Overdue','Paid'].forEach(n=>{
     const el=document.getElementById(`f${n}`);
-    if(el) el.className='px-4 py-2 rounded-lg text-sm font-medium border border-outline-variant hover:bg-surface-container-high whitespace-nowrap';
+    if(el) el.className='px-4 py-2 rounded-lg text-sm font-medium border border-outline-variant hover:bg-surface-container-high whitespace-nowrap transition-colors';
   });
-  const key=f?f.charAt(0).toUpperCase()+f.slice(1):'All';
-  const active=document.getElementById(`f${key}`);
-  if(active) active.className='px-4 py-2 rounded-lg text-sm font-semibold bg-primary text-white whitespace-nowrap';
+  const k=f?f.charAt(0).toUpperCase()+f.slice(1):'All';
+  const a=document.getElementById(`f${k}`);
+  if(a) a.className='px-4 py-2 rounded-lg text-sm font-semibold bg-primary text-white whitespace-nowrap';
   loadBills();
+}
+
+function selectMethod(m){
+  selectedMethod=m;
+  document.querySelectorAll('.pay-btn').forEach(btn=>{
+    btn.className='pay-btn w-full flex items-center gap-3 p-3.5 border-2 border-outline-variant rounded-xl hover:border-primary hover:bg-green-50 transition-all';
+    const dot=btn.querySelector('.rounded-full.border-2');
+    if(dot){ dot.className='w-5 h-5 rounded-full border-2 border-outline-variant'; dot.innerHTML=''; }
+  });
+  const active=document.getElementById(`m_${m}`);
+  if(active){
+    active.className='pay-btn w-full flex items-center gap-3 p-3.5 border-2 border-primary rounded-xl bg-green-50 transition-all';
+    const dot=active.querySelector('.rounded-full.border-2');
+    if(dot){ dot.className='w-5 h-5 rounded-full border-2 border-primary bg-primary flex items-center justify-center'; dot.innerHTML='<span class="material-symbols-outlined text-white" style="font-size:12px;font-variation-settings:\'FILL\' 1">check</span>'; }
+  }
 }
 
 async function loadBills(){
@@ -125,8 +193,6 @@ async function loadBills(){
   try{
     const d=await api.get(`/bills?limit=50&status=${currentFilter}`);
     const bills=d.bills||[];
-
-    // Summary
     const paid=bills.filter(b=>b.status==='paid').reduce((s,b)=>s+b.amount,0);
     const pending=bills.filter(b=>b.status==='pending').reduce((s,b)=>s+b.amount,0);
     const overdue=bills.filter(b=>b.status==='overdue').reduce((s,b)=>s+b.amount,0);
@@ -134,77 +200,114 @@ async function loadBills(){
     document.getElementById('sumPending').textContent=fmt.money(pending);
     document.getElementById('sumOverdue').textContent=fmt.money(overdue);
 
-    if(!bills.length){document.getElementById('billsContainer').innerHTML='<div class="text-center py-16 text-sm text-on-surface-variant flex flex-col items-center gap-2"><span class="material-symbols-outlined text-4xl text-green-400" style="font-variation-settings:\'FILL\' 1">check_circle</span>No bills found</div>';return;}
+    if(!bills.length){
+      document.getElementById('billsContainer').innerHTML='<div class="text-center py-16 flex flex-col items-center gap-2"><span class="material-symbols-outlined text-4xl text-green-400" style="font-variation-settings:\'FILL\' 1">check_circle</span><p class="text-sm text-on-surface-variant font-semibold">No bills found</p></div>';
+      return;
+    }
 
-    const catIcon={rent:'home',utility:'bolt',service:'cleaning_services',maintenance:'build',other:'receipt'};
-    const statusColor={pending:'border-yellow-200 bg-yellow-50',overdue:'border-red-200 bg-red-50',paid:'border-green-200 bg-green-50',cancelled:'border-gray-200 bg-gray-50'};
+    const catIcon={rent:'home',utility:'bolt',service:'cleaning_services',maintenance:'build',deposit:'savings',other:'receipt'};
+    const statusColor={pending:'border-yellow-200 bg-yellow-50',overdue:'border-red-300 bg-red-50',paid:'border-green-200 bg-green-50/50',cancelled:'border-gray-200 bg-gray-50'};
     const statusBadge={pending:'bg-yellow-100 text-yellow-700',overdue:'bg-red-100 text-red-700',paid:'bg-green-100 text-green-700',cancelled:'bg-gray-100 text-gray-500'};
 
     document.getElementById('billsContainer').innerHTML=bills.map(b=>`
       <div class="bg-white rounded-xl border ${statusColor[b.status]||'border-outline-variant'} p-4 shadow-sm hover:shadow-md transition-all">
-        <div class="flex items-start justify-between gap-3">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-surface-container-low flex items-center justify-center text-on-surface-variant">
-              <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">${catIcon[b.category]||'receipt'}</span>
-            </div>
-            <div>
-              <h4 class="font-semibold text-sm">${b.title}</h4>
-              <p class="text-xs text-on-surface-variant capitalize">${b.category||'rent'} · Due ${fmt.date(b.due_date)}</p>
-              ${b.description?`<p class="text-xs text-on-surface-variant mt-0.5">${b.description}</p>`:''}
-            </div>
+        <div class="flex items-start gap-3">
+          <div class="w-11 h-11 rounded-xl bg-surface-container-low flex items-center justify-center shrink-0 mt-0.5">
+            <span class="material-symbols-outlined text-on-surface-variant" style="font-variation-settings:'FILL' 1">${catIcon[b.category]||'receipt'}</span>
           </div>
-          <div class="text-right shrink-0">
-            <p class="text-lg font-bold">${fmt.money(b.amount)}</p>
-            <span class="px-2 py-0.5 rounded-full text-xs font-semibold ${statusBadge[b.status]||'bg-gray-100 text-gray-600'}">${b.status}</span>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-start justify-between gap-2">
+              <div><h4 class="font-semibold text-sm">${b.title}</h4><p class="text-xs text-on-surface-variant capitalize mt-0.5">${b.category||'rent'} · Due ${fmt.date(b.due_date)}</p></div>
+              <div class="text-right shrink-0"><p class="text-lg font-bold">${fmt.money(b.amount)}</p><span class="px-2 py-0.5 rounded-full text-xs font-semibold ${statusBadge[b.status]||'bg-gray-100 text-gray-600'}">${b.status}</span></div>
+            </div>
+            ${b.description?`<p class="text-xs text-on-surface-variant mt-1">${b.description}</p>`:''}
           </div>
         </div>
-        ${b.status==='pending'||b.status==='overdue'?`
-        <button onclick="openPayModal('${b.id}','${b.title}',${b.amount})" class="mt-3 w-full py-2.5 bg-primary text-white rounded-lg text-sm font-semibold hover:brightness-110 transition-all flex items-center justify-center gap-2">
-          <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL' 1">payments</span>Pay Now — ${fmt.money(b.amount)}
+        ${(b.status==='pending'||b.status==='overdue')?`
+        <button onclick="openPayModal('${b.id}','${b.title.replace(/'/g,"\\'")}',${b.amount})"
+          class="mt-3 w-full py-2.5 bg-primary text-white rounded-lg text-sm font-semibold hover:brightness-110 transition-all flex items-center justify-center gap-2 shadow-sm">
+          <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL' 1">payments</span>Pay ${fmt.money(b.amount)}
         </button>`:''}
-        ${b.status==='paid'?`<p class="mt-2 text-xs text-green-600 flex items-center gap-1"><span class="material-symbols-outlined text-xs" style="font-variation-settings:'FILL' 1">check_circle</span>Paid on ${fmt.date(b.paid_at)} via ${b.payment_method||'—'}</p>`:''}
+        ${b.status==='paid'?`
+        <div class="mt-2 flex items-center gap-2 text-xs text-green-600">
+          <span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL' 1">check_circle</span>
+          Paid ${fmt.date(b.paid_at)} via ${(b.payment_method||'—').replace('_',' ')} · Ref: ${b.transaction_ref||b.paystack_ref||'—'}
+        </div>`:''}
       </div>`).join('');
   }catch(e){ document.getElementById('billsContainer').innerHTML=`<div class="text-center py-8 text-sm text-red-500">${e.message}</div>`; }
 }
 
+async function loadHistory(){
+  const tbody=document.getElementById('historyTable');
+  tbody.innerHTML='<tr><td colspan="5" class="text-center py-8"><span class="material-symbols-outlined spin text-2xl text-on-surface-variant">refresh</span></td></tr>';
+  try{
+    const rows=await api.get('/payments/history');
+    tbody.innerHTML=(rows||[]).length?(rows||[]).map(r=>`
+      <tr class="hover:bg-surface-container-low transition-colors">
+        <td class="px-5 py-3"><p class="text-sm font-semibold">${r.title}</p><p class="text-xs text-on-surface-variant capitalize">${r.category}</p></td>
+        <td class="px-5 py-3 font-semibold text-sm text-green-700">${fmt.money(r.amount)}</td>
+        <td class="px-5 py-3 text-xs text-on-surface-variant capitalize">${(r.payment_method||'—').replace(/_/g,' ')}</td>
+        <td class="px-5 py-3 text-xs text-on-surface-variant">${fmt.date(r.paid_at)}</td>
+        <td class="px-5 py-3 font-mono text-xs text-on-surface-variant">${r.transaction_ref||r.paystack_ref||'—'}</td>
+      </tr>`).join(''):'<tr><td colspan="5" class="text-center py-10 text-sm text-on-surface-variant">No payment history yet</td></tr>';
+  }catch(e){ tbody.innerHTML=`<tr><td colspan="5" class="text-center py-8 text-sm text-red-500">${e.message}</td></tr>`; }
+}
+
 function openPayModal(id, title, amount){
-  activeBillId=id;
+  activeBillId=id; activeBillAmount=amount;
   document.getElementById('payBillInfo').innerHTML=`
-    <div class="bg-surface-container-low rounded-xl p-4 mb-4">
-      <p class="text-xs text-on-surface-variant">Paying for</p>
-      <p class="font-semibold">${title}</p>
+    <div class="bg-primary/5 border border-primary/20 rounded-xl p-4">
+      <p class="text-xs text-on-surface-variant font-medium">Paying for</p>
+      <p class="font-semibold text-sm mt-0.5">${title}</p>
       <p class="text-2xl font-bold text-primary mt-1">${fmt.money(amount)}</p>
     </div>`;
-  selectMethod('bank_transfer');
+  selectMethod('paystack_card');
   openModal('payModal');
 }
 
-function selectMethod(m){
-  selectedMethod=m;
-  document.querySelectorAll('.pay-method').forEach(btn=>{
-    btn.className='pay-method flex flex-col items-center gap-2 p-3 border-2 border-outline-variant rounded-xl hover:border-primary hover:bg-green-50 transition-all';
-    btn.querySelector('.material-symbols-outlined').className='material-symbols-outlined text-on-surface-variant text-2xl';
-  });
-  const active=document.querySelector(`[data-method="${m}"]`);
-  if(active){
-    active.className='pay-method flex flex-col items-center gap-2 p-3 border-2 border-primary rounded-xl bg-green-50 transition-all';
-    active.querySelector('.material-symbols-outlined').className='material-symbols-outlined text-primary text-2xl';
+async function confirmPay(){
+  if(!activeBillId) return;
+  closeModal('payModal');
+  openModal('processingModal');
+  document.getElementById('processingMsg').textContent='Connecting to payment gateway...';
+
+  try{
+    const r = await api.post('/payments/initialize', { bill_id: activeBillId });
+
+    if(r.demo){
+      // Demo mode (no Paystack key set)
+      document.getElementById('processingMsg').textContent='Demo: Payment processed!';
+      setTimeout(()=>{ closeModal('processingModal'); toast('✅ Demo payment successful! (Add PAYSTACK_SECRET_KEY for live)', 'success'); loadBills(); }, 1500);
+      return;
+    }
+
+    if(r.authorization_url){
+      document.getElementById('processingMsg').textContent='Redirecting to Paystack...';
+      setTimeout(()=>{ window.location.href = r.authorization_url; }, 800);
+      return;
+    }
+    throw new Error('Invalid payment response');
+  }catch(e){
+    closeModal('processingModal');
+    toast(e.message, 'error');
   }
 }
 
-async function confirmPay(){
-  if(!activeBillId)return;
-  const btn=document.getElementById('confirmPayBtn');
-  btn.disabled=true; btn.innerHTML='<span class="material-symbols-outlined spin text-base">refresh</span> Processing...';
-  try{
-    await api.post(`/bills/${activeBillId}/pay`,{payment_method:selectedMethod});
-    closeModal('payModal');
-    toast('Payment successful! 🎉','success');
+// Handle return from Paystack
+const params = new URLSearchParams(window.location.search);
+const ref = params.get('trxref') || params.get('reference');
+if(ref){
+  openModal('processingModal');
+  document.getElementById('processingMsg').textContent='Verifying your payment...';
+  api.get(`/payments/verify/${ref}`).then(r=>{
+    closeModal('processingModal');
+    toast(r.verified ? '✅ Payment confirmed!' : '⚠️ Payment verification pending', r.verified ? 'success' : 'warning');
+    // Clean URL
+    window.history.replaceState({}, '', '/tenant/bills.html');
     loadBills();
-  }catch(e){ toast(e.message,'error'); }
-  finally{ btn.disabled=false; btn.innerHTML=`Confirm Payment`; }
+  }).catch(()=>{ closeModal('processingModal'); loadBills(); });
+} else {
+  loadBills();
 }
-
-loadBills();
 </script>
 </body></html>

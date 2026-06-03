@@ -1,4 +1,4 @@
-// public/js/api.js — Shared API client
+// public/js/api.js — Shared API client v2
 const API_BASE = '/api';
 
 const Auth = {
@@ -12,6 +12,13 @@ const Auth = {
       window.location.href = '/'; return null;
     }
     return user;
+  },
+  // Route tenant to correct page based on onboarding status
+  routeTenant: (onboarding_status) => {
+    if (onboarding_status === 'active') return window.location.href = '/tenant/dashboard.html';
+    if (onboarding_status === 'kyc_submitted' || onboarding_status === 'kyc_approved') return window.location.href = '/tenant/pending.html';
+    if (onboarding_status === 'kyc_rejected') return window.location.href = '/tenant/pending.html';
+    return window.location.href = '/tenant/onboarding.html'; // pending = new tenant
   }
 };
 
@@ -36,6 +43,7 @@ const api = {
 const fmt = {
   money: (n) => '₦' + Number(n||0).toLocaleString('en-NG'),
   date: (d) => d ? new Date(d).toLocaleDateString('en-NG',{day:'numeric',month:'short',year:'numeric'}) : '—',
+  datetime: (d) => d ? new Date(d).toLocaleString('en-NG') : '—',
   ago: (d) => { const s=(Date.now()-new Date(d))/1000; if(s<60)return'just now'; if(s<3600)return`${Math.floor(s/60)}m ago`; if(s<86400)return`${Math.floor(s/3600)}h ago`; return`${Math.floor(s/86400)}d ago`; },
   badge: (st) => {
     const m = { active:'bg-green-100 text-green-700', occupied:'bg-blue-100 text-blue-700', vacant:'bg-gray-100 text-gray-600',
@@ -43,26 +51,20 @@ const fmt = {
       open:'bg-blue-100 text-blue-700', in_progress:'bg-orange-100 text-orange-700', resolved:'bg-green-100 text-green-700',
       closed:'bg-gray-100 text-gray-600', maintenance:'bg-orange-100 text-orange-700', urgent:'bg-red-100 text-red-700',
       high:'bg-orange-100 text-orange-700', medium:'bg-yellow-100 text-yellow-700', low:'bg-gray-100 text-gray-600',
-      granted:'bg-green-100 text-green-700', denied:'bg-red-100 text-red-700', expired:'bg-gray-100 text-gray-500' };
-    return `<span class="px-2 py-0.5 rounded-full text-xs font-semibold ${m[st]||'bg-gray-100 text-gray-600'}">${(st||'').replace('_',' ')}</span>`;
+      granted:'bg-green-100 text-green-700', denied:'bg-red-100 text-red-700', expired:'bg-gray-100 text-gray-500',
+      approved:'bg-green-100 text-green-700', rejected:'bg-red-100 text-red-700', kyc_submitted:'bg-blue-100 text-blue-700' };
+    return `<span class="px-2 py-0.5 rounded-full text-xs font-semibold ${m[st]||'bg-gray-100 text-gray-600'}">${(st||'').replace(/_/g,' ')}</span>`;
   },
-  avatar: (name,src) => src ? `<img src="${src}" class="w-9 h-9 rounded-full object-cover"/>` : `<div class="w-9 h-9 rounded-full bg-primary flex items-center justify-center text-white text-sm font-bold">${(name||'?')[0].toUpperCase()}</div>`,
-  initials: (name) => (name||'?').split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase(),
 };
 
 const toast = (msg, type='success') => {
   const el = document.createElement('div');
   const c = {success:'bg-green-700',error:'bg-red-600',info:'bg-blue-600',warning:'bg-amber-600'};
   const ic = {success:'check_circle',error:'error',info:'info',warning:'warning'};
-  el.className = `fixed top-5 right-5 z-[9999] flex items-center gap-2 px-4 py-3 rounded-xl text-white text-sm font-semibold shadow-xl ${c[type]||c.success} animate-bounce`;
+  el.className = `fixed top-5 right-5 z-[9999] flex items-center gap-2 px-4 py-3 rounded-xl text-white text-sm font-semibold shadow-xl ${c[type]||c.success}`;
+  el.style.cssText = 'animation: slideIn .3s ease; max-width:320px';
   el.innerHTML = `<span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL' 1">${ic[type]||ic.success}</span>${msg}`;
-  document.body.appendChild(el); setTimeout(()=>el.style.opacity='0',3000); setTimeout(()=>el.remove(),3500);
+  document.body.appendChild(el);
+  setTimeout(()=>{ el.style.opacity='0'; el.style.transition='opacity .5s'; }, 3500);
+  setTimeout(()=>el.remove(), 4000);
 };
-
-const modal = {
-  open: (id) => { const m=document.getElementById(id); if(m){m.classList.remove('hidden'); m.classList.add('flex');} },
-  close: (id) => { const m=document.getElementById(id); if(m){m.classList.add('hidden'); m.classList.remove('flex');} },
-};
-
-// Close modal on backdrop click
-document.addEventListener('click', e => { if(e.target.dataset.modalClose) modal.close(e.target.closest('[id]').id); });

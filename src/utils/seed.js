@@ -192,3 +192,11 @@ const seed = async () => {
 };
 
 setTimeout(seed, 1200);
+
+// Mark seeded tenants as 'active' (they already have leases)
+const activeTenants = [t1Id, t2Id, t3Id, t4Id];
+for(const tid of activeTenants){
+  await new Promise((res,rej) =>
+    db.run("UPDATE users SET onboarding_status='active' WHERE id=?", [tid], err=>err?rej(err):res()));
+}
+console.log('✅ Tenants marked as active');

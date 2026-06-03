@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>NFC Devices — EstateManager</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script>tailwind.config={theme:{extend:{colors:{"primary":"#00361a","surface":"#f8fafb","surface-container-lowest":"#fff","surface-container-low":"#f2f4f5","surface-container":"#eceeef","surface-container-high":"#e6e8e9","outline-variant":"#c1c9bf","on-surface":"#191c1d","on-surface-variant":"#414942"}}}}</script>
+<style>body{font-family:'Hanken Grotesk',sans-serif;background:#f8fafb}.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;vertical-align:middle}.spin{animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.blink{animation:blink 1.2s ease-in-out infinite}@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}</style>
+</head>
+<body class="text-on-surface">
+<div class="flex h-screen overflow-hidden">
+<aside class="fixed md:static inset-y-0 left-0 w-64 bg-white border-r border-outline-variant flex flex-col py-6 px-4 z-50 transform -translate-x-full md:translate-x-0 transition-transform" id="sidebar">
+  <div class="mb-8 px-2"><h1 class="text-xl font-bold text-primary">EstateManager</h1><p class="text-xs text-on-surface-variant">Admin Panel</p></div>
+  <nav class="flex-1 space-y-1">
+    <a href="/admin/dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">dashboard</span>Dashboard</a>
+    <a href="/admin/kyc.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">fact_check</span>KYC Applications</a>
+    <a href="/admin/tenants.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">group</span>Tenants</a>
+    <a href="/admin/properties.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">domain</span>Properties</a>
+    <a href="/admin/bills.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">receipt_long</span>Financials</a>
+    <a href="/admin/complaints.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">support_agent</span>Complaints</a>
+    <a href="/admin/access.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">key</span>Access Control</a>
+    <a href="/admin/nfc.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-primary font-semibold bg-green-50 border-r-4 border-primary"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">nfc</span>NFC Devices</a>
+  </nav>
+  <div class="border-t border-outline-variant pt-4"><div class="flex items-center gap-3 px-2"><div id="sidebarAvatar" class="w-9 h-9 rounded-full bg-primary flex items-center justify-center text-white text-sm font-bold">A</div><div><p id="sidebarName" class="text-sm font-bold">Admin</p><p class="text-xs text-on-surface-variant">Administrator</p></div></div><button onclick="Auth.logout()" class="mt-3 w-full flex items-center gap-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors"><span class="material-symbols-outlined text-base">logout</span>Logout</button></div>
+</aside>
+
+<div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+  <header class="flex items-center justify-between h-14 px-4 md:px-6 bg-white border-b border-outline-variant shrink-0">
+    <div class="flex items-center gap-3"><button onclick="document.getElementById('sidebar').classList.toggle('-translate-x-full')" class="md:hidden p-1.5 rounded-lg"><span class="material-symbols-outlined">menu</span></button><h2 class="font-semibold">NFC / RFID Access Devices</h2></div>
+    <button onclick="openModal('addDeviceModal')" class="flex items-center gap-1.5 px-3 py-1.5 bg-primary text-white rounded-lg text-sm font-semibold hover:brightness-110 shadow-sm"><span class="material-symbols-outlined text-base">add</span>Add Device</button>
+  </header>
+
+  <main class="flex-1 overflow-y-auto p-4 md:p-6 space-y-5">
+    <!-- Integration Guide -->
+    <div class="bg-gradient-to-r from-primary to-green-700 rounded-2xl p-5 text-white">
+      <div class="flex items-start gap-4">
+        <span class="material-symbols-outlined text-3xl shrink-0" style="font-variation-settings:'FILL' 1">nfc</span>
+        <div>
+          <h3 class="font-bold text-lg">Hardware Integration Guide</h3>
+          <p class="text-green-200 text-sm mt-1 mb-3">Connect your NFC/RFID readers, access controllers and gate automation systems</p>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div class="bg-white/10 rounded-xl p-3"><p class="font-semibold text-sm">📡 Scan Endpoint</p><code class="text-xs text-green-200 block mt-1 font-mono">POST /api/nfc/scan</code><p class="text-xs text-green-200 mt-1">Hardware posts card tap events here</p></div>
+            <div class="bg-white/10 rounded-xl p-3"><p class="font-semibold text-sm">💓 Heartbeat</p><code class="text-xs text-green-200 block mt-1 font-mono">POST /api/nfc/heartbeat</code><p class="text-xs text-green-200 mt-1">Device sends status every 60s</p></div>
+            <div class="bg-white/10 rounded-xl p-3"><p class="font-semibold text-sm">🚪 Gate Control</p><code class="text-xs text-green-200 block mt-1 font-mono">POST /api/nfc/gate/:id/open</code><p class="text-xs text-green-200 mt-1">Remote gate trigger from dashboard</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Devices Grid -->
+    <div id="devicesGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+      <div class="col-span-3 flex justify-center py-12"><span class="material-symbols-outlined spin text-2xl text-on-surface-variant">refresh</span></div>
+    </div>
+
+    <!-- API Payload Reference -->
+    <div class="bg-white rounded-xl border border-outline-variant p-5 shadow-sm">
+      <h3 class="font-bold mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-primary">code</span>Hardware Payload Reference</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <p class="text-xs font-bold text-on-surface-variant mb-2">📤 Device → Server (Card Scan)</p>
+          <pre class="bg-gray-900 text-green-400 rounded-xl p-4 text-xs overflow-x-auto font-mono">{
+  "card_uid": "04:A3:2F:11:5B",
+  "device_id": "your-device-uuid",
+  "direction": "entry"
+}</pre>
+        </div>
+        <div>
+          <p class="text-xs font-bold text-on-surface-variant mb-2">📥 Server → Device (Response)</p>
+          <pre class="bg-gray-900 text-green-400 rounded-xl p-4 text-xs overflow-x-auto font-mono">{
+  "granted": true,
+  "tenant": "Chidi Okafor",
+  "beep": "short",
+  "led": "green"
+}</pre>
+        </div>
+        <div>
+          <p class="text-xs font-bold text-on-surface-variant mb-2">💓 Heartbeat Payload</p>
+          <pre class="bg-gray-900 text-green-400 rounded-xl p-4 text-xs overflow-x-auto font-mono">{
+  "device_id": "your-device-uuid",
+  "firmware_version": "1.2.3",
+  "status": "online"
+}</pre>
+        </div>
+        <div>
+          <p class="text-xs font-bold text-on-surface-variant mb-2">🚪 Gate Open Response</p>
+          <pre class="bg-gray-900 text-green-400 rounded-xl p-4 text-xs overflow-x-auto font-mono">{
+  "action": "open",
+  "duration_seconds": 5,
+  "triggered_by": "Admin",
+  "reason": "manual"
+}</pre>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</div>
+
+<!-- Add Device Modal -->
+<div id="addDeviceModal" class="hidden fixed inset-0 bg-black/40 z-50 items-center justify-center p-4">
+  <div class="bg-white rounded-2xl w-full max-w-md shadow-2xl">
+    <div class="flex items-center justify-between p-5 border-b border-outline-variant"><h3 class="font-bold text-lg">Register NFC Device</h3><button onclick="closeModal('addDeviceModal')" class="p-1.5 hover:bg-surface-container rounded-lg"><span class="material-symbols-outlined">close</span></button></div>
+    <form id="addDeviceForm" class="p-5 space-y-3">
+      <div><label class="text-xs font-semibold text-on-surface-variant">Device Name *</label><input name="device_name" required class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Main Gate Reader"/></div>
+      <div class="grid grid-cols-2 gap-3">
+        <div><label class="text-xs font-semibold text-on-surface-variant">Device Type</label>
+          <select name="device_type" class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+            <option value="reader">NFC/RFID Reader</option><option value="controller">Access Controller</option><option value="gate">Gate/Door System</option>
+          </select>
+        </div>
+        <div><label class="text-xs font-semibold text-on-surface-variant">Location</label><input name="location" class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Main Entrance"/></div>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div><label class="text-xs font-semibold text-on-surface-variant">IP Address *</label><input name="ip_address" required class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary" placeholder="192.168.1.100"/></div>
+        <div><label class="text-xs font-semibold text-on-surface-variant">Port</label><input name="port" type="number" value="8080" class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
+      </div>
+      <div><label class="text-xs font-semibold text-on-surface-variant">API Key</label><input name="api_key" class="w-full mt-1 px-3 py-2 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary font-mono" placeholder="Optional hardware API key"/></div>
+      <div class="flex gap-3 pt-2"><button type="button" onclick="closeModal('addDeviceModal')" class="flex-1 py-2 border border-outline-variant rounded-lg text-sm">Cancel</button><button type="submit" class="flex-1 py-2 bg-primary text-white rounded-lg text-sm font-semibold">Register</button></div>
+    </form>
+  </div>
+</div>
+
+<script src="/js/api.js"></script>
+<script>
+const user = Auth.requireAuth('admin');
+if(user){document.getElementById('sidebarName').textContent=user.name;document.getElementById('sidebarAvatar').textContent=user.name[0];}
+function openModal(id){document.getElementById(id).classList.remove('hidden');document.getElementById(id).classList.add('flex');}
+function closeModal(id){document.getElementById(id).classList.add('hidden');document.getElementById(id).classList.remove('flex');}
+
+const typeIcon = { reader:'tap_and_play', controller:'lock', gate:'garage_door' };
+const typeLabel = { reader:'NFC/RFID Reader', controller:'Access Controller', gate:'Gate/Door System' };
+
+async function loadDevices() {
+  try {
+    const devices = await api.get('/nfc/devices');
+    document.getElementById('devicesGrid').innerHTML = (devices||[]).length ? (devices||[]).map(d => `
+      <div class="bg-white rounded-xl border border-outline-variant shadow-sm p-5 hover:shadow-md transition-all">
+        <div class="flex items-start justify-between mb-3">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+              <span class="material-symbols-outlined text-primary" style="font-variation-settings:'FILL' 1">${typeIcon[d.device_type]||'nfc'}</span>
+            </div>
+            <div><h4 class="font-bold text-sm">${d.device_name}</h4><p class="text-xs text-on-surface-variant">${typeLabel[d.device_type]||d.device_type}</p></div>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <span class="${d.status==='online'?'blink ':''} w-2.5 h-2.5 rounded-full ${d.status==='online'?'bg-green-500':d.status==='error'?'bg-red-500':'bg-gray-400'}"></span>
+            <span class="text-xs font-semibold capitalize ${d.status==='online'?'text-green-600':d.status==='error'?'text-red-600':'text-gray-500'}">${d.status}</span>
+          </div>
+        </div>
+
+        <div class="space-y-1.5 text-xs text-on-surface-variant mb-4">
+          <p class="flex items-center gap-1.5"><span class="material-symbols-outlined text-sm">location_on</span>${d.location||'Location not set'}</p>
+          <p class="flex items-center gap-1.5 font-mono"><span class="material-symbols-outlined text-sm">router</span>${d.ip_address}:${d.port||8080}</p>
+          ${d.last_heartbeat ? `<p class="flex items-center gap-1.5"><span class="material-symbols-outlined text-sm">schedule</span>Last seen: ${fmt.ago(d.last_heartbeat)}</p>` : ''}
+          ${d.firmware_version ? `<p class="flex items-center gap-1.5"><span class="material-symbols-outlined text-sm">memory</span>Firmware: v${d.firmware_version}</p>` : ''}
+        </div>
+
+        <div class="flex gap-2 flex-wrap">
+          <button onclick="pingDevice('${d.id}', this)" class="flex-1 py-1.5 border border-outline-variant rounded-lg text-xs font-semibold hover:bg-surface-container transition-colors flex items-center justify-center gap-1">
+            <span class="material-symbols-outlined text-sm">wifi_tethering</span>Ping
+          </button>
+          ${d.device_type === 'gate' || d.device_type === 'controller' ? `
+          <button onclick="openGate('${d.id}')" class="flex-1 py-1.5 bg-green-50 border border-green-200 text-green-700 rounded-lg text-xs font-semibold hover:bg-green-100 transition-colors flex items-center justify-center gap-1">
+            <span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL' 1">lock_open</span>Open Gate
+          </button>` : ''}
+          <button onclick="deleteDevice('${d.id}')" class="py-1.5 px-2 border border-red-200 text-red-600 rounded-lg text-xs hover:bg-red-50 transition-colors">
+            <span class="material-symbols-outlined text-sm">delete</span>
+          </button>
+        </div>
+      </div>`).join('') : `
+      <div class="col-span-3 flex flex-col items-center justify-center py-20 gap-4">
+        <div class="w-20 h-20 bg-primary/5 rounded-2xl flex items-center justify-center"><span class="material-symbols-outlined text-primary text-4xl" style="font-variation-settings:'FILL' 1">nfc</span></div>
+        <div class="text-center"><h3 class="font-bold text-lg">No NFC Devices Yet</h3><p class="text-sm text-on-surface-variant mt-1">Register your NFC readers, access controllers, and gate systems</p></div>
+        <button onclick="openModal('addDeviceModal')" class="px-5 py-2.5 bg-primary text-white rounded-xl text-sm font-semibold hover:brightness-110">Add First Device</button>
+      </div>`;
+  } catch(e) { console.error(e); }
+}
+
+async function pingDevice(id, btn) {
+  const orig = btn.innerHTML; btn.disabled = true; btn.innerHTML = '<span class="material-symbols-outlined spin text-sm">refresh</span>';
+  try {
+    const r = await api.post(`/nfc/devices/${id}/ping`, {});
+    toast(r.online ? `✓ ${r.device_name} is online` : `✗ ${r.device_name} offline: ${r.error}`, r.online ? 'success' : 'error');
+    loadDevices();
+  } catch(e) { toast(e.message, 'error'); }
+  finally { btn.disabled=false; btn.innerHTML=orig; }
+}
+
+async function openGate(id) {
+  const duration = prompt('Open gate for how many seconds?', '5');
+  if (!duration) return;
+  try {
+    const r = await api.post(`/nfc/gate/${id}/open`, { duration: parseInt(duration), reason: 'manual_admin' });
+    toast(r.message, 'success');
+  } catch(e) { toast(e.message, 'error'); }
+}
+
+async function deleteDevice(id) {
+  if (!confirm('Remove this NFC device?')) return;
+  try { await api.del(`/nfc/devices/${id}`); toast('Device removed'); loadDevices(); }
+  catch(e) { toast(e.message, 'error'); }
+}
+
+document.getElementById('addDeviceForm').addEventListener('submit', async e => {
+  e.preventDefault(); const fd = new FormData(e.target); const data = {}; fd.forEach((v,k)=>data[k]=v);
+  const btn = e.target.querySelector('[type=submit]'); btn.disabled = true;
+  try { await api.post('/nfc/devices', data); toast('Device registered!'); closeModal('addDeviceModal'); e.target.reset(); loadDevices(); }
+  catch(err) { toast(err.message, 'error'); } finally { btn.disabled = false; }
+});
+
+loadDevices();
+setInterval(loadDevices, 30000);
+</script>
+</body></html>
