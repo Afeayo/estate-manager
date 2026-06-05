@@ -6,110 +6,142 @@
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <script>tailwind.config={theme:{extend:{colors:{"primary":"#00361a","surface":"#f8fafb","surface-container-low":"#f2f4f5","surface-container":"#eceeef","outline-variant":"#c1c9bf","on-surface":"#191c1d","on-surface-variant":"#414942"}}}}</script>
-<style>body{font-family:'Hanken Grotesk',sans-serif;background:#f8fafb}.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;vertical-align:middle}.spin{animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.step-active{background:#00361a;color:white}.step-done{background:#dcfce7;color:#00361a}.step-pending{background:#e8ebe8;color:#414942}</style>
+<style>
+body{font-family:'Hanken Grotesk',sans-serif;background:#f8fafb}
+.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;vertical-align:middle}
+.spin{animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+.step-active{background:#00361a;color:white}.step-done{background:#dcfce7;color:#166534}.step-todo{background:#e8ebe8;color:#6b7280}
+.upload-zone{border:2px dashed #c1c9bf;border-radius:12px;padding:24px;text-align:center;cursor:pointer;transition:all .2s}
+.upload-zone:hover,.upload-zone.has-file{border-color:#00361a;background:#f0fdf4}
+</style>
 </head>
 <body class="min-h-screen pb-10">
 
 <!-- Header -->
 <div class="bg-primary text-white px-5 py-4">
   <div class="max-w-3xl mx-auto flex items-center justify-between">
-    <div><h1 class="text-xl font-bold">EstateManager</h1><p class="text-green-200 text-xs">Tenant Onboarding</p></div>
-    <button onclick="Auth.logout()" class="text-green-200 text-sm hover:text-white flex items-center gap-1"><span class="material-symbols-outlined text-base">logout</span>Logout</button>
+    <div><h1 class="text-xl font-bold">EstateManager</h1><p class="text-green-200 text-xs mt-0.5">New Tenant Onboarding</p></div>
+    <button onclick="Auth.logout()" class="flex items-center gap-1.5 text-green-200 text-sm hover:text-white transition-colors">
+      <span class="material-symbols-outlined text-base">logout</span>Logout
+    </button>
   </div>
 </div>
 
-<!-- Steps Indicator -->
-<div class="bg-white border-b border-outline-variant sticky top-0 z-10">
-  <div class="max-w-3xl mx-auto px-5 py-3">
-    <div class="flex items-center gap-2 overflow-x-auto">
-      <div id="step1Ind" class="flex items-center gap-1.5 shrink-0"><div class="w-6 h-6 rounded-full step-active flex items-center justify-center text-xs font-bold">1</div><span class="text-xs font-semibold whitespace-nowrap">Select Unit</span></div>
-      <div class="flex-1 h-px bg-outline-variant min-w-4"></div>
-      <div id="step2Ind" class="flex items-center gap-1.5 shrink-0"><div id="step2Num" class="w-6 h-6 rounded-full step-pending flex items-center justify-center text-xs font-bold">2</div><span class="text-xs whitespace-nowrap text-on-surface-variant">Personal Info</span></div>
-      <div class="flex-1 h-px bg-outline-variant min-w-4"></div>
-      <div id="step3Ind" class="flex items-center gap-1.5 shrink-0"><div id="step3Num" class="w-6 h-6 rounded-full step-pending flex items-center justify-center text-xs font-bold">3</div><span class="text-xs whitespace-nowrap text-on-surface-variant">Documents</span></div>
-      <div class="flex-1 h-px bg-outline-variant min-w-4"></div>
-      <div id="step4Ind" class="flex items-center gap-1.5 shrink-0"><div id="step4Num" class="w-6 h-6 rounded-full step-pending flex items-center justify-center text-xs font-bold">4</div><span class="text-xs whitespace-nowrap text-on-surface-variant">Review</span></div>
+<!-- Steps -->
+<div class="bg-white border-b border-outline-variant sticky top-0 z-10 shadow-sm">
+  <div class="max-w-3xl mx-auto px-4 py-3">
+    <div class="flex items-center gap-1 overflow-x-auto">
+      <div class="flex items-center gap-1.5 shrink-0">
+        <div id="s1num" class="w-7 h-7 rounded-full step-active flex items-center justify-center text-xs font-bold">1</div>
+        <span id="s1lbl" class="text-xs font-semibold whitespace-nowrap">Select Unit</span>
+      </div>
+      <div class="flex-1 h-px bg-outline-variant min-w-3"></div>
+      <div class="flex items-center gap-1.5 shrink-0">
+        <div id="s2num" class="w-7 h-7 rounded-full step-todo flex items-center justify-center text-xs font-bold">2</div>
+        <span id="s2lbl" class="text-xs whitespace-nowrap text-on-surface-variant">Personal Info</span>
+      </div>
+      <div class="flex-1 h-px bg-outline-variant min-w-3"></div>
+      <div class="flex items-center gap-1.5 shrink-0">
+        <div id="s3num" class="w-7 h-7 rounded-full step-todo flex items-center justify-center text-xs font-bold">3</div>
+        <span id="s3lbl" class="text-xs whitespace-nowrap text-on-surface-variant">Documents</span>
+      </div>
+      <div class="flex-1 h-px bg-outline-variant min-w-3"></div>
+      <div class="flex items-center gap-1.5 shrink-0">
+        <div id="s4num" class="w-7 h-7 rounded-full step-todo flex items-center justify-center text-xs font-bold">4</div>
+        <span id="s4lbl" class="text-xs whitespace-nowrap text-on-surface-variant">Review</span>
+      </div>
     </div>
   </div>
 </div>
 
 <div class="max-w-3xl mx-auto px-4 py-6">
 
-  <!-- STEP 1: Select Property -->
+  <!-- ── STEP 1: Select Property ── -->
   <div id="step1">
-    <div class="mb-6"><h2 class="text-2xl font-bold">Choose Your Apartment</h2><p class="text-on-surface-variant text-sm mt-1">Browse available units and select the one you'd like to call home</p></div>
+    <div class="mb-5"><h2 class="text-2xl font-bold">Choose Your Apartment</h2><p class="text-on-surface-variant text-sm mt-1">Browse available units and select the one you'd like to call home</p></div>
     <div class="flex gap-3 mb-5 flex-wrap">
       <select id="filterBeds" onchange="filterProps()" class="px-3 py-2 bg-white border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
         <option value="">Any Bedrooms</option><option value="1">1 Bedroom</option><option value="2">2 Bedrooms</option><option value="3">3 Bedrooms</option><option value="4">4+ Bedrooms</option>
       </select>
       <select id="filterPrice" onchange="filterProps()" class="px-3 py-2 bg-white border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
-        <option value="">Any Price</option><option value="100000">Up to ₦100k</option><option value="200000">Up to ₦200k</option><option value="300000">Up to ₦300k</option>
+        <option value="">Any Price</option><option value="100000">Up to ₦100k/mo</option><option value="200000">Up to ₦200k/mo</option><option value="300000">Up to ₦300k/mo</option>
       </select>
+      <span id="propCount" class="self-center text-xs text-on-surface-variant ml-auto"></span>
     </div>
     <div id="propertiesGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <div class="col-span-2 flex justify-center py-12"><span class="material-symbols-outlined spin text-2xl text-on-surface-variant">refresh</span></div>
+      <div class="col-span-2 flex justify-center py-16"><span class="material-symbols-outlined spin text-2xl text-on-surface-variant">refresh</span></div>
     </div>
   </div>
 
-  <!-- STEP 2: Personal Info + KYC Form -->
+  <!-- ── STEP 2: Personal Info ── -->
   <div id="step2" class="hidden">
-    <div class="mb-6 flex items-center gap-3">
+    <div class="mb-5 flex items-center gap-3">
       <button onclick="goStep(1)" class="p-2 hover:bg-surface-container rounded-lg transition-colors"><span class="material-symbols-outlined">arrow_back</span></button>
-      <div><h2 class="text-2xl font-bold">Personal Information</h2><p class="text-on-surface-variant text-sm">Fill in your details accurately — these will be verified</p></div>
+      <div><h2 class="text-2xl font-bold">Personal Information</h2><p class="text-on-surface-variant text-sm">All fields marked * are required</p></div>
     </div>
 
     <!-- Selected Unit Banner -->
-    <div id="selectedUnitBanner" class="bg-primary/10 border border-primary/30 rounded-xl p-4 mb-6 flex items-center gap-3">
+    <div id="unitBanner" class="bg-primary/10 border border-primary/20 rounded-xl p-4 mb-5 flex items-center gap-3">
       <span class="material-symbols-outlined text-primary text-2xl" style="font-variation-settings:'FILL' 1">apartment</span>
-      <div><p class="font-bold text-primary" id="bannerUnit">Unit —</p><p class="text-sm text-on-surface-variant" id="bannerDetails">—</p></div>
+      <div><p id="bannerUnit" class="font-bold text-primary">Unit —</p><p id="bannerDetails" class="text-sm text-on-surface-variant">—</p></div>
+      <button onclick="goStep(1)" class="ml-auto text-xs text-primary hover:underline">Change</button>
     </div>
 
-    <form id="kycForm" class="space-y-6">
+    <form id="kycForm" class="space-y-5">
+
       <!-- Tenant Type -->
-      <div class="bg-white rounded-xl border border-outline-variant p-5 space-y-4">
-        <h3 class="font-bold flex items-center gap-2"><span class="material-symbols-outlined text-primary">person</span>Applicant Type</h3>
+      <div class="bg-white rounded-xl border border-outline-variant p-5">
+        <h3 class="font-bold text-sm mb-3 flex items-center gap-2"><span class="material-symbols-outlined text-primary text-base">person</span>Applicant Type</h3>
         <div class="flex gap-3">
           <label class="flex-1 flex items-center gap-2 p-3 border-2 border-primary rounded-xl bg-green-50 cursor-pointer">
-            <input type="radio" name="tenant_type" value="individual" checked class="accent-primary"/><span class="text-sm font-semibold">Individual</span>
+            <input type="radio" name="tenant_type" value="individual" checked class="accent-primary"/><span class="text-sm font-semibold">Individual Tenant</span>
           </label>
           <label class="flex-1 flex items-center gap-2 p-3 border-2 border-outline-variant rounded-xl cursor-pointer hover:border-primary hover:bg-green-50 transition-all">
-            <input type="radio" name="tenant_type" value="corporate" class="accent-primary"/><span class="text-sm font-semibold">Corporate</span>
+            <input type="radio" name="tenant_type" value="corporate" class="accent-primary"/><span class="text-sm font-semibold">Corporate Tenant</span>
           </label>
         </div>
       </div>
 
       <!-- Personal Info -->
-      <div class="bg-white rounded-xl border border-outline-variant p-5 space-y-4">
-        <h3 class="font-bold flex items-center gap-2"><span class="material-symbols-outlined text-primary">badge</span>Personal Information</h3>
+      <div class="bg-white rounded-xl border border-outline-variant p-5">
+        <h3 class="font-bold text-sm mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-primary text-base">badge</span>Personal Details</h3>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div class="sm:col-span-2"><label class="text-xs font-bold text-on-surface-variant">Full Name (as on ID) *</label><input name="full_name" required class="w-full mt-1 px-3 py-2.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
           <div><label class="text-xs font-bold text-on-surface-variant">Date of Birth *</label><input name="date_of_birth" required type="date" class="w-full mt-1 px-3 py-2.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
-          <div><label class="text-xs font-bold text-on-surface-variant">Gender *</label><select name="gender" required class="w-full mt-1 px-3 py-2.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"><option value="">Select...</option><option>Male</option><option>Female</option><option>Other</option></select></div>
-          <div><label class="text-xs font-bold text-on-surface-variant">Nationality *</label><input name="nationality" required placeholder="Nigerian" class="w-full mt-1 px-3 py-2.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
-          <div><label class="text-xs font-bold text-on-surface-variant">Marital Status</label><select name="marital_status" class="w-full mt-1 px-3 py-2.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"><option value="">Select...</option><option>Single</option><option>Married</option><option>Divorced</option><option>Widowed</option></select></div>
-          <div><label class="text-xs font-bold text-on-surface-variant">Occupation</label><input name="occupation" class="w-full mt-1 px-3 py-2.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
-          <div><label class="text-xs font-bold text-on-surface-variant">Employer/Company</label><input name="employer" class="w-full mt-1 px-3 py-2.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
-          <div class="sm:col-span-2"><label class="text-xs font-bold text-on-surface-variant">Current Residential Address *</label><textarea name="residential_address" required rows="2" class="w-full mt-1 px-3 py-2.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary resize-none"></textarea></div>
+          <div><label class="text-xs font-bold text-on-surface-variant">Gender *</label>
+            <select name="gender" required class="w-full mt-1 px-3 py-2.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+              <option value="">Select...</option><option>Male</option><option>Female</option><option>Other</option>
+            </select>
+          </div>
+          <div><label class="text-xs font-bold text-on-surface-variant">Nationality *</label><input name="nationality" required value="Nigerian" class="w-full mt-1 px-3 py-2.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
+          <div><label class="text-xs font-bold text-on-surface-variant">Marital Status</label>
+            <select name="marital_status" class="w-full mt-1 px-3 py-2.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+              <option value="">Select...</option><option>Single</option><option>Married</option><option>Divorced</option><option>Widowed</option>
+            </select>
+          </div>
+          <div><label class="text-xs font-bold text-on-surface-variant">Occupation</label><input name="occupation" class="w-full mt-1 px-3 py-2.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary" placeholder="e.g. Software Engineer"/></div>
+          <div><label class="text-xs font-bold text-on-surface-variant">Employer / Company</label><input name="employer" class="w-full mt-1 px-3 py-2.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
+          <div class="sm:col-span-2"><label class="text-xs font-bold text-on-surface-variant">Current Residential Address *</label><textarea name="residential_address" required rows="2" class="w-full mt-1 px-3 py-2.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary resize-none" placeholder="House number, street, city, state..."></textarea></div>
         </div>
       </div>
 
-      <!-- Estate-specific -->
-      <div class="bg-white rounded-xl border border-outline-variant p-5 space-y-4">
-        <h3 class="font-bold flex items-center gap-2"><span class="material-symbols-outlined text-primary">home_work</span>Estate Information</h3>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div><label class="text-xs font-bold text-on-surface-variant">Number of Occupants</label><input name="num_occupants" type="number" min="1" value="1" class="w-full mt-1 px-3 py-2.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
-          <div><label class="text-xs font-bold text-on-surface-variant">Vehicle Plate Number</label><input name="vehicle_plate" placeholder="Optional" class="w-full mt-1 px-3 py-2.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
-          <div><label class="text-xs font-bold text-on-surface-variant">Vehicle Registration</label><input name="vehicle_reg" placeholder="Optional" class="w-full mt-1 px-3 py-2.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
-          <div class="sm:col-span-3"><label class="text-xs font-bold text-on-surface-variant">Pet Information (if any)</label><input name="pet_info" placeholder="e.g. 1 small dog — Golden Retriever" class="w-full mt-1 px-3 py-2.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
+      <!-- Estate Info -->
+      <div class="bg-white rounded-xl border border-outline-variant p-5">
+        <h3 class="font-bold text-sm mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-primary text-base">home_work</span>Estate Information</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+          <div><label class="text-xs font-bold text-on-surface-variant">No. of Occupants</label><input name="num_occupants" type="number" min="1" value="1" class="w-full mt-1 px-3 py-2.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
+          <div><label class="text-xs font-bold text-on-surface-variant">Vehicle Plate</label><input name="vehicle_plate" placeholder="Optional" class="w-full mt-1 px-3 py-2.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
+          <div><label class="text-xs font-bold text-on-surface-variant">Vehicle Reg.</label><input name="vehicle_reg" placeholder="Optional" class="w-full mt-1 px-3 py-2.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
+          <div class="col-span-2 sm:col-span-3"><label class="text-xs font-bold text-on-surface-variant">Pet Information (if any)</label><input name="pet_info" placeholder="e.g. 1 small dog — Labrador" class="w-full mt-1 px-3 py-2.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
         </div>
       </div>
 
       <!-- Next of Kin -->
-      <div class="bg-white rounded-xl border border-outline-variant p-5 space-y-4">
-        <h3 class="font-bold flex items-center gap-2"><span class="material-symbols-outlined text-primary">family_restroom</span>Next of Kin</h3>
+      <div class="bg-white rounded-xl border border-outline-variant p-5">
+        <h3 class="font-bold text-sm mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-primary text-base">family_restroom</span>Next of Kin</h3>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div class="sm:col-span-2"><label class="text-xs font-bold text-on-surface-variant">Full Name *</label><input name="nok_name" required class="w-full mt-1 px-3 py-2.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
-          <div><label class="text-xs font-bold text-on-surface-variant">Relationship *</label><input name="nok_relationship" required placeholder="Mother, Spouse, Sibling..." class="w-full mt-1 px-3 py-2.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
+          <div><label class="text-xs font-bold text-on-surface-variant">Relationship *</label><input name="nok_relationship" required placeholder="e.g. Spouse, Parent" class="w-full mt-1 px-3 py-2.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
           <div><label class="text-xs font-bold text-on-surface-variant">Phone *</label><input name="nok_phone" required class="w-full mt-1 px-3 py-2.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
           <div><label class="text-xs font-bold text-on-surface-variant">Email</label><input name="nok_email" type="email" class="w-full mt-1 px-3 py-2.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
           <div><label class="text-xs font-bold text-on-surface-variant">Address</label><input name="nok_address" class="w-full mt-1 px-3 py-2.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
@@ -117,20 +149,24 @@
       </div>
 
       <!-- Guarantor -->
-      <div class="bg-white rounded-xl border border-outline-variant p-5 space-y-4">
-        <h3 class="font-bold flex items-center gap-2"><span class="material-symbols-outlined text-primary">verified_user</span>Guarantor Information</h3>
+      <div class="bg-white rounded-xl border border-outline-variant p-5">
+        <h3 class="font-bold text-sm mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-primary text-base">verified_user</span>Guarantor Information</h3>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div><label class="text-xs font-bold text-on-surface-variant">Full Name</label><input name="guarantor_name" class="w-full mt-1 px-3 py-2.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
           <div><label class="text-xs font-bold text-on-surface-variant">Phone</label><input name="guarantor_phone" class="w-full mt-1 px-3 py-2.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
-          <div class="sm:col-span-2"><label class="text-xs font-bold text-on-surface-variant">Residential Address</label><input name="guarantor_address" class="w-full mt-1 px-3 py-2.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
-          <div><label class="text-xs font-bold text-on-surface-variant">ID Type</label><select name="guarantor_id_type" class="w-full mt-1 px-3 py-2.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"><option value="">Select...</option><option>NIN</option><option>National ID</option><option>Passport</option><option>Driver's License</option><option>PVC</option></select></div>
+          <div class="sm:col-span-2"><label class="text-xs font-bold text-on-surface-variant">Address</label><input name="guarantor_address" class="w-full mt-1 px-3 py-2.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
+          <div><label class="text-xs font-bold text-on-surface-variant">ID Type</label>
+            <select name="guarantor_id_type" class="w-full mt-1 px-3 py-2.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+              <option value="">Select...</option><option>NIN</option><option>National ID</option><option>Passport</option><option>Driver's License</option><option>PVC</option>
+            </select>
+          </div>
           <div><label class="text-xs font-bold text-on-surface-variant">Employment</label><input name="guarantor_employment" placeholder="Job title / company" class="w-full mt-1 px-3 py-2.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
         </div>
       </div>
 
       <!-- Emergency Contact -->
-      <div class="bg-white rounded-xl border border-outline-variant p-5 space-y-4">
-        <h3 class="font-bold flex items-center gap-2"><span class="material-symbols-outlined text-primary">emergency</span>Emergency Contact</h3>
+      <div class="bg-white rounded-xl border border-outline-variant p-5">
+        <h3 class="font-bold text-sm mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-primary text-base">emergency</span>Emergency Contact</h3>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div><label class="text-xs font-bold text-on-surface-variant">Full Name *</label><input name="emergency_name" required class="w-full mt-1 px-3 py-2.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
           <div><label class="text-xs font-bold text-on-surface-variant">Phone *</label><input name="emergency_phone" required class="w-full mt-1 px-3 py-2.5 border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"/></div>
@@ -138,87 +174,97 @@
         </div>
       </div>
 
-      <button type="button" onclick="goStep(3)" class="w-full py-3.5 bg-primary text-white rounded-xl font-bold hover:brightness-110 transition-all flex items-center justify-center gap-2 shadow-lg">
+      <button type="button" onclick="validateStep2()" class="w-full py-3.5 bg-primary text-white rounded-xl font-bold hover:brightness-110 transition-all flex items-center justify-center gap-2 shadow-lg">
         Continue to Documents <span class="material-symbols-outlined">arrow_forward</span>
       </button>
     </form>
   </div>
 
-  <!-- STEP 3: Documents -->
+  <!-- ── STEP 3: Documents ── -->
   <div id="step3" class="hidden">
-    <div class="mb-6 flex items-center gap-3">
+    <div class="mb-5 flex items-center gap-3">
       <button onclick="goStep(2)" class="p-2 hover:bg-surface-container rounded-lg transition-colors"><span class="material-symbols-outlined">arrow_back</span></button>
-      <div><h2 class="text-2xl font-bold">Upload Documents</h2><p class="text-on-surface-variant text-sm">Clear scans or photos — JPG, PNG or PDF (max 10MB each)</p></div>
+      <div><h2 class="text-2xl font-bold">Upload Documents</h2><p class="text-on-surface-variant text-sm">Clear photos or scans — JPG, PNG or PDF, max 10MB each</p></div>
     </div>
-    <div class="space-y-4">
-      <!-- Passport Photo -->
+    <div class="space-y-4" id="docUploads">
+
       <div class="bg-white rounded-xl border border-outline-variant p-5">
-        <div class="flex items-start gap-3 mb-3"><span class="material-symbols-outlined text-primary" style="font-variation-settings:'FILL' 1">photo_camera</span><div><h4 class="font-bold text-sm">Passport Photograph *</h4><p class="text-xs text-on-surface-variant">Recent photo on white/plain background</p></div></div>
-        <label id="passportLabel" class="flex flex-col items-center gap-2 p-6 border-2 border-dashed border-outline-variant rounded-xl cursor-pointer hover:border-primary hover:bg-green-50 transition-all">
-          <span class="material-symbols-outlined text-3xl text-on-surface-variant">upload_file</span>
+        <div class="flex items-start gap-3 mb-3"><span class="material-symbols-outlined text-primary" style="font-variation-settings:'FILL' 1">photo_camera</span><div><h4 class="font-bold text-sm">Passport Photograph *</h4><p class="text-xs text-on-surface-variant">Recent photo on plain/white background</p></div></div>
+        <label id="lbl_passport_photo" class="upload-zone block">
+          <span class="material-symbols-outlined text-3xl text-on-surface-variant block mb-1">upload_file</span>
           <span class="text-sm text-on-surface-variant">Click to upload</span>
-          <input type="file" name="passport_photo" accept="image/*" class="hidden" onchange="showFile(this,'passportLabel')"/>
+          <input type="file" name="passport_photo" accept="image/*" class="hidden" onchange="previewFile(this,'lbl_passport_photo')"/>
         </label>
       </div>
-      <!-- ID Document -->
+
       <div class="bg-white rounded-xl border border-outline-variant p-5">
-        <div class="flex items-start gap-3 mb-3"><span class="material-symbols-outlined text-primary" style="font-variation-settings:'FILL' 1">id_card</span><div><h4 class="font-bold text-sm">Means of Identification *</h4><p class="text-xs text-on-surface-variant">NIN Slip, National ID, Passport, Driver's License, or PVC</p></div></div>
-        <label id="idLabel" class="flex flex-col items-center gap-2 p-6 border-2 border-dashed border-outline-variant rounded-xl cursor-pointer hover:border-primary hover:bg-green-50 transition-all">
-          <span class="material-symbols-outlined text-3xl text-on-surface-variant">upload_file</span>
+        <div class="flex items-start gap-3 mb-3"><span class="material-symbols-outlined text-primary" style="font-variation-settings:'FILL' 1">id_card</span><div><h4 class="font-bold text-sm">Means of Identification *</h4><p class="text-xs text-on-surface-variant">NIN Slip, National ID, Passport, Driver's License, or Voter's Card</p></div></div>
+        <label id="lbl_id_document" class="upload-zone block">
+          <span class="material-symbols-outlined text-3xl text-on-surface-variant block mb-1">upload_file</span>
           <span class="text-sm text-on-surface-variant">Click to upload</span>
-          <input type="file" name="id_document" accept="image/*,.pdf" class="hidden" onchange="showFile(this,'idLabel')"/>
+          <input type="file" name="id_document" accept="image/*,.pdf" class="hidden" onchange="previewFile(this,'lbl_id_document')"/>
         </label>
       </div>
-      <!-- Proof of Address -->
+
       <div class="bg-white rounded-xl border border-outline-variant p-5">
-        <div class="flex items-start gap-3 mb-3"><span class="material-symbols-outlined text-primary" style="font-variation-settings:'FILL' 1">location_home</span><div><h4 class="font-bold text-sm">Proof of Address *</h4><p class="text-xs text-on-surface-variant">Utility bill (max 3 months), bank statement, or tenancy agreement</p></div></div>
-        <label id="addressLabel" class="flex flex-col items-center gap-2 p-6 border-2 border-dashed border-outline-variant rounded-xl cursor-pointer hover:border-primary hover:bg-green-50 transition-all">
-          <span class="material-symbols-outlined text-3xl text-on-surface-variant">upload_file</span>
+        <div class="flex items-start gap-3 mb-3"><span class="material-symbols-outlined text-primary" style="font-variation-settings:'FILL' 1">location_home</span><div><h4 class="font-bold text-sm">Proof of Address *</h4><p class="text-xs text-on-surface-variant">Utility bill (≤3 months old), bank statement, or previous tenancy agreement</p></div></div>
+        <label id="lbl_proof_of_address" class="upload-zone block">
+          <span class="material-symbols-outlined text-3xl text-on-surface-variant block mb-1">upload_file</span>
           <span class="text-sm text-on-surface-variant">Click to upload</span>
-          <input type="file" name="proof_of_address" accept="image/*,.pdf" class="hidden" onchange="showFile(this,'addressLabel')"/>
+          <input type="file" name="proof_of_address" accept="image/*,.pdf" class="hidden" onchange="previewFile(this,'lbl_proof_of_address')"/>
         </label>
       </div>
-      <!-- Employment Docs -->
+
       <div class="bg-white rounded-xl border border-outline-variant p-5">
-        <div class="flex items-start gap-3 mb-3"><span class="material-symbols-outlined text-primary" style="font-variation-settings:'FILL' 1">work</span><div><h4 class="font-bold text-sm">Employment / Income Documents</h4><p class="text-xs text-on-surface-variant">Employment letter, payslips (3 months), bank statement (6 months), or business registration</p></div></div>
-        <label id="empLabel" class="flex flex-col items-center gap-2 p-6 border-2 border-dashed border-outline-variant rounded-xl cursor-pointer hover:border-primary hover:bg-green-50 transition-all">
-          <span class="material-symbols-outlined text-3xl text-on-surface-variant">upload_file</span>
+        <div class="flex items-start gap-3 mb-3"><span class="material-symbols-outlined text-primary" style="font-variation-settings:'FILL' 1">work</span><div><h4 class="font-bold text-sm">Employment / Income Documents <span class="text-on-surface-variant font-normal">(optional)</span></h4><p class="text-xs text-on-surface-variant">Employment letter, payslips (3 months), bank statement (6 months), or business registration</p></div></div>
+        <label id="lbl_employment_docs" class="upload-zone block">
+          <span class="material-symbols-outlined text-3xl text-on-surface-variant block mb-1">upload_file</span>
           <span class="text-sm text-on-surface-variant">Click to upload (up to 3 files)</span>
-          <input type="file" name="employment_docs" accept="image/*,.pdf" multiple class="hidden" onchange="showFile(this,'empLabel')"/>
+          <input type="file" name="employment_docs" accept="image/*,.pdf" multiple class="hidden" onchange="previewFile(this,'lbl_employment_docs')"/>
         </label>
       </div>
-      <!-- Guarantor Docs -->
+
       <div class="bg-white rounded-xl border border-outline-variant p-5">
-        <div class="flex items-start gap-3 mb-3"><span class="material-symbols-outlined text-primary" style="font-variation-settings:'FILL' 1">verified_user</span><div><h4 class="font-bold text-sm">Guarantor Documents</h4><p class="text-xs text-on-surface-variant">Guarantor's means of identification</p></div></div>
-        <label id="guarLabel" class="flex flex-col items-center gap-2 p-6 border-2 border-dashed border-outline-variant rounded-xl cursor-pointer hover:border-primary hover:bg-green-50 transition-all">
-          <span class="material-symbols-outlined text-3xl text-on-surface-variant">upload_file</span>
+        <div class="flex items-start gap-3 mb-3"><span class="material-symbols-outlined text-primary" style="font-variation-settings:'FILL' 1">verified_user</span><div><h4 class="font-bold text-sm">Guarantor Documents <span class="text-on-surface-variant font-normal">(optional)</span></h4><p class="text-xs text-on-surface-variant">Guarantor's means of identification</p></div></div>
+        <label id="lbl_guarantor_docs" class="upload-zone block">
+          <span class="material-symbols-outlined text-3xl text-on-surface-variant block mb-1">upload_file</span>
           <span class="text-sm text-on-surface-variant">Click to upload</span>
-          <input type="file" name="guarantor_docs" accept="image/*,.pdf" multiple class="hidden" onchange="showFile(this,'guarLabel')"/>
+          <input type="file" name="guarantor_docs" accept="image/*,.pdf" multiple class="hidden" onchange="previewFile(this,'lbl_guarantor_docs')"/>
         </label>
       </div>
+
     </div>
     <button onclick="goStep(4)" class="w-full mt-6 py-3.5 bg-primary text-white rounded-xl font-bold hover:brightness-110 transition-all flex items-center justify-center gap-2 shadow-lg">
       Review Application <span class="material-symbols-outlined">arrow_forward</span>
     </button>
   </div>
 
-  <!-- STEP 4: Review & Submit -->
+  <!-- ── STEP 4: Review & Submit ── -->
   <div id="step4" class="hidden">
-    <div class="mb-6 flex items-center gap-3">
+    <div class="mb-5 flex items-center gap-3">
       <button onclick="goStep(3)" class="p-2 hover:bg-surface-container rounded-lg transition-colors"><span class="material-symbols-outlined">arrow_back</span></button>
-      <div><h2 class="text-2xl font-bold">Review & Submit</h2><p class="text-on-surface-variant text-sm">Check everything before submitting</p></div>
+      <div><h2 class="text-2xl font-bold">Review & Submit</h2><p class="text-on-surface-variant text-sm">Confirm your details before submitting</p></div>
     </div>
-    <div id="reviewContent" class="space-y-4"></div>
-    <!-- Rules Acceptance -->
+    <div id="reviewSummary" class="space-y-4"></div>
+
+    <!-- Terms -->
     <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-5 mt-4">
-      <h4 class="font-bold text-sm mb-2 flex items-center gap-2"><span class="material-symbols-outlined text-yellow-600">gavel</span>Terms & Estate Rules</h4>
-      <div class="space-y-2">
-        <label class="flex items-start gap-2 cursor-pointer"><input type="checkbox" id="acceptTerms" class="mt-0.5 accent-primary"/><span class="text-xs text-on-surface-variant">I confirm that all information provided is accurate and I agree to the <strong>Tenancy Agreement</strong> and <strong>Estate Rules and Regulations</strong>.</span></label>
-        <label class="flex items-start gap-2 cursor-pointer"><input type="checkbox" id="acceptKYC" class="mt-0.5 accent-primary"/><span class="text-xs text-on-surface-variant">I consent to the verification and processing of my personal data for tenancy purposes.</span></label>
+      <h4 class="font-bold text-sm mb-3 flex items-center gap-2"><span class="material-symbols-outlined text-yellow-600 text-base">gavel</span>Declaration & Agreement</h4>
+      <div class="space-y-2.5">
+        <label class="flex items-start gap-2.5 cursor-pointer">
+          <input type="checkbox" id="chk1" class="mt-0.5 accent-primary shrink-0"/>
+          <span class="text-xs text-on-surface-variant">I confirm that all information and documents I have provided are true, accurate and complete. I understand that any false information may result in rejection or termination of tenancy.</span>
+        </label>
+        <label class="flex items-start gap-2.5 cursor-pointer">
+          <input type="checkbox" id="chk2" class="mt-0.5 accent-primary shrink-0"/>
+          <span class="text-xs text-on-surface-variant">I agree to abide by the <strong>Tenancy Agreement</strong> and <strong>Estate Rules and Regulations</strong>. I consent to my personal data being processed for the purpose of tenancy management.</span>
+        </label>
       </div>
     </div>
-    <button onclick="submitApplication()" id="submitBtn" class="w-full mt-4 py-3.5 bg-primary text-white rounded-xl font-bold hover:brightness-110 transition-all flex items-center justify-center gap-2 shadow-lg">
-      <span class="material-symbols-outlined">send</span>Submit Application
+
+    <button onclick="submitApplication()" id="submitBtn"
+      class="w-full mt-4 py-3.5 bg-primary text-white rounded-xl font-bold hover:brightness-110 transition-all flex items-center justify-center gap-2 shadow-lg">
+      <span class="material-symbols-outlined">send</span>Submit KYC Application
     </button>
   </div>
 
@@ -227,41 +273,55 @@
 <script src="/js/api.js"></script>
 <script>
 const user = Auth.requireAuth('tenant');
-let allProps = [], selectedProp = null, currentStep = 1;
+let allProps = [], selectedProp = null;
+
+// Redirect if already has application
+(async () => {
+  try {
+    const app = await api.get('/kyc/my-application');
+    if (app) { window.location.href = '/tenant/pending.html'; }
+  } catch(_) {}
+})();
 
 function goStep(n) {
-  if (n === 3) {
-    // Validate step 2
-    const form = document.getElementById('kycForm');
-    if (!form.checkValidity()) { form.reportValidity(); return; }
-  }
-  if (n === 4) buildReview();
-
   [1,2,3,4].forEach(i => {
-    document.getElementById(`step${i}`).classList.toggle('hidden', i !== n);
-    const num = document.getElementById(`step${i}Num`);
-    if (num) {
-      num.className = `w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${i < n ? 'step-done' : i === n ? 'step-active' : 'step-pending'}`;
-    }
+    document.getElementById(`step${i}`).classList.toggle('hidden', i!==n);
+    const num = document.getElementById(`s${i}num`);
+    const lbl = document.getElementById(`s${i}lbl`);
+    if(i < n)  { num.className='w-7 h-7 rounded-full step-done flex items-center justify-center text-xs font-bold'; num.textContent='✓'; lbl.className='text-xs font-semibold whitespace-nowrap text-green-700'; }
+    else if(i===n) { num.className='w-7 h-7 rounded-full step-active flex items-center justify-center text-xs font-bold'; num.textContent=i; lbl.className='text-xs font-semibold whitespace-nowrap'; }
+    else { num.className='w-7 h-7 rounded-full step-todo flex items-center justify-center text-xs font-bold'; num.textContent=i; lbl.className='text-xs whitespace-nowrap text-on-surface-variant'; }
   });
-  currentStep = n;
   window.scrollTo(0, 0);
 }
 
-function showFile(input, labelId) {
+function validateStep2() {
+  const form = document.getElementById('kycForm');
+  if (!form.checkValidity()) { form.reportValidity(); return; }
+  goStep(3);
+}
+
+function previewFile(input, labelId) {
   const label = document.getElementById(labelId);
-  const count = input.files.length;
-  const names = Array.from(input.files).map(f => f.name).join(', ');
-  label.innerHTML = `<span class="material-symbols-outlined text-2xl text-green-600" style="font-variation-settings:'FILL' 1">check_circle</span><span class="text-sm font-semibold text-green-700">${count} file${count > 1 ? 's' : ''} selected</span><span class="text-xs text-on-surface-variant truncate max-w-xs">${names}</span><input type="file" name="${input.name}" accept="${input.accept}" ${input.multiple ? 'multiple' : ''} class="hidden" onchange="showFile(this,'${labelId}')"/>`;
-  label.classList.add('border-green-400', 'bg-green-50');
+  const files = Array.from(input.files);
+  if (!files.length) return;
+  label.classList.add('has-file');
+  label.innerHTML = `
+    <span class="material-symbols-outlined text-2xl text-green-600 block mb-1" style="font-variation-settings:'FILL' 1">check_circle</span>
+    <span class="text-sm font-semibold text-green-700">${files.length} file${files.length>1?'s':''} selected</span>
+    <span class="text-xs text-on-surface-variant block truncate max-w-xs mx-auto mt-0.5">${files.map(f=>f.name).join(', ')}</span>
+    <input type="file" name="${input.name}" accept="${input.accept}" ${input.multiple?'multiple':''} class="hidden" onchange="previewFile(this,'${labelId}')"/>`;
 }
 
 async function loadProps() {
   try {
     const props = await api.get('/kyc/properties');
     allProps = props || [];
-    renderProps(allProps);
-  } catch (e) { document.getElementById('propertiesGrid').innerHTML = `<div class="col-span-2 text-center py-8 text-sm text-red-500">${e.message}</div>`; }
+    document.getElementById('propCount').textContent = `${allProps.length} available`;
+    filterProps();
+  } catch(e) {
+    document.getElementById('propertiesGrid').innerHTML = `<div class="col-span-2 text-center py-8 text-sm text-red-500 bg-red-50 rounded-xl p-6">${e.message}</div>`;
+  }
 }
 
 function filterProps() {
@@ -270,94 +330,108 @@ function filterProps() {
   let filtered = [...allProps];
   if (beds) filtered = filtered.filter(p => p.bedrooms >= parseInt(beds));
   if (price) filtered = filtered.filter(p => p.rent_amount <= parseInt(price));
+  document.getElementById('propCount').textContent = `${filtered.length} available`;
   renderProps(filtered);
 }
 
 function renderProps(props) {
-  document.getElementById('propertiesGrid').innerHTML = props.length ? props.map(p => `
-    <div class="bg-white rounded-2xl border-2 ${selectedProp?.id === p.id ? 'border-primary shadow-lg' : 'border-outline-variant'} p-5 cursor-pointer hover:shadow-md transition-all" onclick="selectProp('${p.id}')">
+  if (!props.length) {
+    document.getElementById('propertiesGrid').innerHTML = `<div class="col-span-2 text-center py-16 bg-white rounded-xl border border-outline-variant"><span class="material-symbols-outlined text-4xl text-on-surface-variant/30 block mb-2">search_off</span><p class="text-sm text-on-surface-variant">No units match your filters</p></div>`;
+    return;
+  }
+  document.getElementById('propertiesGrid').innerHTML = props.map(p => `
+    <div onclick="selectProp('${p.id}')"
+      class="bg-white rounded-2xl border-2 ${selectedProp?.id===p.id?'border-primary shadow-lg ring-2 ring-primary/20':'border-outline-variant hover:border-primary/50 hover:shadow-md'} p-5 cursor-pointer transition-all">
       <div class="flex items-start justify-between mb-3">
-        <div><h3 class="text-xl font-bold">Unit ${p.unit_number}</h3><p class="text-sm text-on-surface-variant">${p.block || ''} · Floor ${p.floor || '?'}</p></div>
-        <span class="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold flex items-center gap-1"><span class="material-symbols-outlined text-xs" style="font-variation-settings:'FILL' 1">home</span>Vacant</span>
+        <div><h3 class="text-xl font-bold">Unit ${p.unit_number}</h3><p class="text-sm text-on-surface-variant">${p.block||''} · Floor ${p.floor||'?'}</p></div>
+        <span class="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold flex items-center gap-1">
+          <span class="material-symbols-outlined text-xs" style="font-variation-settings:'FILL' 1">home</span>Vacant
+        </span>
       </div>
       <div class="grid grid-cols-3 gap-2 text-center mb-3">
         <div class="bg-surface-container-low rounded-lg p-2"><p class="text-base font-bold">${p.bedrooms}</p><p class="text-xs text-on-surface-variant">Beds</p></div>
         <div class="bg-surface-container-low rounded-lg p-2"><p class="text-base font-bold">${p.bathrooms}</p><p class="text-xs text-on-surface-variant">Baths</p></div>
-        <div class="bg-surface-container-low rounded-lg p-2"><p class="text-base font-bold">${p.size_sqft || '—'}</p><p class="text-xs text-on-surface-variant">Sqft</p></div>
+        <div class="bg-surface-container-low rounded-lg p-2"><p class="text-base font-bold">${p.size_sqft||'—'}</p><p class="text-xs text-on-surface-variant">Sqft</p></div>
       </div>
-      ${p.description ? `<p class="text-xs text-on-surface-variant mb-3">${p.description}</p>` : ''}
+      ${p.description?`<p class="text-xs text-on-surface-variant mb-3 line-clamp-2">${p.description}</p>`:''}
       <div class="flex items-center justify-between">
         <p class="text-xl font-bold text-primary">${fmt.money(p.rent_amount)}<span class="text-xs font-normal text-on-surface-variant">/mo</span></p>
-        <button class="px-4 py-2 ${selectedProp?.id === p.id ? 'bg-primary text-white' : 'border border-primary text-primary'} rounded-lg text-sm font-semibold hover:bg-primary hover:text-white transition-all">
-          ${selectedProp?.id === p.id ? '✓ Selected' : 'Select'}
+        <button class="px-4 py-2 ${selectedProp?.id===p.id?'bg-primary text-white':'border border-primary text-primary'} rounded-lg text-sm font-semibold hover:bg-primary hover:text-white transition-all">
+          ${selectedProp?.id===p.id?'✓ Selected':'Select'}
         </button>
       </div>
-    </div>`).join('') : '<div class="col-span-2 text-center py-16 text-sm text-on-surface-variant">No vacant properties available</div>';
+    </div>`).join('');
 }
 
 function selectProp(id) {
-  selectedProp = allProps.find(p => p.id === id);
-  renderProps(allProps);
+  selectedProp = allProps.find(p => p.id===id);
+  renderProps(allProps.filter(p => {
+    const beds = document.getElementById('filterBeds').value;
+    const price = document.getElementById('filterPrice').value;
+    return (!beds || p.bedrooms >= parseInt(beds)) && (!price || p.rent_amount <= parseInt(price));
+  }));
   if (selectedProp) {
-    document.getElementById('bannerUnit').textContent = `Unit ${selectedProp.unit_number} — ${selectedProp.block || ''}`;
+    document.getElementById('bannerUnit').textContent = `Unit ${selectedProp.unit_number} — ${selectedProp.block||''}`;
     document.getElementById('bannerDetails').textContent = `${selectedProp.bedrooms} bed · ${selectedProp.bathrooms} bath · ${fmt.money(selectedProp.rent_amount)}/month`;
-    setTimeout(() => goStep(2), 200);
+    setTimeout(() => goStep(2), 150);
   }
 }
 
 function buildReview() {
   const fd = new FormData(document.getElementById('kycForm'));
-  const data = {};
-  fd.forEach((v, k) => data[k] = v);
-  document.getElementById('reviewContent').innerHTML = `
-    <div class="bg-white rounded-xl border border-outline-variant p-5"><h4 class="font-bold mb-3 flex items-center gap-2"><span class="material-symbols-outlined text-primary">apartment</span>Selected Unit</h4><p class="text-lg font-bold">Unit ${selectedProp?.unit_number}</p><p class="text-sm text-on-surface-variant">${selectedProp?.block || ''} · ${fmt.money(selectedProp?.rent_amount)}/month</p></div>
-    <div class="bg-white rounded-xl border border-outline-variant p-5"><h4 class="font-bold mb-3">Personal Details</h4><div class="grid grid-cols-2 gap-2 text-sm">${[['Name',data.full_name],['DOB',data.date_of_birth],['Gender',data.gender],['Nationality',data.nationality],['Occupation',data.occupation],['Occupants',data.num_occupants]].map(([k,v])=>`<div><span class="text-xs text-on-surface-variant">${k}</span><p class="font-medium">${v||'—'}</p></div>`).join('')}</div></div>
-    <div class="bg-white rounded-xl border border-outline-variant p-5"><h4 class="font-bold mb-3">Next of Kin</h4><p class="text-sm">${data.nok_name||'—'} (${data.nok_relationship||'—'}) · ${data.nok_phone||'—'}</p></div>
-    <div class="bg-white rounded-xl border border-outline-variant p-5"><h4 class="font-bold mb-3">Emergency Contact</h4><p class="text-sm">${data.emergency_name||'—'} (${data.emergency_relationship||'—'}) · ${data.emergency_phone||'—'}</p></div>`;
+  const d = {}; fd.forEach((v,k) => d[k]=v);
+  document.getElementById('reviewSummary').innerHTML = `
+    <div class="bg-primary/5 border border-primary/20 rounded-xl p-4 flex items-center gap-3">
+      <span class="material-symbols-outlined text-primary text-2xl" style="font-variation-settings:'FILL' 1">apartment</span>
+      <div><p class="font-bold text-primary">Unit ${selectedProp?.unit_number||'—'}</p><p class="text-sm text-on-surface-variant">${selectedProp?.block||''} · ${fmt.money(selectedProp?.rent_amount)}/month</p></div>
+    </div>
+    <div class="bg-white border border-outline-variant rounded-xl p-4">
+      <h4 class="font-bold text-sm mb-3">Personal Details</h4>
+      <div class="grid grid-cols-2 gap-y-2 gap-x-4 text-sm">
+        ${[['Name',d.full_name],['Date of Birth',d.date_of_birth],['Gender',d.gender],['Nationality',d.nationality],['Occupation',d.occupation],['Occupants',d.num_occupants]].map(([k,v])=>`<div><p class="text-xs text-on-surface-variant">${k}</p><p class="font-medium">${v||'—'}</p></div>`).join('')}
+        <div class="col-span-2"><p class="text-xs text-on-surface-variant">Address</p><p class="font-medium">${d.residential_address||'—'}</p></div>
+      </div>
+    </div>
+    <div class="bg-white border border-outline-variant rounded-xl p-4">
+      <h4 class="font-bold text-sm mb-2">Next of Kin</h4>
+      <p class="text-sm"><strong>${d.nok_name||'—'}</strong> (${d.nok_relationship||'—'}) · ${d.nok_phone||'—'}</p>
+    </div>
+    <div class="bg-white border border-outline-variant rounded-xl p-4">
+      <h4 class="font-bold text-sm mb-2">Emergency Contact</h4>
+      <p class="text-sm"><strong>${d.emergency_name||'—'}</strong> (${d.emergency_relationship||'—'}) · ${d.emergency_phone||'—'}</p>
+    </div>`;
 }
 
 async function submitApplication() {
-  if (!document.getElementById('acceptTerms').checked || !document.getElementById('acceptKYC').checked) {
-    toast('Please accept the terms and conditions', 'warning'); return;
+  if (!document.getElementById('chk1').checked || !document.getElementById('chk2').checked) {
+    toast('Please accept both declarations to proceed', 'warning'); return;
   }
   if (!selectedProp) { toast('Please select a property', 'warning'); return; }
 
   const btn = document.getElementById('submitBtn');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="material-symbols-outlined spin">refresh</span> Submitting...';
+  btn.disabled = true; btn.innerHTML = '<span class="material-symbols-outlined spin">refresh</span> Submitting...';
 
   try {
-    // Build FormData with all fields + files
-    const formEl = document.getElementById('kycForm');
-    const fd = new FormData(formEl);
+    const fd = new FormData(document.getElementById('kycForm'));
     fd.append('property_id', selectedProp.id);
-
-    // Add files from step3
+    // Attach files from doc step
     document.querySelectorAll('#step3 input[type=file]').forEach(inp => {
       Array.from(inp.files).forEach(f => fd.append(inp.name, f));
     });
 
     await api.upload('/kyc/apply', fd);
-    toast('Application submitted! We will review and contact you.', 'success');
-    setTimeout(() => window.location.href = '/tenant/pending.html', 2000);
-  } catch (e) {
+    toast('Application submitted successfully!', 'success');
+    setTimeout(() => window.location.href = '/tenant/pending.html', 1500);
+  } catch(e) {
     toast(e.message, 'error');
-    btn.disabled = false;
-    btn.innerHTML = '<span class="material-symbols-outlined">send</span>Submit Application';
+    btn.disabled = false; btn.innerHTML = '<span class="material-symbols-outlined">send</span>Submit KYC Application';
   }
 }
 
-// Check existing application
-async function checkExistingApp() {
-  try {
-    const app = await api.get('/kyc/my-application');
-    if (app) {
-      window.location.href = '/tenant/pending.html';
-    }
-  } catch (_) {}
-}
+// Override goStep(4) to build review first
+const _goStep = goStep;
+window.goStep = (n) => { if(n===4) buildReview(); _goStep(n); };
 
-checkExistingApp();
 loadProps();
 </script>
 </body></html>

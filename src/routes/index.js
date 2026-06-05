@@ -124,6 +124,7 @@ router.delete('/access/cards/:id', ...admin, accessCtrl.deleteAccessCard);
 router.get('/access/visitor-codes', ...auth, accessCtrl.getVisitorCodes);
 router.post('/access/visitor-codes', ...auth, accessCtrl.createVisitorCode);
 router.delete('/access/visitor-codes/:id', ...auth, accessCtrl.revokeVisitorCode);
+router.post('/access/visitor-codes/:id/resend', ...auth, accessCtrl.resendVisitorCode);
 router.post('/access/verify', accessCtrl.verifyAccess);
 router.get('/access/logs', ...auth, accessCtrl.getAccessLogs);
 
@@ -197,3 +198,22 @@ router.get('/reports/financial', ...admin, (req, res) => {
 router.get('/health', (req, res) => res.json({ status: 'ok', timestamp: new Date().toISOString(), version: '2.0.0' }));
 
 module.exports = router;
+
+// ─── DATABASE VIEWER (admin only) ────────────────────────
+// Allows admin to run READ-ONLY queries via the dashboard
+router.get('/db/query', ...admin, (req, res) => {
+  const sql = req.query.sql || '';
+  if (!sql) return res.status(400).json({ error: 'sql parameter required' });
+
+  // Block any write operations for safety
+  const upper = sql.trim().toUpperCase();
+  const forbidden = ['INSERT ', 'UPDATE ', 'DELETE ', 'DROP ', 'ALTER ', 'CREATE ', 'TRUNCATE ', 'REPLACE '];
+  if (forbidden.some(f => upper.startsWith(f) || upper.includes('; ' + f))) {
+    return res.status(403).json({ error: 'Only SELECT queries allowed in the viewer. Use the admin dashboard to modify data.' });
+  }
+
+  require('../config/database').all(sql, [], (err, rows) => {
+    if (err) return res.json({ rows: [], error: err.message });
+    res.json({ rows: rows || [], count: (rows || []).length });
+  });
+});
